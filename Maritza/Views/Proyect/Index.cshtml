@@ -1,0 +1,38 @@
+﻿@model PagedList.StaticPagedList<dtoProyects>
+@{
+    ViewBag.Title = "Proyectos";
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltProyects;
+
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-3">
+                <a class="btn btn-secondary" href="@Url.Action("Create","Proyect",null)">Agregar</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        @using (Ajax.BeginForm(
+    new AjaxOptions
+    {
+        HttpMethod = "get",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "ModelList",
+    }
+    ))
+        {
+            @Html.Partial("_index", Model);
+
+        }
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>

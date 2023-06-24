@@ -1,0 +1,31 @@
+﻿@model tblProyects
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="card">
+    <div class="row ">
+        <div class="col-4 ">
+            @Html.LabelFor(modelItem => modelItem.ProyectID, new { @class = "fw-bold" }):
+            @Html.DisplayFor(modelItem => modelItem.ProyectID)
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(modelItem => modelItem.Title, new { @class = "fw-bold" }):
+            @Html.DisplayFor(modelItem => modelItem.Title)
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(modelItem => modelItem.Description, new { @class = "fw-bold" }):
+            @Html.DisplayFor(modelItem => modelItem.Description)
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(modelItem => modelItem.Comment, new { @class = "fw-bold" }):
+            @Html.DisplayFor(modelItem => modelItem.Comment)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12"></div>
+
+    </div>
+</div>
