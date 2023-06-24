@@ -1,6 +1,6 @@
 # Mtz
 
-Funtionalitires:
+funcionalities:
 
 Others:
 
