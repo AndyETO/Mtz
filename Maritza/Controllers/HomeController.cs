@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaritzaBusness;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,11 @@ namespace Maritza.Controllers
 {
     public class HomeController : Controller
     {
+        ProyectB ProyectB =new ProyectB();
         public ActionResult Index()
         {
-            return View();
+            var model =ProyectB.getRandomItems();
+            return View(model);
         }
 
         public ActionResult About()

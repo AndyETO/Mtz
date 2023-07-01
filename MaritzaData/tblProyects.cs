@@ -9,6 +9,8 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace MaritzaData
 {
@@ -35,6 +37,6 @@ namespace MaritzaData
         //public int CategoryID { get; set; }
 
         [NotMapped] public int CategoryName { get; set; }
-        [NotMapped] public string Image64Base { get; set; }
+        [NotMapped] public HttpPostedFileBase ImageBase { get; set; }
     }
 }

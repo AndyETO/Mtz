@@ -4,23 +4,29 @@
 }
 
 <h2>Create</h2>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
     <div class="row">
         <div class="col-4">
             @Html.LabelFor(model => model.Title, new { @class = "form-label fw-bold" })
-            @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @placeholder = "Titulo" })
         </div>
         <div class="col-4">
             @Html.LabelFor(model => model.Description, new { @class = "form-label fw-bold" })
-            @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @placeholder = "Descripción" })
         </div>
         <div class="col-4">
             @Html.LabelFor(model => model.Comment, new { @class = "form-label fw-bold" })
-            @Html.TextBoxFor(model => model.Comment, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Comment, new { @class = "form-control", @placeholder = "Comentario" })
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(model => model.Image, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.ImageBase, new { @Type = "File", @class = "form-control"})
         </div>
     </div>
-    
+
     <div class="row mt-3">
         <div class="col-2">
             <a class="btn btn-secondary" href="@Url.Action("Index")">Regresar</a>

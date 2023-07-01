@@ -56,32 +56,12 @@
             <tfoot>
                 <tr>
 
-                    @*@{
-                        var vPagedlistRenderOptions =
-                            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
-                                PagedListRenderOptions.ClassicPlusFirstAndLast,
-                                new AjaxOptions()
-                                {
-                                    HttpMethod = "GET",
-                                    UpdateTargetId = "IndexList",
-                                    OnBegin = "ShowLoading()",
-                                    OnComplete = "HideLoading()"
-                                }
-                                );
-                        vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
-                        vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
-                    }*@
+                   
                     <td colspan="5">
                         <div id="pagedList" class="" data-otf-target="#IndexList">
 
 
-                            @*@Html.PagedListPager(Model, page => Url.Action("Index", new
 
-                       {
-                           page
-                       }), vPagedlistRenderOptions)*@
-
-                            <h3>Custom Wording (<em>Spanish Translation Example</em>)</h3>
                             @Html.PagedListPager(Model, page => Url.Action("Index", new { PageNumber=page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Primera", LinkToPreviousPageFormat = "< Anterior", LinkToNextPageFormat = "Siguiente >", LinkToLastPageFormat = "&Uacute;ltima >>" })
 
                             

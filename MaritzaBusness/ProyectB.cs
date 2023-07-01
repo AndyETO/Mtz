@@ -44,7 +44,7 @@ namespace MaritzaBusness
             try
             {
                 db.tblProyects.Attach(model);
-                db.Entry(model).State = EntityState.Deleted;
+                db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 response.Result = Result.Ok;
             }
@@ -134,6 +134,18 @@ namespace MaritzaBusness
                 string query = "Select * from tblProyects where ProyectID = @id";
 
                 var model = dbConnection.Query<tblProyects>(query, new { id }).FirstOrDefault();
+
+                return model;
+            }
+        }
+
+        public List<tblProyects> getRandomItems()
+        {
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string query =@"Select top 10 * from tblProyects where Active=1 ORDER BY RAND()";
+
+                var model = dbConnection.Query<tblProyects>(query).ToList();
 
                 return model;
             }

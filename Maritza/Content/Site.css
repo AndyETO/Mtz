@@ -18,3 +18,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.Menu-Color {
+    background-color: #D5FFF1;
+}

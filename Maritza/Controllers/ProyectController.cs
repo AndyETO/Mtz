@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,7 +19,7 @@ namespace Maritza.Controllers
 
 
         // GET: Proyect
-        public ActionResult Index(fltProyects filter=null)
+        public ActionResult Index(fltProyects filter = null)
         {
             ViewBag.Filter = filter;
 
@@ -31,7 +32,7 @@ namespace Maritza.Controllers
         public ActionResult Details(int id)
         {
             var proyect = ProyectB.getById(id);
-            if (proyect==null)
+            if (proyect == null)
             {
                 return HttpNotFound();
             }
@@ -50,14 +51,28 @@ namespace Maritza.Controllers
         {
             if (model == null)
             {
-                ViewBag.ErrorMessage = $"Ocurrio un error con el controlador"; 
+                ViewBag.ErrorMessage = $"Ocurrio un error con el controlador";
                 return View(model);
             }
             Response response = new Response();
 
             model.Active = true;
             model.UpdatedDate = model.CreatedDate = DateTime.Now;
-            model.UpdatedBy = model.CreatedBy =1;
+            model.UpdatedBy = model.CreatedBy = 1;
+
+
+            if (model.ImageBase != null && model.ImageBase.ContentLength > 0)
+            {
+                string NameImage = Path.GetFileName(model.ImageBase.FileName);
+                string ext = Path.GetExtension(model.ImageBase.FileName);
+                string NewName = DateTime.Now.ToString("dd-MM-yyyyy")+"_"+DateTime.Now.ToString("HH_mm_ss_FFF")+ ext;
+                string Route = Path.Combine(Server.MapPath("~/ProyectImages"), NewName);
+                model.ImageBase.SaveAs(Route);
+
+                model.Image = "ProyectImages/"+NewName;
+
+            }
+
 
             response = ProyectB.Create(model);
 
@@ -66,52 +81,67 @@ namespace Maritza.Controllers
                 ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
                 return View(model);
             }
-
+            ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
             return RedirectToAction("Index");
         }
 
         // GET: Proyect/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            var proyect = ProyectB.getById(id);
+
+            return View(proyect);
         }
 
         // POST: Proyect/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(tblProyects model)
         {
-            try
+            if (model == null)
             {
-                // TODO: Add update logic here
+                return HttpNotFound();
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            model.UpdatedDate=DateTime.Now;
+            model.UpdatedBy = 2;
+
+            Response response = ProyectB.Update(model);
+
+            if (response.Result != Result.Ok)
             {
-                return View();
+                ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
+                return View(model);
             }
+            ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
+
+            return RedirectToAction("Index");
         }
 
-        // GET: Proyect/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+
 
         // POST: Proyect/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
+            var model = ProyectB.getById(id);
+            if (model == null)
             {
-                // TODO: Add delete logic here
+                ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
+                RedirectToAction("Index");
+            }
+            model.Active = false;
+            model.DeletedDate = DateTime.Now;
+            model.DeletedBy = 3;
+            Response response = ProyectB.Delete(model);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (response.Result != Result.Ok)
             {
-                return View();
+                ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
+                return View(model);
             }
+            ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
+            return RedirectToAction("Index");
         }
     }
 }
