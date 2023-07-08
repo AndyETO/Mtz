@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Maritza.Controllers.Base;
 using MaritzaBusness;
 using MaritzaData;
 using MaritzaData.ConfigClasses;
@@ -11,7 +12,8 @@ using MaritzaData.Filters;
 
 namespace Maritza.Controllers
 {
-    public class ProyectController : Controller
+    [Authorize]
+    public class ProyectController : BaseController
     {
         //Objets seccion
         ProyectB ProyectB = new ProyectB();
@@ -61,19 +63,12 @@ namespace Maritza.Controllers
             model.UpdatedBy = model.CreatedBy = 1;
 
 
-            if (model.ImageBase != null && model.ImageBase.ContentLength > 0)
+            
+            string Route = SaveImage(model.ImageBase);
+            if (Route.Length>0 && Route!="")
             {
-                string NameImage = Path.GetFileName(model.ImageBase.FileName);
-                string ext = Path.GetExtension(model.ImageBase.FileName);
-                string NewName = DateTime.Now.ToString("dd-MM-yyyyy")+"_"+DateTime.Now.ToString("HH_mm_ss_FFF")+ ext;
-                string Route = Path.Combine(Server.MapPath("~/ProyectImages"), NewName);
-                model.ImageBase.SaveAs(Route);
-
-                model.Image = "ProyectImages/"+NewName;
-
+                model.Image = Route;
             }
-
-
             response = ProyectB.Create(model);
 
             if (response.Result != Result.Ok)
@@ -102,7 +97,11 @@ namespace Maritza.Controllers
             {
                 return HttpNotFound();
             }
-
+            string Route = SaveImage(model.ImageBase);
+            if (Route.Length > 0 && Route != "")
+            {
+                model.Image = Route;
+            }
             model.UpdatedDate=DateTime.Now;
             model.UpdatedBy = 2;
 

@@ -7,15 +7,17 @@ using System.Web.Mvc;
 
 namespace Maritza.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        ProyectB ProyectB =new ProyectB();
+        ProyectB ProyectB = new ProyectB();
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            var model =ProyectB.getRandomItems();
+            var model = ProyectB.getRandomItems();
             return View(model);
         }
-
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -23,6 +25,7 @@ namespace Maritza.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

@@ -4,13 +4,15 @@
 }
 
 <h2>Edit</h2>
-@using (Html.BeginForm("Delete", "Proyect", FormMethod.Post, new { @id = "frmDelete" }))
+@using (Html.BeginForm("Delete", "Proyect", FormMethod.Post, new { @id = "frmDelete"}))
 {
     @Html.Hidden("id", Model.ProyectID);
 }
 
-@using (Html.BeginForm("Edit", "Proyect", FormMethod.Post, new { @id = "frm" }))
+@using (Html.BeginForm("Edit", "Proyect", FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
     <div class="row">
         <div class="col-4">
             @Html.LabelFor(model => model.Title, new { @class = "form-label fw-bold" })
@@ -25,7 +27,12 @@
             @Html.TextBoxFor(model => model.Comment, new { @class = "form-control" })
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-4">
+            @Html.LabelFor(model => model.Image, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.ImageBase, new { @Type = "file", @class = "form-control" })
+        </div>
+    </div>
     <div class="row mt-3">
         <div class="col-2">
             <a class="btn btn-secondary" href="@Url.Action("Details","Proyect", new {@id=Model.ProyectID})">Regresar</a>
@@ -37,11 +44,21 @@
             <input class="btn btn-success" type="submit" value="Guardar edición" />
         </div>
     </div>
+
+    @Html.HiddenFor(model => model.ProyectID);
+    @Html.HiddenFor(model => model.Image);
+    @Html.HiddenFor(model => model.Active);
+    @Html.HiddenFor(model => model.CreatedBy);
+    @Html.HiddenFor(model => model.CreatedDate);
+    @Html.HiddenFor(model => model.UpdatedBy);
+    @Html.HiddenFor(model => model.UpdatedDate);
+    @Html.HiddenFor(model => model.DeletedBy);
+    @Html.HiddenFor(model => model.DeletedDate);
 }
 
 @section scripts{
     <script type="text/javascript">
-            
+
         $('#btnDelete').click(function () {
             $('#frmDelete').submit();
         });
