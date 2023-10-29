@@ -1,7 +1,5 @@
 # Mtz
 
 funcionalities:
+SIMPLE CRUD 
 
-Others:
-
-Notes:
