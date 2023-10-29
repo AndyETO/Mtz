@@ -6,6 +6,8 @@
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "frmLogin" }))
 {
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -15,8 +17,11 @@
                 </div>
                 <div class="col-12">
                     @Html.LabelFor(model => model.Password, new { @class = "form-label fw-bold d-block" })
-                    @Html.TextBoxFor(model => model.Password, new { @class = "col-6" })
+                    @Html.TextBoxFor(model => model.Password, new { @Type = "Password", @class = "col-6" })
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-3"><input type="submit" value="Iniciar sesion" class="btn btn-success" /></div>
             </div>
         </div>
     </div>

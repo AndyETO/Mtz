@@ -1,4 +1,5 @@
 ﻿using MaritzaBusness;
+using MaritzaData.ConfigClasses;
 using MaritzaData.DTO;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Net.Sockets;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
 
 namespace Maritza.Controllers
 {
@@ -30,9 +32,7 @@ namespace Maritza.Controllers
         {
             if (login == null)
                 ViewBag.ErrorMessage = "Sucedio un error al iniciar sesion";
-            //try for errors login
-            //search user
-            //is valid the password
+           
 
             try
             {
@@ -47,6 +47,7 @@ namespace Maritza.Controllers
                 bool IsValidPassword = User.Password == login.Password ? true : false;
 
                 if (IsValidPassword)
+                //if(true)
                 {
                     DateTime Expires = DateTime.Now.AddDays(1);
 
@@ -60,15 +61,24 @@ namespace Maritza.Controllers
                         FormsAuthentication.FormsCookiePath
                         );
                     //coockie base
+
+                    //FormsAuthentication.SetAuthCookie(login.UserName, User.RememberPassword); // Añadir esta línea
+
+                
+
                     HttpCookie Cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(Ticket));
                     Cookie.Expires = Ticket.Expiration;
                     Response.Cookies.Add(Cookie);
 
+                    HttpCookie cookieUsername = new HttpCookie("CookieUsername", login.UserName);
+                    cookieUsername.Expires = Ticket.Expiration;
+                    Response.Cookies.Add(cookieUsername);
+
                     HttpCookie cookieRol = new HttpCookie("Rol", User.RoleName);
                     cookieRol.Expires = Ticket.Expiration;
                     Response.Cookies.Add(cookieRol);
-                    //Other coockies
-
+                  
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -83,6 +93,22 @@ namespace Maritza.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            var req = Request.Cookies[FormsAuthentication.FormsCookieName];
+            var req2 = Request.Cookies["CookieUsername"];
+
+            if (req != null)
+            {
+                var User = new HttpCookie("CookieUsername");
+                User.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(User);
+            }
+            FormsAuthentication.SignOut();
+            //Session["User"] = null;
+            return RedirectToAction("Index","Home");
+        }
 
     }
 }

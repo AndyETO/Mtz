@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -17,6 +18,8 @@ namespace MaritzaData.Base
         {
             ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
+
+       
 
         public DbSet<tblUsers> tblUsers { get; set; }
         public DbSet<tblProyects> tblProyects { get; set; }

@@ -12,7 +12,7 @@ using MaritzaData.Filters;
 
 namespace Maritza.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = RolesApp.Rol_Administrador)]
     public class ProyectController : BaseController
     {
         //Objets seccion
@@ -63,9 +63,9 @@ namespace Maritza.Controllers
             model.UpdatedBy = model.CreatedBy = 1;
 
 
-            
+
             string Route = SaveImage(model.ImageBase);
-            if (Route.Length>0 && Route!="")
+            if (Route.Length > 0 && Route != "")
             {
                 model.Image = Route;
             }
@@ -102,7 +102,7 @@ namespace Maritza.Controllers
             {
                 model.Image = Route;
             }
-            model.UpdatedDate=DateTime.Now;
+            model.UpdatedDate = DateTime.Now;
             model.UpdatedBy = 2;
 
             Response response = ProyectB.Update(model);

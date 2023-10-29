@@ -1,4 +1,5 @@
 ﻿using MaritzaData.Base;
+using MaritzaData.ConfigClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -46,5 +47,6 @@ namespace MaritzaData
         [NotMapped]
         [Display(Name = "Rol")]
         public string RoleName { get; set; }
+
     }
 }

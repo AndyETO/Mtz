@@ -76,7 +76,7 @@ namespace MaritzaBusness
             
             using(IDbConnection dbConnection = new SqlConnection(connection))
             {
-                var model = dbConnection.QueryFirstOrDefault<tblUsers>("getUserByUserName", new {UserName });
+                var model = dbConnection.QueryFirstOrDefault<tblUsers>("getUserByUserName", new {UserName }, commandType: CommandType.StoredProcedure);
                 return model;
             }
 

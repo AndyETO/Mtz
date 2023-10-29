@@ -20,7 +20,8 @@ namespace Maritza
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      //"~/Scripts/bootstrap.js")); if this line is working wrong, you need to do a new reference, it's required for new versions of bootstrap
+                      "~/Scripts/bootstrap.bundle.min.js")); 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

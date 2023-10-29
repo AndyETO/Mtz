@@ -9,7 +9,7 @@ namespace MaritzaData.ConfigClasses
     public static class RolesApp
     {
         public const string AppName = "Maritza";
-        public const string Rol_Administrador = "Administrador";
+        public const string Rol_Administrador = "Admin";
         public const string Rol_User = "User";
     }
 }
