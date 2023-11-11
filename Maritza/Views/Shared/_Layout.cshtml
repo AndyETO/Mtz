@@ -3,7 +3,7 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html style="overflow: hidden;">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -13,50 +13,23 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm  Menu-Color">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                    Bootstrap
-                </a>
-            </div>
-            <div class="container">
-                <img id="logo" class="logo-main-menu" />
-                @Html.ActionLink("Mary-Making", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between ">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        @if (!Request.IsAuthenticated)
-                        {
-                            <li>@Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "nav-link" })</li>
-                        }
-                        @if (Request.IsAuthenticated)
-                        {
+    @*fixed-top
+        #D5FFF1
+    *@
+    <nav class="navbar fixed-top navbar-expand-lg bg-blue-custom" style="margin:10px 20px 0px 20px;border-radius:30px;">
 
+        <div class="container-fluid ">
+            <a class="navbar-brand" href="#">
+                
+                @*<img src="@Url.Content("~/Content/Img/Backgrounds/Bakground-green-frogs.png")" alt="Icon-Maritza" width="100" height="50">*@
 
-                        }
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </nav>*@
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-
-        <div class="container-fluid">
+                <img src="@Url.Content("~/Content/Img/Logo/Logo-lg.png")" alt="Icon-Maritza" width="100" height="50">
+            </a>
             @Html.ActionLink("Mary-Making", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
 
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
@@ -105,11 +78,11 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container-fluid body-content" style="margin-top: 0 !important; padding: 0px;">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - @ViewBag.Title</p>
+      
+        <footer class="bg-blue-custom position-relative" style="padding-bottom:1em;">
+            <p style="font-size:1em;">&copy; @DateTime.Now.Year - @ViewBag.Title</p>
         </footer>
     </div>
 

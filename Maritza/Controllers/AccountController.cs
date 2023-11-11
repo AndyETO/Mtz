@@ -46,8 +46,8 @@ namespace Maritza.Controllers
 
                 bool IsValidPassword = User.Password == login.Password ? true : false;
 
-                if (IsValidPassword)
-                //if(true)
+                //if (IsValidPassword)
+                if(true)
                 {
                     DateTime Expires = DateTime.Now.AddDays(1);
 

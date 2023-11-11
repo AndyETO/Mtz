@@ -163,7 +163,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Img\Backgrounds\Bakground-green-frogs.png" />
+    <Content Include="Content\Img\Backgrounds\Bakground-pink-frogs.png" />
     <Content Include="Content\Img\Logo\Logo.png" />
+    <Content Include="Content\Img\Personal\Klaus-Hargreeves.The-Umbrella-Academy_.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\DefaultImages\img1.png" />
     <Content Include="Content\DefaultImages\img2.png" />
@@ -198,6 +201,7 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\Site.less" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -239,6 +243,8 @@
     <Content Include="Views\Proyect\_Index.cshtml" />
     <Content Include="Views\Proyect\Create.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\Shared\Body\_Body_Vanilla.cshtml" />
+    <Content Include="Views\Shared\Body\_Body_Public.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

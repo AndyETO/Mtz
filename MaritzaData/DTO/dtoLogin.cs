@@ -11,7 +11,7 @@ namespace MaritzaData.DTO
 {
     public class dtoLogin
     {
-        [Display(Name="Nombre de usuario")]
+        [Display(Name="Usuario")]
         [Required(ErrorMessage ="Este campo es requerido.")]
         public string UserName { get; set; }
 

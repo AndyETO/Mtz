@@ -15,6 +15,7 @@ namespace Maritza.Controllers
         public ActionResult Index()
         {
             var model = ProyectB.getRandomItems();
+            //ViewBag. = true;
             return View(model);
         }
         [AllowAnonymous]

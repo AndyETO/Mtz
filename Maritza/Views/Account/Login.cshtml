@@ -4,25 +4,40 @@
 }
 
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "frmLogin" }))
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "frmLogin", @class="p-2"}))
 {
-    @Html.AntiForgeryToken();
-    @Html.ValidationSummary();
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 ">
-                    @Html.LabelFor(model=>model.UserName, new {@class= "form-label fw-bold d-block" })
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "col-6" })
+   
+
+    <div class="container p-5" style="height:95vh !important;">
+
+        <div class="card h-100 p-5 m-5">
+            <div class="card-body p-5 h-100">
+
+                <div class="row">
+                    <div class="offset-4 col-4 p-1 w-100">
+                        @Html.AntiForgeryToken()
+                        @*@Html.ValidationSummary()*@
+                        @Html.LabelFor(model => model.UserName, new { @class = "form-label fw-bold d-block" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "col-6 form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new {@class="text-danger"})
+                    </div>
+                    <div class="offset-4 col-4  p-1 w-100">
+                        @Html.LabelFor(model => model.Password, new { @class = "form-label fw-bold d-block" })
+                        @Html.TextBoxFor(model => model.Password, new { @Type = "Password", @class = "col-6 form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                    </div>
                 </div>
-                <div class="col-12">
-                    @Html.LabelFor(model => model.Password, new { @class = "form-label fw-bold d-block" })
-                    @Html.TextBoxFor(model => model.Password, new { @Type = "Password", @class = "col-6" })
+                <div class="row p-1">
+                    <div class="offset-4 col-4 p-0">
+                        <input type="submit" value="Iniciar sesion" class="btn btn-success w-100 " />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-3"><input type="submit" value="Iniciar sesion" class="btn btn-success" /></div>
             </div>
         </div>
     </div>
+
+
 }
+
+
