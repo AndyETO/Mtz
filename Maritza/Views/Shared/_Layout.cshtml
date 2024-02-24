@@ -3,7 +3,7 @@
 }
 
 <!DOCTYPE html>
-<html style="overflow: hidden;">
+<html @*style="overflow: hidden;"*@>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -13,26 +13,17 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @*fixed-top
-        #D5FFF1
-    *@
     <nav class="navbar fixed-top navbar-expand-lg bg-blue-custom" style="margin:10px 20px 0px 20px;border-radius:30px;">
 
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">
-                
-                @*<img src="@Url.Content("~/Content/Img/Backgrounds/Bakground-green-frogs.png")" alt="Icon-Maritza" width="100" height="50">*@
-
                 <img src="@Url.Content("~/Content/Img/Logo/Logo-lg.png")" alt="Icon-Maritza" width="100" height="50">
             </a>
             @Html.ActionLink("Mary-Making", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
@@ -43,8 +34,6 @@
                     <li class="nav-item">
                         @Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
-
-
                     @if (!Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "nav-link" })</li>
@@ -71,17 +60,14 @@
                             }
                         </li>
                     }
-
-
                 </ul>
-
             </div>
         </div>
     </nav>
-    <div class="container-fluid body-content" style="margin-top: 0 !important; padding: 0px;">
+    <div class="container-fluid body-content" style="margin-top: 0 !important; padding: 0px;overflow:auto;">
         @RenderBody()
-      
-        <footer class="bg-blue-custom position-relative" style="padding-bottom:1em;">
+
+        <footer class="bg-blue-custom d-flex justify-content-center" style="width: 100%; height: 25px; position:relative; bottom: 0; left: 0">
             <p style="font-size:1em;">&copy; @DateTime.Now.Year - @ViewBag.Title</p>
         </footer>
     </div>

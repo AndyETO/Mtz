@@ -78,13 +78,13 @@ namespace MaritzaBusness
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
             {
-                //string query = "select * from tblProyects";
+
 
                 //string query = @"
-                //SELECT * FROM ( 
-                //    SELECT ROW_NUMBER() OVER 
-                //    (ORDER BY tblProyects.[ProyectID] ASC) AS ROWNUM,
-                //    Count(*) over() AS TotalCount
+                //SELECT * FROM 
+                // ( 
+                // SELECT ROW_NUMBER() OVER (ORDER BY tblProyects.[ProyectID] ASC) AS ROWNUM,
+                //  Count(*) over() AS TotalCount
                 //     ,tblProyects.[ProyectID]
                 //        ,tblProyects.[Title]
                 //        ,tblProyects.[Description]
@@ -92,46 +92,42 @@ namespace MaritzaBusness
                 //    FROM tblProyects  
                 //    WHERE 
                 //    Active = 1
-                //) AS RESULT WHERE ROWNUM BETWEEN ((1 - 1) * 10 + 1) AND (1 *10) ORDER BY  ROWNUM ASC
+                //) AS RESULT WHERE ROWNUM BETWEEN ((" + filter.PageNumber + @" - 1) * 10 + 1) AND (" + filter.PageNumber + @" * 10) ORDER BY  ROWNUM ASC
                 //";
 
-                string query = @"
-                SELECT * FROM ( 
-                    SELECT ROW_NUMBER() OVER 
-                    (ORDER BY tblProyects.[ProyectID] ASC) AS ROWNUM,
-                    Count(*) over() AS TotalCount
-	                    ,tblProyects.[ProyectID]
-                        ,tblProyects.[Title]
-                        ,tblProyects.[Description]
-                        ,tblProyects.[Comment]
-                    FROM tblProyects  
-                    WHERE 
-                    Active = 1
-                ) AS RESULT WHERE ROWNUM BETWEEN ((" + filter.PageNumber + @" - 1) * 10 + 1) AND (" + filter.PageNumber + @" *10) ORDER BY  ROWNUM ASC
-                ";
 
-                //GENERE QUERY
 
-                //Table
 
-                //Atributes
+                string joins = "";
 
-                //Joins
+                //Base columns
+                string columns = $" ,{filter.TableName}.{nameof(filter.ProyectID)}, {filter.TableName}.{nameof(filter.Title)}, {filter.TableName}.{nameof(filter.Description)}, {filter.TableName}.{nameof(filter.Comment)}, {filter.TableName}.{nameof(filter.Active)}";
 
-                //Conditions -- filters
+                //Base conditions
+                List<object> fields = new List<object>() { nameof(filter.ProyectID), nameof(filter.Title), nameof(filter.Description), nameof(filter.Comment), nameof(filter.Active) };
+                List<object> values = new List<object>() { filter.ProyectID, filter.Title, filter.Description, filter.Comment, 1 };
+                string conditions = GenereteConditions(filter.TableName, fields, values);
 
-                //
-                List<dtoProyects> model = dbConnection.Query<dtoProyects>(query).ToList();
+                
+                filter.SortingOrder = string.IsNullOrEmpty(filter.SortingOrder) ? filter.dfSorting : filter.SortingOrder;
+
+
+                string sQuery = GenereteQuery(filter.TableName, filter.SortingOrder, columns, joins, conditions,  filter.PageNumber, filter.pageSize);
+
+
+                List<dtoProyects> model = dbConnection.Query<dtoProyects>(sQuery).ToList();
                 int iTotalItemCount = model?.FirstOrDefault()?.TotalCount ?? 0;
                 return new StaticPagedList<dtoProyects>(model, filter.PageNumber, filter.pageSize, iTotalItemCount);
             }
         }
 
+
+
         public tblProyects getById(int id)
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
             {
-                string query = "Select * from tblProyects where ProyectID = @id";
+                string query = "SELECT * FROM tblProyects WHERE ProyectID = @id";
 
                 var model = dbConnection.Query<tblProyects>(query, new { id }).FirstOrDefault();
 
@@ -143,7 +139,7 @@ namespace MaritzaBusness
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
             {
-                string query =@"Select top 10 * from tblProyects where Active=1 ORDER BY RAND()";
+                string query = @"SELECT TOP 10 * from tblProyects WHERE Active = 1 AND IsFrontPage = 1 ORDER BY RAND()";
 
                 var model = dbConnection.Query<tblProyects>(query).ToList();
 

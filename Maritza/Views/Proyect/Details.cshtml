@@ -2,49 +2,58 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="container p-5 mt-5 mb-5">
+    <div class="card m-5">
 
-<h2>Details</h2>
+        <div class="card-body m-5 ">
 
-<div class="card">
-    <div class="row ">
-        <div class="col-4 ">
-            @Html.LabelFor(modelItem => modelItem.ProyectID, new { @class = "fw-bold" }):
-            @Html.DisplayFor(modelItem => modelItem.ProyectID)
-        </div>
-        <div class="col-4">
-            @Html.LabelFor(modelItem => modelItem.Title, new { @class = "fw-bold" }):
-            @Html.DisplayFor(modelItem => modelItem.Title)
-        </div>
-        <div class="col-4">
-            @Html.LabelFor(modelItem => modelItem.Description, new { @class = "fw-bold" }):
-            @Html.DisplayFor(modelItem => modelItem.Description)
-        </div>
-        <div class="col-4">
-            @Html.LabelFor(modelItem => modelItem.Comment, new { @class = "fw-bold" }):
-            @Html.DisplayFor(modelItem => modelItem.Comment)
-        </div>
-    </div>
-    @if (Model.Image != null)
-    {
-        <div class="row">
-            <div class="col-12">
-                @Html.LabelFor(model => model.Image, new { @class = "fw-bold" })
-            </div>
-            <div class="col-12">
-                <div>
-                    <img id="Image" title="Proyect_@Model.ProyectID" src="@Url.Content($"~/{Model.Image}")" class="figure-img" style="max-height:300px" />
+            <div class="row ">
+                <div class="col-4 ">
+                    @Html.LabelFor(modelItem => modelItem.ProyectID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.ProyectID)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Title, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Title)
+                </div>
+                <div class="col-4">
+                    @Html.CheckBoxFor(model => model.IsFrontPage, new { @class = "form-check-input p-2", @Value = "true", @disabled=true })
+                    @Html.LabelFor(model => model.IsFrontPage, new { @class = "form-label fw-bold" })
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(modelItem => modelItem.Description, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Description)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Comment, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Comment)
                 </div>
             </div>
+            @if (Model.Image != null)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        @Html.LabelFor(model => model.Image, new { @class = "fw-bold" })
+                    </div>
+                    <div class="col-12">
+                        <div>
+                            <img id="Image" title="Proyect_@Model.ProyectID" src="@Url.Content($"~/{Model.Image}")" class="figure-img" style="max-height:300px" />
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-    }
+        <div class="card-footer">
+            <div class="row p-2">
+                <div class="col-2">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Index","Proyect",null)">Regresar</a>
+                </div>
+                <div class="col-2 offset-8">
+                    <a class="btn btn-primary w-100" href="@Url.Action("Edit", "Proyect", new {@id=Model.ProyectID})">Editar</a>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-3">
-            <a class="btn btn-secondary" href="@Url.Action("Index","Proyect",null)">Regresar</a>
         </div>
-        <div class="col-3 offset-6">
-            <a class="btn btn-primary" href="@Url.Action("Edit", "Proyect", new {@id=Model.ProyectID})">Editar</a>
-        </div>
-
     </div>
+
 </div>

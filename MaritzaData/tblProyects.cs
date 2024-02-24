@@ -35,6 +35,8 @@ namespace MaritzaData
         //[Required]
         //[Display(Name = "Categoría")]
         //public int CategoryID { get; set; }
+        [Display(Name = "Mostrar en pagina principal")]
+        public bool IsFrontPage { get; set; }
 
         [NotMapped] public int CategoryName { get; set; }
         [NotMapped] public HttpPostedFileBase ImageBase { get; set; }

@@ -4,10 +4,6 @@
 }
 
 <h2>Edit</h2>
-@using (Html.BeginForm("Delete", "Proyect", FormMethod.Post, new { @id = "frmDelete"}))
-{
-    @Html.Hidden("id", Model.ProyectID);
-}
 
 @using (Html.BeginForm("Edit", "Proyect", FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
 {
@@ -54,6 +50,10 @@
     @Html.HiddenFor(model => model.UpdatedDate);
     @Html.HiddenFor(model => model.DeletedBy);
     @Html.HiddenFor(model => model.DeletedDate);
+}
+@using (Html.BeginForm("Delete", "Proyect", FormMethod.Post, new { @id = "frmDelete"}))
+{
+    @Html.Hidden("id", Model.ProyectID);
 }
 
 @section scripts{

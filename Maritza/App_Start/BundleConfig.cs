@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using MaritzaBusness;
+using System.Web;
 using System.Web.Optimization;
 
 namespace Maritza
@@ -9,11 +10,13 @@ namespace Maritza
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/SweetAlert/sweetalert2.min.js",
+                        "~/Scripts/SweetAlert/core.js",
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
-
+        
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios.  De esta manera estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -26,6 +29,7 @@ namespace Maritza
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
+                      "~/Scripts/SweetAlert/sweetalert2.min.css",
                       "~/Content/site.less"));
         }
     }

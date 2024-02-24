@@ -12,16 +12,16 @@
             <thead>
                 <tr>
                     <th>
-                        ID
+                        @Html.ActionLink("ID", "Index", new { SortingOrder = filters.ProyectID_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
                     </th>
                     <th>
-                        Titulo
+                        @Html.ActionLink("Título", "Index", new { SortingOrder = filters.Title_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
                     </th>
                     <th>
-                        Descripción
+                        @Html.ActionLink("Descripción", "Index", new { SortingOrder = filters.Description_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
                     </th>
                     <th>
-                        Comentario
+                        @Html.ActionLink("Comentario", "Index", new { SortingOrder = filters.Comment_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
                     </th>
                 </tr>
             </thead>
@@ -30,11 +30,10 @@
                 @if (Model.Count == 0)
                 {
                     <tr>
-                        <td>
+                        <td colspan="5">
                             Sin registros
                         </td>
                     </tr>
-
                 }
                 else
                 {
@@ -46,25 +45,43 @@
                             <td>@Html.DisplayFor(elementItem => element.Description)</td>
                             <td>@Html.DisplayFor(elementItem => element.Comment)</td>
                             <td>
-                                <a href="@Url.Action("Details", new {@id=element.ProyectID})" class="">Ver detalles</a>
+                                <a href="@Url.Action("Details", new {@id=element.ProyectID})" class="text-decoration-none">Detalles</a>
                             </td>
                         </tr>
-
                     }
                 }
             </tbody>
             <tfoot>
                 <tr>
-
-                   
                     <td colspan="5">
-                        <div id="pagedList" class="" data-otf-target="#IndexList">
+                        <div id="ModelList" class="" data-otf-target="#ModelList">
+                            @{
+                                var vPagedlistRenderOptions = PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                               new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "ModelList",
+                                                   OnBegin = "ShowLoading()",
+                                                   OnComplete = "HideLoading()"
+                                               });
+                                vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
+                                vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
+                            }
+                            @Html.PagedListPager(Model, page => Url.Action("Index",
+                           new
+                           {
+                               PageNumber = page,
+                               ProyectID = filters.ProyectID,
+                               Title = filters.Title,
+                               Description = filters.Description,
+                               Comment = filters.Comment,
+                               ProyectID_Sort = filters.ProyectID_Sort,
+                               Title_Sort = filters.Title_Sort,
+                               Description_Sort = filters.Description_Sort,
+                               Comment_Sort = filters.Comment_Sort,
+                               SortingOrder = filters.SortingOrder
 
-
-
-                            @Html.PagedListPager(Model, page => Url.Action("Index", new { PageNumber=page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Primera", LinkToPreviousPageFormat = "< Anterior", LinkToNextPageFormat = "Siguiente >", LinkToLastPageFormat = "&Uacute;ltima >>" })
-
-                            
+                           }), vPagedlistRenderOptions)
                         </div>
                     </td>
                 </tr>

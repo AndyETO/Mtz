@@ -21,12 +21,12 @@ namespace Maritza.Controllers
 
 
         // GET: Proyect
-        public ActionResult Index(fltProyects filter = null)
+        public ActionResult Index(fltProyects filters = null)
         {
-            ViewBag.Filter = filter;
-
-            var lstProyects = ProyectB.GetAll(filter);
-
+            ViewBag.Filter = filters;
+            var lstProyects = ProyectB.GetAll(filters);
+            if(Request.IsAjaxRequest())
+                return PartialView("_Index",lstProyects);
             return View(lstProyects);
         }
 

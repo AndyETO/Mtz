@@ -163,6 +163,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\cropper.css" />
     <Content Include="Content\Img\Backgrounds\Bakground-green-frogs.png" />
     <Content Include="Content\Img\Backgrounds\Bakground-pink-frogs.png" />
     <Content Include="Content\Img\Logo\Logo.png" />
@@ -203,6 +204,8 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\Site.less" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\cropper.css" />
+    <Content Include="Scripts\Cropper\cropper.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -215,6 +218,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\SweetAlert\core.js" />
+    <Content Include="Scripts\SweetAlert\sweetalert2.min.css" />
+    <Content Include="Scripts\SweetAlert\sweetalert2.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
