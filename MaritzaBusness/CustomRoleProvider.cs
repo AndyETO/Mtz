@@ -20,8 +20,7 @@ namespace MaritzaBusness
 
         }
 
-        //TODO: checar opcion de siempe hacer consulta a base de datos
-        public override string[] GetRolesForUser(string username)
+        public override string[] GetRolesForUser(string UserID)
         {
             string rol = "";
             if (HttpContext.Current.Request.Cookies["Rol"] != null)
@@ -30,7 +29,7 @@ namespace MaritzaBusness
             }
             else
             {
-                HttpCookie cookieRol = new HttpCookie("Rol", AuxMethods.GetUserRol(username));
+                HttpCookie cookieRol = new HttpCookie("Rol", AuxMethods.GetUserRol(UserID));
                 DateTime expires = DateTime.Now.AddDays(1);
                 cookieRol.Expires = expires;
                 HttpContext.Current.Response.Cookies.Add(cookieRol);

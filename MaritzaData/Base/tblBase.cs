@@ -22,7 +22,7 @@ namespace MaritzaData.Base
         [Display(Name = "Fecha de actualización")]
         public DateTime UpdatedDate { get; set; }
         [Display(Name = "Eliminado por")]
-        public int DeletedBy { get; set; }
+        public int? DeletedBy { get; set; }
         [Display(Name = "Fecha de eliminación")]
         public DateTime? DeletedDate { get; set; }
         [NotMapped] public string CreatedByName { get; set; }

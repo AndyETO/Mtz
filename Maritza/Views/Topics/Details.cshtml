@@ -1,0 +1,67 @@
+﻿@model tblTopics
+@{
+    ViewBag.Title = "Detalles";
+}
+<div class="container p-5 mt-5 mb-5">
+    <div class="card m-5">
+
+        <div class="card-body m-5 ">
+
+            <div class="row ">
+                <div class="col-4 ">
+                    @Html.LabelFor(modelItem => modelItem.TopicID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.TopicID)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Name, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Name)
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row p-2">
+                <div class="col-2">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Index","Topics",null)">Regresar</a>
+                </div>
+
+                <div class="col-2  offset-6">
+                    <button id="btnDelete" class="btn btn-danger w-100">Eliminar</button>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary w-100" href="@Url.Action("Edit", "Topics", new {@id=Model.TopicID})">Editar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $("#btnDelete").click(function () {
+                Swal.fire({
+                    title: "¿Deseas eliminar la tematica?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar.",
+                    cancelButtonText: "No, mantener."
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Delete", "Topics")' + "?id=" + '@Model.TopicID';
+                    }
+                });
+            });
+
+
+        });
+
+    </script>
+
+}

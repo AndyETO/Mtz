@@ -1,75 +1,59 @@
-﻿using System;
+﻿using MaritzaBusness;
+using MaritzaData.ConfigClasses;
+using MaritzaData.Filters;
+using MaritzaData;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Maritza.Controllers.Base;
-using MaritzaBusness;
-using MaritzaData;
-using MaritzaData.ConfigClasses;
-using MaritzaData.Filters;
 
 namespace Maritza.Controllers
 {
-    [Authorize(Roles = RolesApp.Rol_Administrador)]
-    public class ProyectController : BaseController
+    public class TopicsController : BaseController
     {
-        //Objets seccion
-        ProyectB ProyectB = new ProyectB();
+        TopicsB TopicsB = new TopicsB();
 
-
-
-        // GET: Proyect
-        public ActionResult Index(fltProyects filters = null)
+        public ActionResult Index(fltTopics filters = null)
         {
             ViewBag.Filter = filters;
-            var lstProyects = ProyectB.GetAll(filters);
-            if(Request.IsAjaxRequest())
-                return PartialView("_Index",lstProyects);
-            return View(lstProyects);
+            var lstTopicss = TopicsB.GetAll(filters);
+            if (Request.IsAjaxRequest())
+                return PartialView("_Index", lstTopicss);
+            return View(lstTopicss);
         }
 
-        // GET: Proyect/Details/5
         public ActionResult Details(int id)
         {
-            var proyect = ProyectB.getById(id);
-            if (proyect == null)
+            var Topics = TopicsB.getById(id);
+            if (Topics == null)
             {
                 return HttpNotFound();
             }
-            return View(proyect);
+            return View(Topics);
         }
 
-        // GET: Proyect/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Proyect/Create
         [HttpPost]
-        public ActionResult Create(tblProyects model)
+        public ActionResult Create(tblTopics model)
         {
             if (model == null)
             {
                 ViewBag.ErrorMessage = $"Ocurrio un error con el controlador";
                 return View(model);
             }
-            Response response = new Response();
+            
 
             model.Active = true;
             model.UpdatedDate = model.CreatedDate = DateTime.Now;
-            model.UpdatedBy = model.CreatedBy = 1;
+            model.UpdatedBy = model.CreatedBy = CurrentUserID;
 
-
-
-            string Route = SaveImage(model.ImageBase);
-            if (Route.Length > 0 && Route != "")
-            {
-                model.Image = Route;
-            }
-            response = ProyectB.Create(model);
+            Response response = TopicsB.Create(model);
 
             if (response.Result != Result.Ok)
             {
@@ -80,32 +64,25 @@ namespace Maritza.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Proyect/Edit/5
         public ActionResult Edit(int id)
         {
 
-            var proyect = ProyectB.getById(id);
+            var Topics = TopicsB.getById(id);
 
-            return View(proyect);
+            return View(Topics);
         }
-
-        // POST: Proyect/Edit/5
         [HttpPost]
-        public ActionResult Edit(tblProyects model)
+        public ActionResult Edit(tblTopics model)
         {
             if (model == null)
             {
                 return HttpNotFound();
             }
-            string Route = SaveImage(model.ImageBase);
-            if (Route.Length > 0 && Route != "")
-            {
-                model.Image = Route;
-            }
+           
             model.UpdatedDate = DateTime.Now;
-            model.UpdatedBy = 2;
+            model.UpdatedBy = CurrentUserID;
 
-            Response response = ProyectB.Update(model);
+            Response response = TopicsB.Update(model);
 
             if (response.Result != Result.Ok)
             {
@@ -117,13 +94,9 @@ namespace Maritza.Controllers
             return RedirectToAction("Index");
         }
 
-
-
-        // POST: Proyect/Delete/5
-        [HttpPost]
         public ActionResult Delete(int id)
         {
-            var model = ProyectB.getById(id);
+            var model = TopicsB.getById(id);
             if (model == null)
             {
                 ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
@@ -131,8 +104,8 @@ namespace Maritza.Controllers
             }
             model.Active = false;
             model.DeletedDate = DateTime.Now;
-            model.DeletedBy = 3;
-            Response response = ProyectB.Delete(model);
+            model.DeletedBy = CurrentUserID;
+            Response response = TopicsB.Delete(model);
 
             if (response.Result != Result.Ok)
             {

@@ -5,141 +5,394 @@
     int count = 0;
 }
 
-<div class="container-custom" style="background-image:url('@Url.Content("~/Content/Img/Backgrounds/Bakground-green-frogs.png")');">
-    <div class="container-scrolling ">
-        <div class="box-size-1">
-            <div id="carouselExampleDark" class="carousel carousel-dark slide w-100" style="background-color:white">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    @{int next = 0;}
-                    @for (int i = 1; i < Model.Count() + 1; i++)
-                    {
-                        { next += 1; }
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@i" aria-label="Slide @next"></button>
-                    }
+<style>
+    .bento-container {
+        margin: 0;
+        padding: 3em 4em;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        /*min-height: 95vh;
+        width: 100%;
+        max-width: 100vh;*/
+    }
+
+    .bento-box {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(50px,1fr));
+        grid-gap: 1em;
+        width: 100%;
+        margin: 0 auto;
+        min-width: 300px;
+        height: 90vh;
+        grid-template-areas:
+            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
+            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
+            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
+            "item-2 item-2 item-2 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
+            "item-2 item-2 item-2 item-6 item-6 item-8 item-8 item-8 item-9 item-9 item-9 item-11"
+            "item-3 item-4 item-5 item-6 item-6 item-8 item-8 item-8 item-9 item-9 item-9 item-11";
+    }
+
+    @@media(width<500px) {
+
+        .bento-container {
+            margin: 0;
+            padding: 1em 0;
+            background-color:none;
+        }
+
+        .bento-box {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(100px,1fr));
+            grid-gap: 0.5em;
+            max-width: 100%;
+            grid-template-areas:
+                "item-1 item-1"
+                "item-1 item-1"
+                "item-1 item-1"
+                "item-2 item-3"
+                "item-2 item-4"
+                "item-2 item-4"
+                "item-5 item-5"
+                "item-6 item-9"
+                "item-7 item-9"
+                "item-8 item-10"
+                "item-11 item-11";
+        }
+    }
+
+    @@media(width>=500px) and (width<1000px) {
+        .bento-box {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(100px,1fr));
+            grid-gap: 0.5em;
+            grid-template-areas:
+                "item-1 item-1 item-2 "
+                "item-1 item-1 item-2 "
+                "item-3 item-4 item-5 "
+                "item-3 item-4 item-6 "
+                "item-9 item-8 item-7 "
+                "item-10 item-11 item-7 ";
+        }
+    }
+
+    .bento-item-1 {
+        /*grid-column: 1/4;
+        grid-row: 1/4;*/
+        grid-area: item-1;
+    }
+
+    .bento-item-2 {
+        /* grid-column: 1/4;
+        grid-row: 4/6;*/
+        grid-area: item-2;
+    }
+
+    .bento-item-3 {
+        /*grid-column: 1/3;
+        grid-row: 6/7;*/
+        grid-area: item-3;
+    }
+
+    .bento-item-4 {
+        /*grid-column: 3/5;
+        grid-row: 6/7;*/
+        grid-area: item-4;
+    }
+
+    .bento-item-5 {
+        /*  grid-column: 5/10;
+        grid-row: 6/7;*/
+        grid-area: item-5;
+    }
+
+    .bento-item-6 {
+        /* grid-column: 4/6;
+        grid-row: 1/6;*/
+        grid-area: item-6;
+    }
+
+    .bento-item-7 {
+        /* grid-column: 6/12;
+        grid-row: 1/4;*/
+        grid-area: item-7;
+    }
+
+    .bento-item-8 {
+        /* grid-column: 6/10;
+        grid-row: 4/6;*/
+        grid-area: item-8;
+    }
+
+    .bento-item-9 {
+        /*grid-column: 10/14;
+        grid-row: 4/7;*/
+        grid-area: item-9;
+    }
+
+    .bento-item-10 {
+        /*grid-column: 12/14;
+        grid-row: 1/1;*/
+        grid-area: item-10;
+    }
+
+    .bento-item-11 {
+        /*  grid-column: 12/14;
+        grid-row: 2/4;*/
+        grid-area: item-11;
+    }
+
+    .bento-item-type-1 {
+      
+    }
+    .bento-item-type-2 {
+        
+    }
+    .bento-item-type-3 {
+        
+    }
+    .bento-item-type-4 {
+        
+    }
+
+    .bento-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+        .bento-item:hover {
+            transform: scale(1.05);
+        }
+
+        .bento-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .bento-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bento-item:hover .bento-overlay {
+        opacity: 1;
+    }
+
+    .bento-text {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+    }
+
+    /**/
+    .main-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+        .main-image:hover {
+            transform: scale(0.95);
+        }
+
+    .Search-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .main-image:hover .Search-overlay {
+        opacity: 1;
+    }
+</style>
+
+<div class="p-4">
+
+    <div class="row mt-5" style="background-color: lightblue; margin: 0; padding: 3em 0; min-width:300px; height:90vh">
+        <div class="col-12 p-0">
+            <div class="main-image card bg-dark text-white h-100 p-0">
+                <div class="col-12 d-flex align-items-center justify-content-center h-100 p-0">
+                    <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" class="img-fluid h-100" alt="...">
                 </div>
-                <div class="carousel-inner h-75 " style="height:90vh;">
-                    <div class="carousel-item active " data-bs-interval="1">
-                        <a href="#" class="d-flex justify-content-center h-100">
-                            <img src="@Url.Content("~/Content/DefaultImages/img1.png")" class="rounded mx-auto d-block img-fluid" style="max-height: 450px" alt="...">
-
-                        </a>
-                        <div class="carousel-caption d-md-block ">
-                            <div class="row">
-                                <div class="offset-4 col-4">
-                                    <h5 style="background-color:rgba(0, 0, 0,.70);color:white;" >First slide label</h5>
-
-                                </div>
-                                <div class="offset-4 col-4">
-                                    <p>Some representative placeholder content for the first slide.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @foreach (var element in Model)
-                    {
-                        <div class="carousel-item " data-bs-interval="1">
-                            <a href="#item_@element.ProyectID" class="d-flex justify-content-center h-100">
-
-                                @if (element.Image != null)
-                                {
-                                    <img src="@Url.Content($"~/{element.Image}")" class="rounded d-block p-2 w-auto h-100 d-flex justify-content-center" style="max-height: 500px; min-height: 500px; width: 100%; height: auto; " alt="...">
-                                }
-                                else
-                                {
-                                    <img src="@Url.Content($"~/Content/ProyectsImages/img2.png")" class="rounded d-block p-2 w-auto d-flex justify-content-center" style="max-height: 500px" alt="...">
-                                }
-                            </a>
-                            @*<div class="carousel-caption d-none d-md-block d-flex justify-content-center">
-                                <h5>@element.Title</h5>
-                                <p>@element.Description.</p>
-                            </div>*@
-                            <div class="carousel-caption d-md-block ">
-                                <div class="row">
-                                    <div class="offset-5 col-2 my-1 ">
-                                        <h4 class="rounded-5 py-1" style="background-color:rgb(254 199 247 / 0.70); color:white;">@element.Title</h4>
-
-                                    </div>
-                                    <div class="offset-4 col-4  my-1">
-                                        <p class="rounded-5" style="background-color: rgb(254 199 247 / 0.70); color: white; ">@element.Description.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
+                <div class="Search-overlay">
+                    @*<input type="text" class="form-control bg-transparent text-white"/>
+                    <div class="seatch-button ms-2"><button type="button" class="btn btn-sm btn-success">Buscar</button></div>*@
+                    <div class="seatch-button ms-2"><button type="button" class="btn btn-sm btn-success">Buscar</button></div>
                 </div>
-                @if (Model.Count > 1)
-                {
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"><!--Poner imagenes felchas--></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"><!--Poner imagenes felchas--></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                }
+            </div>
+        </div>
+    </div>
 
 
+    <div class="bento-container mt-3">
+        <div class="bento-box">
+            <div class="bento-item bento-item-1 ">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 1">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 1</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-2">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 2</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-3">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 3</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-4">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 4</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-5">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 5</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-6">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 6</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-7">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 7</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-8">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 8</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-9">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 9</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-10">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 10</div>
+                </div>
+            </div>
+            <div class="bento-item bento-item-11">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Image 11</div>
+                </div>
+            </div>
+
+            <!--added-->
+            <div class="bento-item">
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+                <div class="bento-overlay">
+                    <div class="bento-text">Texto :)</div>
+                </div>
             </div>
 
         </div>
-
-
-        @foreach (var element in Model)
-        {
-            if (false)
-            {
-
-                <div class="box-size-2">
-                    <div id="item_@element.ProyectID" class="card mb-3 w-100 h-75 p-5 m-5" style="">
-                        @if (element.Image != null)
-                        {
-                            <img src="@Url.Content($"~/{element.Image}")" class="rounded mx-auto d-block img-fluid p-2" alt="..." style="max-height:350px">
-                        }
-                        else
-                        {
-                            <img src="@Url.Content("~/Content/ProyectsImages/img1.png")" class="rounded mx-auto d-block img-fluid p-2" alt="..." style="max-height:350px">
-                        }
-
-                        <div class="card-body">
-                            <h5 class="card-title">@element.Title</h5>
-                            <p class="card-text">@element.Description.</p>
-                            <p class="card-text"><small class="text-body-secondary">Subido el @element.UpdatedDate.ToLongDateString()</small></p>
-                        </div>
-                    </div>
-                </div>
-            }
-            <div class="box-size-2">
-                <div class="card m-auto w-75 h-50 rounded-4" style="background-color:@colors[count];">
-                    <div id="item_@element.ProyectID" class="row g-0 h-100">
-                        <div class="col-md-4 p-4 d-flex justify-content-center m-auto">
-                            @if (element.Image != null)
-                            {
-                                <img src="@Url.Content($"~/{element.Image}")" class="img-fluid  rounded-4" alt="..." style="max-height:350px">
-                            }
-                            else
-                            {
-                                <img src="@Url.Content("~/Content/ProyectsImages/img1.png")" class="img-fluid rounded-4" alt="..." style="max-height:350px">
-                            }
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mt-5">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text pe-5">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
+    </div>
+    <div class="row mt-3" style="background-color: lightblue; margin: 0; padding: 3em 4em; height:55vh;">
+        <div class="col-sm-12 col-md-5">
+            <div class="card h-100 bg-transparent border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/v3-9eDFDAFw" title="Melendi - Tu Jardín con enanitos (Videoclip oficial)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
-            count++;
-            if (count == 4)
-            {
-                count = 0;
-            }
-        }
+        </div>
+        
+        <div class="offset-md-2 col-sm-12 col-md-5" >
+            <div class="card h-100  bg-transparent border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/v3-9eDFDAFw" title="Melendi - Tu Jardín con enanitos (Videoclip oficial)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="row mt-3" style="background-color: lightblue; margin: 0; padding: 3em 1em 1em 1em; height: 45vh;">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-12 text-center" style="">
+                    Maritza Seams
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3  mt-3" style="">
+                    Correo@Example.com.mx
+                </div>
+                <div class="col-sm-12 col-md-3  mt-3" style="">
+                    @@MaritzaSeams_Official
+                </div>
+                <div class="col-sm-12 col-md-3  mt-3" style="">
+                    @@MaritzaSeamsYTOfficial
+                </div>
+                <div class="col-sm-12 col-md-3  mt-3" style="">
+                    @@Andres Enrique Toledo Ortega
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-3 col-md-3 col-sm-12  mt-3" style="">
+                    @@MaritzaSeamsOfficial
+                </div>
+                <div class="col-sm-12 col-md-3   mt-3" style="">
+                    @@MaritzaSeamsTKOfficial
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="offset-md-3 col-sm-12 col-md-3   mt-3" style="">
+                    @@MaritzaSeamsXOfficial
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 text-center mt-5" style="">
+                    © 2024 - 202X - Maritza Seams - Todos los derechos reservados. :) si fuera una pagina de un cliente, es de mi hermana.
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+

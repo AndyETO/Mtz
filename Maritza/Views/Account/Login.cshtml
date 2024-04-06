@@ -7,16 +7,17 @@
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "frmLogin", @class="p-2"}))
 {
    
-
-    <div class="container p-5" style="height:95vh !important;">
-
-        <div class="card h-100 p-5 m-5">
-            <div class="card-body p-5 h-100">
-
+    <div class="container m-5 p-5">
+        <div class="card h-100 m-5">
+            <div class="card-body h-100">
+                <div class="row">
+                    <div class="col-12">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
                 <div class="row">
                     <div class="offset-4 col-4 p-1 w-100">
-                        @Html.AntiForgeryToken()
-                        @*@Html.ValidationSummary()*@
                         @Html.LabelFor(model => model.UserName, new { @class = "form-label fw-bold d-block" })
                         @Html.TextBoxFor(model => model.UserName, new { @class = "col-6 form-control" })
                         @Html.ValidationMessageFor(model => model.UserName, "", new {@class="text-danger"})

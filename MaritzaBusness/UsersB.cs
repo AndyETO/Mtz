@@ -73,15 +73,40 @@ namespace MaritzaBusness
 
         public tblUsers getUserByUserName(string UserName)
         {
-            
             using(IDbConnection dbConnection = new SqlConnection(connection))
             {
                 var model = dbConnection.QueryFirstOrDefault<tblUsers>("getUserByUserName", new {UserName }, commandType: CommandType.StoredProcedure);
                 return model;
             }
-
-           
         }
 
+        public bool CheckIfExistsEmail(string Email)
+        {
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string query = @"IF(Exists(SELECT tblUsers.Email FROM tblUsers WHERE Email = @Email))
+                                    SELECT 'TRUE'
+                                ELSE
+                                    SELECT 'FALSE'";
+
+                var model = dbConnection.Query<bool>(query, new { Email }).FirstOrDefault();
+
+                return model;
+            }
+        }
+        public bool CheckIfExistsUserName(string UserName)
+        {
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string query = @"IF(Exists(SELECT tblUsers.UserName FROM tblUsers WHERE UserName = @UserName))
+                                    SELECT 'TRUE'
+                                ELSE
+                                    SELECT 'FALSE'";
+
+                var model = dbConnection.Query<bool>(query, new { UserName }).FirstOrDefault();
+
+                return model;
+            }
+        }
     }
 }

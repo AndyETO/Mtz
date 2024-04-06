@@ -18,7 +18,7 @@ namespace MaritzaData
     {
         [Key]
         [Required]
-        [Display(Name = "Identificador de proyecto")]
+        [Display(Name = "ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProyectID { get; set; }
         [Required]
@@ -27,18 +27,41 @@ namespace MaritzaData
         [Required]
         [Display(Name = "Descripción")]
         public string Description { get; set; }
-        [Display(Name = "Comentario")]
-        public string Comment { get; set; }
-        //[Required]
-        [Display(Name = "Imagen")]
-        public string Image { get; set; }
-        //[Required]
-        //[Display(Name = "Categoría")]
-        //public int CategoryID { get; set; }
-        [Display(Name = "Mostrar en pagina principal")]
-        public bool IsFrontPage { get; set; }
+        [Display(Name = "Presupuesto")]
+        public decimal? Budget { get; set; }
+        [Display(Name = "Genero")]
+        public int? GenderID { get; set; }
+        [Display(Name = "Tematica")]
+        public int? TopicID { get; set; }
+        [Display(Name = "Tipo de proyecto")]
+        public int? ProyectTypeID { get; set; }
 
-        [NotMapped] public int CategoryName { get; set; }
-        [NotMapped] public HttpPostedFileBase ImageBase { get; set; }
+        [NotMapped] public List<tblPublishes> lstModelPublish { get; set; }
+        [NotMapped] public tblPublishes MainPagePublish { get; set; }
+        [NotMapped] public tblPublishes ProyectPublish { get; set; }
+
+        [NotMapped] public int PrirityMainPage { get; set; }
+        [NotMapped] public int PrirityProyects { get; set; }
+
+
+        [NotMapped] public string StartDateMainPage { get; set; }
+        [NotMapped] public string StartDateProyects { get; set; }
+        [NotMapped] public string EndDateMainPage { get; set; }
+        [NotMapped] public string EndDateProyects { get; set; }
+
+
+        [NotMapped] public string CategoryName { get; set; }
+        [NotMapped] public string GenderName { get; set; }
+        [NotMapped] public string TopicName { get; set; }
+        [NotMapped] public string ProyectTypeName { get; set; }
+        //[NotMapped] public HttpPostedFileBase ImageBase { get; set; }
+        //[NotMapped] public List<HttpPostedFileBase> ImageBase { get; set; }
+        [NotMapped] public List<tblProyectImages> ProyectImagesMainImage { get; set; }
+        [NotMapped] public tblProyectImages MainImage { get; set; }
+        [NotMapped] public string MainImageBase { get; set; }
+        [NotMapped] public List<tblProyectImages> lstModelProyectImages { get; set; }
+        [NotMapped] public List<string> ImageBase { get; set; }
+        [NotMapped] public List<tblProyectCharacteristics> lstModelProyectCharacteristics { get; set; }
+        [NotMapped] public List<string> lstCharacteristics { get; set; }
     }
 }

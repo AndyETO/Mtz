@@ -138,8 +138,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\CharacteristicsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProyectController.cs" />
+    <Compile Include="Controllers\ProyectsController.cs" />
+    <Compile Include="Controllers\ProyectTypesController.cs" />
+    <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,14 +246,32 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Proyect\Index.cshtml" />
-    <Content Include="Views\Proyect\Edit.cshtml" />
-    <Content Include="Views\Proyect\Details.cshtml" />
-    <Content Include="Views\Proyect\_Index.cshtml" />
-    <Content Include="Views\Proyect\Create.cshtml" />
+    <Content Include="Views\Proyects\Index.cshtml" />
+    <Content Include="Views\Proyects\EditOld.cshtml" />
+    <Content Include="Views\Proyects\Details.cshtml" />
+    <Content Include="Views\Proyects\_Index.cshtml" />
+    <Content Include="Views\Proyects\Create.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\Shared\Body\_Body_Vanilla.cshtml" />
-    <Content Include="Views\Shared\Body\_Body_Public.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\ProyectTypes\Index.cshtml" />
+    <Content Include="Views\ProyectTypes\Edit.cshtml" />
+    <Content Include="Views\ProyectTypes\Details.cshtml" />
+    <Content Include="Views\ProyectTypes\Create.cshtml" />
+    <Content Include="Views\ProyectTypes\_Index.cshtml" />
+    <Content Include="Views\Characteristics\Index.cshtml" />
+    <Content Include="Views\Characteristics\Edit.cshtml" />
+    <Content Include="Views\Characteristics\Details.cshtml" />
+    <Content Include="Views\Characteristics\Create.cshtml" />
+    <Content Include="Views\Characteristics\_Index.cshtml" />
+    <Content Include="Views\Topics\Index.cshtml" />
+    <Content Include="Views\Topics\Edit.cshtml" />
+    <Content Include="Views\Topics\Details.cshtml" />
+    <Content Include="Views\Topics\Create.cshtml" />
+    <Content Include="Views\Topics\_Index.cshtml" />
+    <Content Include="Views\Home\DetailsProyect.cshtml" />
+    <Content Include="Views\Home\SearchProyect.cshtml" />
+    <Content Include="Views\Home\_SearchProyect.cshtml" />
+    <Content Include="Views\Proyects\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

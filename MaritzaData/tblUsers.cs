@@ -19,26 +19,27 @@ namespace MaritzaData
         [Display(Name="Nombre")]
         [Required(ErrorMessage ="Este elemento es requerido.")]
         public string Name { get; set; }
+        [Display(Name = "Apellido")]
+        public string LastName { get; set; }
 
         [Display(Name = "Nombre de usuario")]
         [Required(ErrorMessage = "Este elemento es requerido.")]
         public string UserName { get; set; }
         [Display(Name = "RolID")]
         [Required(ErrorMessage = "Este elemento es requerido.")]
-        public bool RolID { get; set; }
+        public int RolID { get; set; }
 
-        [Display(Name = "Apellido")]
-        //[Required(ErrorMessage = "Este elemento es requerido.")]
-        public string LastName { get; set; }
         [Display(Name="Correo")]
         [Required(ErrorMessage ="Este elemento es requerido.")]
         public string Email { get; set; }
         [Display(Name="Celular")]
-        [Required(ErrorMessage ="Este elemento es requerido.")]
         public string Phone { get; set; }
         [Display(Name="Contraseña")]
         [Required(ErrorMessage ="Este elemento es requerido.")]
         public string Password { get; set; }
+        
+        
+
         [NotMapped]
         public string ConfirmPassword { get; set; }
         [NotMapped]

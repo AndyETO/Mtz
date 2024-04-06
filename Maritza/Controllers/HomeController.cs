@@ -1,4 +1,5 @@
-﻿using MaritzaBusness;
+﻿using Maritza.Controllers.Base;
+using MaritzaBusness;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Web.Mvc;
 namespace Maritza.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         ProyectB ProyectB = new ProyectB();
         [AllowAnonymous]

@@ -1,0 +1,260 @@
+﻿@model tblProyects
+@{
+    ViewBag.Title = "Detalles de proyecto";
+}
+<div class="container mt-5 mb-3 pt-5 ">
+    <div class="card">
+
+        <div class="card-header">
+            <h3>
+                @ViewBag.Title
+            </h3>
+        </div>
+        <div class="card-body m-3 ">
+
+            <div class="row ">
+                <div class="col-4 ">
+                    @Html.LabelFor(modelItem => modelItem.ProyectID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.ProyectID)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Title, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Title)
+                </div>
+                <div class="col-12 mt-3">
+                    @Html.LabelFor(modelItem => modelItem.Description, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Description)
+                </div>
+                <div class="col-4 mt-3">
+                    @Html.LabelFor(modelItem => modelItem.TopicID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.TopicName)
+                </div>
+                <div class="col-4 mt-3">
+                    @Html.LabelFor(modelItem => modelItem.ProyectTypeID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.ProyectTypeName)
+                </div>
+                <div class="col-4 mt-3">
+                    @Html.LabelFor(modelItem => modelItem.GenderID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.GenderName)
+                </div>
+                <div class="col-4 mt-3">
+                    @Html.LabelFor(modelItem => modelItem.Budget, new { @class = "fw-bold" }):
+                    @if (Model.Budget != null)
+                    {
+                        Model.Budget.Value.ToString("F2");
+                        //<TEXT> @value </TEXT>
+                    }
+                    else
+                    {
+                        <TEXT> Sin estimación </TEXT>
+                    }
+                    @Html.DisplayFor(modelItem => modelItem.Budget)
+                </div>
+            </div>
+
+
+            @if (Model.lstModelProyectCharacteristics != null)
+            {
+                if (Model.lstModelProyectCharacteristics.Count > 0)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            @Html.Label("Caracteristicas", new { @class = "fw-bold" })
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="row">
+
+                                @foreach (var Characteristics in Model.lstModelProyectCharacteristics)
+                                {
+
+                                    <div class="col-3">
+                                        @Characteristics.CharacteristicName
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+            <div class="row mt-3">
+
+                @if (@Model.MainPagePublish != null)
+                {
+                    <div class="col-4 show-date-main-page">
+                        <label class="form-label fw-bold ">Publicar por fechas en [Pagina principal]</label>
+                        <span class="validation-mainpage-dates text-danger "></span>
+                    </div>
+                }
+
+                @if (@Model.ProyectPublish != null)
+                {
+                    <div class="col-4 show-date-proyects">
+                        <label class="form-label fw-bold ">Publicar por fechas en [Proyectos]</label>
+                        <span class="validation-proyects-dates text-danger "></span>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                @if (@Model.MainPagePublish != null)
+                {
+                    <div class="col-4 show-date-main-page">
+                        <label class="form-label fw-bold">Fecha inicio</label>
+                        <input id="StartDateMainPage" name="StartDateMainPage" type="text" class="form-control" value="@Model.MainPagePublish.StarDate.ToString("dd/MM/yyyy")" disabled />
+                    </div>
+                }
+                @if (@Model.ProyectPublish != null)
+                {
+                    <div class="col-4 show-date-proyects">
+                        <label class="form-label fw-bold ">Fecha inicio</label>
+                        <input id="StartDateProyects" name="StartDateMainPage" type="text" class="form-control" value="@Model.ProyectPublish.StarDate.ToString("dd/MM/yyyy")" disabled />
+                    </div>
+                }
+            </div>
+            <div class="row">
+                @if (@Model.MainPagePublish != null)
+                {
+                    <div class="col-4 show-date-main-page">
+                        <label class="form-label fw-bold">Fecha final</label>
+                        <input id="EndDateMainPage" name="StartDateMainPage" type="text" class="form-control" value="@Model.MainPagePublish.StarDate.ToString("dd/MM/yyyy")" disabled />
+
+                    </div>
+                }
+                @if (@Model.ProyectPublish != null)
+                {
+                    <div class="col-4 show-date-proyects">
+                        <label class="form-label fw-bold ">Fecha final</label>
+                        <input id="EndDateProyects" name="StartDateMainPage" type="text" class="form-control" value="@Model.ProyectPublish.StarDate.ToString("dd/MM/yyyy")" disabled />
+
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-4 show-date-main-page">
+                    @if (@Model.MainPagePublish != null)
+                    {
+                        <label class="form-label fw-bold">Prioridad en pagina principal</label>
+                        <select name="PrirityMainPage" class="form-control" disabled>
+                            <option value="1">Alta</option>
+                            <option value="2">Mediana</option>
+                            <option value="3" selected>Baja</option>
+                        </select>
+                    }
+                </div>
+                <div class="col-4 show-date-proyects">
+                    @if (@Model.ProyectPublish != null)
+                    {
+                        <label class="form-label fw-bold ">Prioridad en proyectos</label>
+                        <select name="PrirityProyects" class="form-control" disabled>
+                            <option value="1">Alta</option>
+                            <option value="2">Mediana</option>
+                            <option value="3" selected>Baja</option>
+                        </select>
+                    }
+                </div>
+            </div>
+
+
+            <div class="row">
+                <!--Imgs-->
+                <div class="col-12">
+                    @Html.Label("Imagenes", new { @class = "fw-bold" })
+                </div>
+
+                <div class="col-12 mt-3">
+                    <div class="row">
+                        <div class="col-12 bg-dark rounded-bottom-3 py-2" role="button" data-bs-toggle="collapse" data-bs-target="#CollapseImage-1" aria-expanded="false" aria-controls="#CollapseImage-1">
+                            <label class="form-label fw-bold text-white" style="cursor:pointer;">Imagen 1 (Principal)</label>
+                        </div>
+                        <div id="CollapseImage-1" class="col-12 m-0 w-100 collapse bg-lightborder rounded-bottom-3 text-center">
+                            @if (Model.MainImage != null)
+                            {
+                                if (!string.IsNullOrEmpty(Model.MainImage.Url))
+                                { 
+                                    <img class="rounded-3 mt-2 object-fit" src="@Url.Content(Model.MainImage.Url)" style="max-width: 50%;"/>
+                                }
+                                else
+                                {
+                                    <img class="rounded-3 mt-2" src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" />
+                                }
+                            }
+                            else
+                            {
+                                <img class="rounded-3 mt-2" src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" />
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.lstModelProyectImages != null)
+                {
+                    if (Model.lstModelProyectImages.Count > 0)
+                    {
+                        int index = 2;
+                        foreach (var images in Model.lstModelProyectImages)
+                        {
+                            <div class="col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-12 bg-dark rounded-bottom-3 py-2" role="button" data-bs-toggle="collapse" data-bs-target="#CollapseImage-@index" aria-expanded="false" aria-controls="#CollapseImage-@index">
+                                        <label class="form-label fw-bold text-white" style="cursor:pointer;">Imagen @index</label>
+                                    </div>
+                                    <div id="CollapseImage-@index" class="col-12 m-0 w-100 collapse bg-lightborder rounded-bottom-3 text-center">
+                                        <img class="rounded-3 mt-2" src="@Url.Content(images.Url)" title="Image-@index" />
+                                    </div>
+                                </div>
+                            </div>
+                            index++;
+                        }
+                    }
+                }
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row p-2">
+                <div class="col-2">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Index","Proyects",null)">Regresar</a>
+                </div>
+                <div class="col-2  offset-6">
+                    <button id="btnDelete" class="btn btn-danger w-100">Eliminar</button>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary w-100" href="@Url.Action("Edit", "Proyects", new {@id=Model.ProyectID})">Editar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@section scripts{
+
+    <script>
+        $(function () {
+            $("#btnDelete").click(function () {
+                Swal.fire({
+                    title: "¿Deseas eliminar el proyecto?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar.",
+                    cancelButtonText: "No, mantener."
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Delete", "Proyects")' + "?id=" + '@Model.ProyectID';
+                    }
+                });
+            });
+
+
+        });
+
+    </script>
+
+}

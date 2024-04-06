@@ -8,15 +8,15 @@
 
 
 
-<div class="container pt-4 mb-5 mt-4">
-    <div class="card mt-5">
+<div class="container mt-5 pt-5">
+    <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col-10">
-                    <h1 class="h3 p-2">Proyectos</h1>
+                    <h1 class="h3 p-2">@ViewBag.Title </h1>
                 </div>
-                <div class="col-2 mt-2">
-                    <a class="btn btn-secondary w-100" href="@Url.Action("Create","Proyect",null)">Agregar</a>
+                <div class="col-2 align-self-center">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Create","Proyects",null)">Agregar</a>
                 </div>
             </div>
         </div>
@@ -30,45 +30,40 @@
             }
             ))
             {
-              
-                <div class="row mt-2">
-                    <div class="offset-10 col-2 ">
-                        <a id="Clean" class="btn btn-sm btn-primary w-100" href="@Url.Action("Index","Proyect",null)">Limpiar</a>
-                    </div>
-                    <div class="offset-10 col-2 mt-2">
-                        <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
-                    </div>
-                </div>
-                <hr/>
+
+                @*<div class="row ">
+                        <div class="offset-10 col-2 ">
+                            <a id="Clean" class="btn btn-sm btn-primary w-100" href="@Url.Action("Index","Proyect",null)">Limpiar</a>
+                        </div>
+                        <div class="offset-10 col-2 mt-2">
+                            <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
+                        </div>
+                    </div>*@
                 <div class="row p-3">
                     <div class="col-3">
-                        @Html.Label("ID", new { @class = "form-label" })
+                        @Html.LabelFor(f => filters.ProyectID, new { @class = "form-label" })
                         @Html.TextBoxFor(f => filters.ProyectID, new { @class = "form-control", @placeholder = "ID", @Value = "" })
                     </div>
                     <div class="col-3">
-                        @Html.Label("Título", new { @class = "form-label" })
-                        @Html.TextBoxFor(f => filters.Title, new { @class = "form-control", @placeholder = "Título" })
+                        @Html.LabelFor(f => filters.Title, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.Title, new { @class = "form-control", @placeholder = "Proyecto" })
                     </div>
                     <div class="col-3">
-                        @Html.Label("Descripción", new { @class = "form-label" })
+                        @Html.LabelFor(f => filters.Description, new { @class = "form-label" })
                         @Html.TextBoxFor(f => filters.Description, new { @class = "form-control", @placeholder = "Descripción" })
                     </div>
-                    <div class="col-3">
-                        @Html.Label("Comentario", new { @class = "form-label" })
-                        @Html.TextBoxFor(f => filters.Comment, new { @class = "form-control", @placeholder = "Comentario" })
+                    <div class="offset-1 col-2 ">
+                        <a id="Clean" class="btn btn-sm btn-primary w-100 mb-1" href="@Url.Action("Index","Proyects",null)">Limpiar</a>
+                        <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
                     </div>
-
                 </div>
-
                 @Html.Partial("_index", Model);
-
                 @Html.HiddenFor(model => filters.ProyectID_Sort)
                 @Html.HiddenFor(model => filters.Title_Sort)
                 @Html.HiddenFor(model => filters.Description_Sort)
-                @Html.HiddenFor(model => filters.Comment_Sort)
+                //@Html.HiddenFor(model => filters.Comment_Sort)
                 @Html.HiddenFor(model => filters.Active_Sort)
                 @Html.HiddenFor(model => filters.SortingOrder)
-
             }
         </div>
     </div>

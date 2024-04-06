@@ -1,7 +1,7 @@
-﻿@model PagedList.StaticPagedList<dtoProyects>
+﻿@model PagedList.StaticPagedList<dtoTopics>
 @using PagedList.Mvc;
 @{
-    var filters = ViewBag.Filter as MaritzaData.Filters.fltProyects;
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltTopics;
 }
 
 
@@ -12,16 +12,10 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.ActionLink("ID", "Index", new { SortingOrder = filters.ProyectID_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
+                        @Html.ActionLink("ID", "Index", new { SortingOrder = filters.TopicID_Sort, ProyectID = filters.TopicID, Name = filters.Name }, htmlAttributes: new { })
                     </th>
                     <th>
-                        @Html.ActionLink("Título", "Index", new { SortingOrder = filters.Title_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Descripción", "Index", new { SortingOrder = filters.Description_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Comentario", "Index", new { SortingOrder = filters.Comment_Sort, ProyectID = filters.ProyectID, Title = filters.Title, Description = filters.Description, Comment = filters.Comment }, htmlAttributes: new { })
+                        @Html.ActionLink("Nombre", "Index", new { SortingOrder = filters.Name_Sort, ProyectID = filters.TopicID, Name = filters.Name }, htmlAttributes: new { })
                     </th>
                 </tr>
             </thead>
@@ -40,12 +34,10 @@
                     foreach (var element in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(elementItem => element.ProyectID)</td>
-                            <td>@Html.DisplayFor(elementItem => element.Title)</td>
-                            <td>@Html.DisplayFor(elementItem => element.Description)</td>
-                            <td>@Html.DisplayFor(elementItem => element.Comment)</td>
+                            <td>@Html.DisplayFor(elementItem => element.TopicID)</td>
+                            <td>@Html.DisplayFor(elementItem => element.Name)</td>
                             <td>
-                                <a href="@Url.Action("Details", new {@id=element.ProyectID})" class="text-decoration-none">Detalles</a>
+                                <a href="@Url.Action("Details", new {@id=element.TopicID})" class="text-decoration-none">Detalles</a>
                             </td>
                         </tr>
                     }
@@ -71,16 +63,9 @@
                            new
                            {
                                PageNumber = page,
-                               ProyectID = filters.ProyectID,
-                               Title = filters.Title,
-                               Description = filters.Description,
-                               Comment = filters.Comment,
-                               ProyectID_Sort = filters.ProyectID_Sort,
-                               Title_Sort = filters.Title_Sort,
-                               Description_Sort = filters.Description_Sort,
-                               Comment_Sort = filters.Comment_Sort,
+                               ProyectTypeID = filters.TopicID,
+                               Title = filters.Name,
                                SortingOrder = filters.SortingOrder
-
                            }), vPagedlistRenderOptions)
                         </div>
                     </td>

@@ -67,8 +67,15 @@
   <ItemGroup>
     <Compile Include="Base\AuxMethods.cs" />
     <Compile Include="Base\BaseBusnessB.cs" />
+    <Compile Include="GenderB.cs" />
+    <Compile Include="ProyectCharacteristicsB.cs" />
+    <Compile Include="ProyectImagesB.cs" />
+    <Compile Include="PublishesB.cs" />
+    <Compile Include="TopicsB.cs" />
     <Compile Include="CustomRoleProvider.cs" />
     <Compile Include="HomeB.cs" />
+    <Compile Include="CharacteristicsB.cs" />
+    <Compile Include="ProyectTypesB.cs" />
     <Compile Include="ProyectB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersB.cs" />

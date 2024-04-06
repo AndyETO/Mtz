@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MaritzaData.Base
 {
-    public class MaritzaDB :DbContext
+    public class MaritzaDB : DbContext
     {
         public MaritzaDB()
             : base("DefaultConnection")
@@ -19,10 +19,16 @@ namespace MaritzaData.Base
             ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
 
-       
+
 
         public DbSet<tblUsers> tblUsers { get; set; }
         public DbSet<tblProyects> tblProyects { get; set; }
+        public DbSet<tblProyectTypes> tblProyectTypes { get; set; }
+        public DbSet<tblTopics> tblTopics { get; set; }
+        public DbSet<tblCharacteristics> tblCharacteristics { get; set; }
+        public DbSet<tblProyectImages> tblProyectImages { get; set; }
+        public DbSet<tblProyectCharacteristics> tblProyectCharacteristics { get; set; }
+        public DbSet<tblPublishes> tblPublishes { get; set; }
 
 
         //metodos para obtener tabla 

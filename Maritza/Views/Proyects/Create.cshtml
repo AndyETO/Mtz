@@ -1,0 +1,776 @@
+﻿@model tblProyects
+@{
+    ViewBag.Title = "Crear proyecto";
+    var lstProyectTypes = ViewBag.lstProyectTypes as List<tblProyectTypes>;
+    var lstTopics = ViewBag.lstTopics as List<tblTopics>;
+    var lstGenders = ViewBag.lstGenders as List<tblGenders>;
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
+{
+    @*@Html.AntiForgeryToken();
+        @Html.ValidationSummary();*@
+    <div class="container  mt-5 mb-3 pt-5 ">
+        <div class="card p-1">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body mt-5 ">
+                <div class="row ">
+                    <div class="col-4 p-1">
+                        @Html.LabelFor(model => model.Title, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @placeholder = "Titulo: Proyecto", @style = "max-width: inherit" })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-12 p-1">
+                        @Html.LabelFor(model => model.Description, new { @class = "form-label fw-bold" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control w-100", @placeholder = "Descripción", @style = "max-width: inherit;resize:none", @rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-4 p-1">
+                        @Html.LabelFor(model => model.TopicID, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.TopicID, new SelectList(lstTopics, "TopicID", "Name", "Tematica"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                        @Html.ValidationMessageFor(model => model.TopicID, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-4 p-1">
+                        @Html.LabelFor(model => model.ProyectTypeID, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.ProyectTypeID, new SelectList(lstProyectTypes, "ProyectTypeID", "Name", "Tipo de proyecto"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                        @Html.ValidationMessageFor(model => model.ProyectTypeID, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-4 p-1">
+                        @Html.LabelFor(model => model.GenderID, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.GenderID, new SelectList(lstGenders, "GenderID", "Name", "Genero"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                        @Html.ValidationMessageFor(model => model.GenderID, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-4 p-1">
+                        @Html.LabelFor(model => model.Budget, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Budget, new { @class = "form-control w-100 OnlyNumbers", @style = "max-width: inherit" })
+                        @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12 p-1">
+                        <label class="form-label fw-bold">Publicar</label>
+                    </div>
+                    <div class="col-2 p-1">
+                        <input id="PublishYes" name="isPublish" class="form-check-input isPublishRadio" type="radio" value="1" /><label class="form-check-label ms-2">Si</label>
+                    </div>
+                    <div class="col-2 p-1">
+                        <input id="PublishNo" name="isPublish" class="form-check-input isPublishRadio" type="radio" value="0" checked /><label class="form-check-label ms-2">No</label>
+                    </div>
+                </div>
+
+                <div class="row show-enviroments" style="display:none;">
+                    <div class="col-12 p-1">
+                        <label class="form-label fw-bold">Entornos</label>
+                    </div>
+                    <div class="col-2 p-1">
+                        <input id="main-page-check" name="Enviroment" class="form-check-input enviroment-checks" type="checkbox" value="Mainpage" /><label class="form-check-label ms-2">Pagina principal</label>
+                    </div>
+                    <div class="col-2 p-1">
+                        <input id="proyects-check" name="Enviroment" class="form-check-input enviroment-checks" type="checkbox" value="Proyects" checked /><label class="form-check-label ms-2">Proyectos</label>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-4 p-1 show-date-main-page" style="display:none;">
+                        <label class="form-label fw-bold ">Publicar por fechas en [Pagina principal]</label>
+                        <span class="validation-mainpage-dates text-danger "></span>
+                    </div>
+                    <div class="col-4 p-1 show-date-proyects" style="display:none;">
+                        <label class="form-label fw-bold ">Publicar por fechas en [Proyectos]</label>
+                        <span class="validation-proyects-dates text-danger "></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 p-1 show-date-main-page" style="display:none;">
+                        <label class="form-label fw-bold">Fecha inicio</label>
+                        <input id="StartDateMainPage" name="StartDateMainPage" type="date" class="form-control" />
+                    </div>
+                    <div class="col-4 p-1 show-date-proyects" style="display:none;">
+                        <label class="form-label fw-bold ">Fecha inicio</label>
+                        <input id="StartDateProyects" name="StartDateProyects" type="date" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 p-1 show-date-main-page" style="display:none;">
+                        <label class="form-label fw-bold">Fecha final</label>
+                        <input id="EndDateMainPage" name="EndDateMainPage" type="date" class="form-control" />
+                    </div>
+                    <div class="col-4 p-1 show-date-proyects" style="display:none;">
+                        <label class="form-label fw-bold ">Fecha final</label>
+                        <input id="EndDateProyects" name="EndDateProyects" type="date" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 p-1 show-date-main-page" style="display:none;">
+                        <label class="form-label fw-bold">Prioridad en pagina principal</label>
+                        <select name="PrirityMainPage" class="form-control">
+                            <option value="1">Alta</option>
+                            <option value="2">Mediana</option>
+                            <option value="3" selected>Baja</option>
+                        </select>
+                    </div>
+                    <div class="col-4 p-1 show-date-proyects" style="display:none;">
+                        <label class="form-label fw-bold ">Prioridad en proyectos</label>
+                        <select name="PrirityProyects" class="form-control">
+                            <option value="1">Alta</option>
+                            <option value="2">Mediana</option>
+                            <option value="3" selected>Baja</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 p-1">
+                        @Html.Label("Caracteristicas", new { @class = "form-label fw-bold" })
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.TextBox("Characteristics", null, new { @class = "form-control w-100", @style = "max-width: inherit", @placeholder = "Caracteristica", @list = "autocomplete-values" })
+                                @Html.ValidationMessage("Characteristics", "", new { @class = "text-danger" })
+                                @*<datalist id="autocomplete-values">
+                                    </datalist>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row py-1 my-1 add-content-characteristics">
+                            <!--js-->
+                        </div>
+                        <div class="row add-input-characteristics">
+                            <!--inputs-->
+                        </div>
+                        <div class="row delete-content-characteristics py-1 my-1 ">
+                            <!--js-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--Main Image-->
+
+
+
+                <div class="row me-1">
+                    <div class="offset-10 col-2 p-1">
+                        <button id="add-image" type="button" class=" add-new-image btn btn-sm btn-primary w-100">Agregar imagen</button>
+                    </div>
+                </div>
+                <div class="row add-content-images">
+
+                    <div class="col-12 display-input-image-1">
+                        <div class="m-1 card p-1">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10" role="button" data-bs-toggle="collapse" data-bs-target="#CollapseImage-1" aria-expanded="false" aria-controls="#CollapseImage-1">
+                                        <label class="form-label fw-bold" style="cursor:pointer;">Imagen 1 (Principal)</label>
+                                    </div>
+                                    <div class="col-2 btnDeleteImageContent-1">
+                                        <!--btnDelete-->
+                                        @*<button index="4" type="button" class="btn btn-sm btn-danger w-100">Eliminar</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="row m-1 collapse" id="CollapseImage-1" style="">
+                                    <div class="col-12 p-1 ImageBase-1">
+                                        <!--intputImageBase-->
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="ImageBase" data-valmsg-replace="true"></span>
+                                        <input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-1" index="1" name="ImageBase-file-1" style="max-width: inherit" value="">
+                                        <input type="hidden" id="ImageBase-1" index="1" name="MainImageBase">
+                                    </div>
+                                    <div id="ContainerCropper-1" class="col-12" style="display:none;">
+                                        <div class="col-12 p-1">
+                                            <div id="cropperContainer" class="cropper-container" style="min-height:20vh;max-height:50vh;">
+                                                <!--Layout cropper-->
+                                                <img src="" class="cropper-image-1" id="croppedImage-1" name="croppedImage">
+                                            </div>
+
+                                        </div>
+                                        <div id="display-btn-cropper-1" class="offset-4 col-4 p-1">
+                                            <!--Cropper btn-->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 p-1 img-display-content-1" style="display:none;">
+                                        <!--Cropper js img-->
+                                        <div class="row">
+                                            <div class="col-12 card">
+                                                <!--Images-->
+                                                <div class="row">
+                                                    <div class="col-12 text-center m-3">
+                                                        <img id="Img-display-1" src="" class="object-fit" style="max-width: 50%;">
+                                                    </div>
+                                                    <div class="offset-2 col-4 btnEditImage-1">
+                                                        <!--btnEdit-->
+                                                        <button type="button" class="btn btn-sm btn-warning w-100 btnImageToEdit" index="1">Editar</button>
+                                                    </div>
+
+
+                                                    <div class="col-4 btnDeleteImage-1">
+                                                        <!--Delete-->
+                                                        <button type="button" class="btn btn-sm btn-danger w-100 btnImageToDelete" index="1">Eliminar imagen</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Images-->
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row pt-2">
+                    <div class="col-2">
+                        <a class="btn btn-secondary w-100" href="@Url.Action("Index")">Regresar</a>
+                    </div>
+                    <div class="col-2 offset-8">
+                        @*<input class="btn btn-success w-100" type="submit" value="Guardar" />*@
+                        <input id="btnSubmit" class="btn btn-success w-100" type="button" value="Guardar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts{
+    <link href="@Url.Content("~/Content/cropper.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/Cropper/cropper.js")"></script>
+    <script type="text/javascript">
+        //var croppedImages = []
+        $(".input-images").on("change", function () {
+            var Files = Array.from(this.files);
+            var id = $(this).attr("index")
+            showNextImageInCropper(Files, id);
+        });
+
+        $('.btnImageToEdit').on("click", function () {
+            let btnEditIndex = $(this).attr("index");
+            $(`.img-display-content-${btnEditIndex}`).hide();
+            $(`#ImageBase-${btnEditIndex}`).val("");
+            var Files_ = Array.from($(`#ImageBase-file-${btnEditIndex}`)[0].files);
+            var id = $(this).attr("index");
+            showNextImageInCropper(Files_, id);
+        });
+        $('.btnImageToDelete').on("click", function () {
+            let indexBtn = $(this).attr('index');
+            let inputFile = $(`#ImageBase-file-${indexBtn}`);
+            inputFile.val("");
+            inputFile.show();
+            $(`#ImageBase-${indexImage}`).val("");
+            $(`#Img-display-${indexBtn}`).attr("src", "");
+            $(`.img-display-content-${indexBtn}`).hide();
+            $(`.btnDeleteImageContent-${indexBtn}`).show();
+            $(`#ImageBase-${indexBtn}`).val("");
+        });
+
+        var indexImage = 2;
+        $("#add-image").on("click", function () {
+            let btnDeleteImageContent = $(`<button index='${indexImage}' type="button" class="btn btn-sm btn-danger w-100">Eliminar</button>`);
+            btnDeleteImageContent.on("click", function () {
+                let index = $(this).attr("index");
+                $(`.display-input-image-${index}`).remove();
+            });
+            let intputImageBase = $(`<input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-${indexImage}" index="${indexImage}" name="ImageBase-file-${indexImage}" style="max-width: inherit" value="">`);
+            let intputImageHidden = $(`<input type="hidden" id="ImageBase-${indexImage}" index="${indexImage}" name="ImageBase"/>`);
+            intputImageBase.on("change", function () {
+                //delete image if contains one
+                var Files = Array.from(this.files);
+                var id = $(this).attr("index")
+                showNextImageInCropper(Files, id);
+            });
+            let content = $(`<div class="col-12 display-input-image-${indexImage}">
+                                                                                                                                <div class="m-1 card p-1">
+                                                                                                                                    <div class="card-header">
+                                                                                                                                        <div class="row">
+                                                                                                                                            <div class="col-10" role="button" data-bs-toggle="collapse" data-bs-target="#CollapseImage-${indexImage}" aria-expanded="false" aria-controls="#CollapseImage-${indexImage}">
+                                                                                                                                                <label class="form-label fw-bold" style="cursor:pointer;">Imagen ${indexImage}</label>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-2 btnDeleteImageContent-${indexImage}">
+                                                                                                                                                <!--btnDelete-->
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    <div class="card-body p-0">
+                                                                                                                                        <div class="row collapse m-1" id="CollapseImage-${indexImage}">
+                                                                                                                                            <div class="col-12 p-1 ImageBase-${indexImage}">
+                                                                                                                                                 <!--intputImageBase-->
+
+                                                                                                                                                <span class="field-validation-valid text-danger" data-valmsg-for="ImageBase" data-valmsg-replace="true"></span>
+                                                                                                                                            </div>
+                                                                                                                                            <div id="ContainerCropper-${indexImage}" class="col-12" style="display:none;">
+                                                                                                                                                <div class="col-12 p-1">
+                                                                                                                                                    <div id="cropperContainer" class="cropper-container" style="min-height:20vh;max-height:50vh;">
+                                                                                                                                                        <!--Layout cropper-->
+                                                                                                                                                        <img src="" class="cropper-image-${indexImage}" id="croppedImage-${indexImage}" name="croppedImage"  />
+                                                                                                                                                    </div>
+
+                                                                                                                                                </div>
+                                                                                                                                                <div id="display-btn-cropper-${indexImage}" class="offset-4 col-4 p-1">
+                                                                                                                                                    <!--Cropper btn-->
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="col-12 p-1 img-display-content-${indexImage}" style="display:none;">
+                                                                                                                                                <!--Cropper js img-->
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-12 card">
+                                                                                                                                                        <!--Images-->
+                                                                                                                                                        <div class="row">
+                                                                                                                                                            <div class="col-12 text-center m-3">
+                                                                                                                                                               <img id="Img-display-${indexImage}" src="" class="object-fit" style="max-width: 50%;">
+                                                                                                                                                           </div>
+                                                                                                                                                           <div class="offset-2 col-4 btnEditImage-${indexImage}">
+                                                                                                                                                               <!--btnEdit-->
+                                                                                                                                                           </div>
+                                                                                                                                                           <div class="col-4 btnDeleteImage-${indexImage}">
+                                                                                                                                                               <!--Delete-->
+                                                                                                                                                           </div>
+                                                                                                                                                       </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>`);
+            let btnEditImage = $(`<button type="button" class="btn btn-sm btn-warning w-100" index="${indexImage}">Editar</button>`);
+            btnEditImage.on("click", function () {
+                let btnEditIndex = $(this).attr("index");
+                $(`.img-display-content-${btnEditIndex}`).hide();
+                $(`#ImageBase-${btnEditIndex}`).val("");
+                var Files_ = Array.from($(`#ImageBase-file-${btnEditIndex}`)[0].files);
+                var id = $(this).attr("index");
+                showNextImageInCropper(Files_, id);
+            });
+            let btnDeleteImage = $(`<button type="button" class="btn btn-sm btn-danger w-100" index="${indexImage}">Eliminar imagen</button>`);
+            btnDeleteImage.on("click", function () {
+                let indexBtn = $(this).attr('index');
+                let inputFile = $(`#ImageBase-file-${indexBtn}`);
+                inputFile.val("");
+                inputFile.show();
+                $(`#ImageBase-${indexImage}`).val("");
+                $(`#Img-display-${indexBtn}`).attr("src", "");
+                $(`.img-display-content-${indexBtn}`).hide();
+                $(`.btnDeleteImageContent-${indexBtn}`).show();
+                $(`#ImageBase-${indexBtn}`).val("");
+            });
+            $('.add-content-images').append(content);
+            $(`.btnDeleteImageContent-${indexImage}`).append(btnDeleteImageContent);
+            $(`.ImageBase-${indexImage}`).append(intputImageBase);
+            $(`.ImageBase-${indexImage}`).append(intputImageHidden);
+            $(`.btnEditImage-${indexImage}`).append(btnEditImage);
+            $(`.btnDeleteImage-${indexImage}`).append(btnDeleteImage);
+            indexImage++;
+        });
+        function showNextImageInCropper(Files, inputSelected) {
+            if (Files && Files.length > 0) {
+                showImageInCropper(Files, inputSelected);
+            }
+        }
+        function showImageInCropper(Files, inputSelected) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(`.cropper-image-${inputSelected}`).attr('src', e.target.result);
+                $(`#ContainerCropper-${inputSelected}`).show();
+                initializeCropper(inputSelected);
+            };
+            reader.readAsDataURL(Files[0]);
+        }
+        function initializeCropper(inputSelected) {
+            var cropper = null;
+            cropper = new Cropper(document.querySelector(`#croppedImage-${inputSelected}`), {
+                dragMode: 'move',
+                aspectRatio: 16 / 9,
+                autoCropArea: 0.80,
+                restore: false,
+                guides: false,
+                center: true,
+                highlight: false,
+                cropBoxMovable: false,
+                cropBoxResizable: false,
+                toggleDragModeOnDblclick: false,
+                ready: function () {
+                    //alert
+                },
+                crop: function (event) {
+                    var canvas = cropper.getCroppedCanvas();
+                    var croppedImageData = canvas.toDataURL('image/png');
+                    $(`#recortarBtn-${inputSelected}`).remove();
+                    var cutterBtn = $(`<button type="button" class="btn btn-primary btn-sm w-100 p-2" id="recortarBtn-${inputSelected}" index="${inputSelected}">Cortar</button>`);
+                    cutterBtn.on('click', function () {
+                        $(`#ImageBase-file-${inputSelected}`).hide();
+                        cropImage(inputSelected, cropper);
+                        $(`.btnDeleteImageContent-${inputSelected}`).hide();
+                    });
+                    $(`#display-btn-cropper-${inputSelected}`).append(cutterBtn);
+                }
+            });
+        }
+        function cropImage(inputSelected, cropper) {
+            var canvas = cropper.getCroppedCanvas();
+            var croppedImageData = canvas.toDataURL('image/png');
+            //croppedImages.push(croppedImageData);
+            //cropper.clear();
+            cropper.destroy();
+            $(`#ContainerCropper-${inputSelected}`).hide();
+            showCroppedImageDisplay(inputSelected, croppedImageData);
+        }
+        function showCroppedImageDisplay(inputSelected, croppedImageData) {
+            //if (croppedImages.length > 0) {
+            $(`#Img-display-${inputSelected}`).attr('src', croppedImageData);
+            $(`.img-display-content-${inputSelected}`).show();
+            $(`#ImageBase-${inputSelected}`).val(croppedImageData);
+            //}
+        }
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#Characteristics").on("keyup",function () {
+                $(".add-content-characteristics").html("");
+                $("#Characteristics").next().text("")
+                let AutoComplete = $(this).val();
+                let lstInputCharacteristics = $("input[name='lstCharacteristics']");
+                let lstIds = Array();
+                if(lstInputCharacteristics.length > 0){
+                    lstInputCharacteristics.each(function(){
+                        lstIds.push($(this).val())
+                    });
+                }
+                if (AutoComplete != "") {
+            //lazy load when you search characteristics
+
+                    $.ajax({
+                     type:"GET",
+                     url: "@Url.Action("SearchCharacteristicByName", "Characteristics")",
+                     dataType: "json",
+                        data: { Sample: AutoComplete, added: JSON.stringify(lstIds) },
+                     contentType: "application/json;charset=utf-8",
+                     success: function (data) {
+                         if (data.length != 0) {
+                             $("#Characteristics").next().text("")
+                                data.forEach((item) => {
+                                    let content = $(`<div class="col-4 d-flex justify-content-between p-1 border border-black border-1 rounded-2 content-characteristic-${item.CharacteristicID}"> </div>`);
+                                    content.append(`<div>${item.Name}</div>`);
+                                    let btnAdd = $(`<button id="AddCharacteristic" index="${item.CharacteristicID}" type="button" class="btn btn-sm btn-primary">+</button>`);
+                                    btnAdd.click(function () {
+                                        let index = item.CharacteristicID;
+                                        let newContent = $(`<div class="col-4 d-flex justify-content-between p-1 border border-black border-1 rounded-2 content-characteristic-delete-${index}"> </div>`);
+                                        newContent.append(`<div>${item.Name}</div>`);
+                                        let btnDelete = $(`<button id="DeleteCharacteristic" index="${index}" type="button" class="btn btn-sm btn-danger">-</button>`);
+                                        btnDelete.click(function () {
+                                            let index_ = item.CharacteristicID;
+                                            $(`.input-characteristic-${index_}`).remove();
+                                            $(`.content-characteristic-delete-${index_}`).remove();
+                                        });
+                                        newContent.append(btnDelete);
+                                        $(`.delete-content-characteristics`).append(newContent);
+                                        $(`.content-characteristic-${item.CharacteristicID}`).remove();
+
+                                        let input = $(`<input name="lstCharacteristics" class="input-characteristic-${item.CharacteristicID}" value="${item.CharacteristicID}" hidden/>`);
+                                        $(".add-input-characteristics").append(input);
+                                    });
+                                content.append(btnAdd);
+                                    $(".add-content-characteristics").append(content);
+                            });
+
+                         }
+                         else {
+                            $("#Characteristics").next().text("No existen elementos.")
+                         }
+                     },
+                     error: function () {
+                         //sweet alet
+                     }
+                 });
+                }
+            });
+
+            $(".isPublishRadio").on("change", function () {
+                if ($("#PublishYes").is(":checked")) {
+                    $("#main-page-check").prop("checked", false);
+                    $("#proyects-check").prop("checked", true);
+                    $(".show-enviroments").show()
+                    $(".show-date-proyects").show()
+                } else {
+                    $(".show-enviroments").hide();
+                    $(".show-date-main-page").hide();
+                    $(".show-date-proyects").hide();
+                    $('.validation-mainpage-dates').text("")
+                    $('.validation-proyects-dates').text("")
+                }
+                $("#EndDateMainPage").val("");
+                $("#EndDateProyects").val("");
+                $("#StartDateMainPage").val("");
+                $("#StartDateProyects").val("");
+            });
+
+            $(".enviroment-checks").on("change", function () {
+                if ($("#main-page-check").is(":checked")) {
+                    $(".show-date-main-page").show()
+                } else {
+                    $(".show-date-main-page").hide();
+
+                    $("#StartDateMainPage").val("");
+                    $("#EndDateMainPage").val("");
+
+                    $('.validation-mainpage-dates').text("")
+
+                }
+
+                if ($("#proyects-check").is(":checked")) {
+                    $(".show-date-proyects").show()
+                } else {
+                    $(".show-date-proyects").hide();
+
+                    $("#EndDateProyects").val("");
+                    $("#StartDateProyects").val("");
+
+                    $('.validation-proyects-dates').text("")
+                }
+            });
+
+
+            $('#StartDateMainPage').on("change", function () {
+                let valueStart = $(this).val();
+                let valueEnd = $("#EndDateMainPage").val();
+                if (valueEnd != "" && valueStart != "") {
+                    let result = validDate(valueStart, valueEnd);
+                    if (result) {
+                        $('.validation-mainpage-dates').text("");
+                    } else {
+                        $('.validation-mainpage-dates').text("La fecha final no puede ser menor a la fecha inicial.");
+                    }
+                    }
+                });
+            $('#StartDateProyects').on("change", function () {
+                let valueStart = $(this).val();
+                let valueEnd = $("#EndDateProyects").val();
+                if (valueEnd != "" && valueStart != "") {
+                    let result = validDate(valueStart, valueEnd);
+                    if (result) {
+                        $('.validation-proyects-dates').text("");
+                    } else {
+                        $('.validation-proyects-dates').text("La fecha final no puede ser menor a la fecha inicial.");
+                    }
+                    }
+                });
+            $('#EndDateMainPage').on("change", function () {
+                let valueEnd = $(this).val();
+                let valueStart = $("#StartDateMainPage").val();
+                if (valueEnd != "" && valueStart != "") {
+                let result = validDate(valueStart, valueEnd);
+                if (result) {
+                    $('.validation-mainpage-dates').text("");
+                } else {
+                    $('.validation-mainpage-dates').text("La fecha final no puede ser mayor a la fecha inicial.");
+                }
+                }
+            });
+            $('#EndDateProyects').on("change", function () {
+                let valueEnd = $(this).val();
+                let valueStart = $("#StartDateProyects").val();
+                if (valueEnd != "" && valueStart != "") {
+                    let result = validDate(valueStart, valueEnd);
+                    if (result) {
+                        $('.validation-proyects-dates').text("");
+                    } else {
+                        $('.validation-proyects-dates').text("La fecha final no puede ser mayor a la fecha inicial.");
+                    }
+                }
+            });
+
+
+            function validDate(valueStart, valueEnd) {
+
+                let hourStart = parseInt(valueStart.split('-')[0]),
+                    minutesStart = parseInt(valueStart.split('-')[1]),
+                    secondsStart = parseInt(valueStart.split('-')[2]);
+
+                let hourEnd = parseInt(valueEnd.split('-')[0]),
+                    minutesEnd = parseInt(valueEnd.split('-')[1]),
+                    secondsEnd = parseInt(valueEnd.split('-')[2]);
+
+                let dateEnd = new Date(hourEnd, minutesEnd, secondsEnd);
+                let dateStart = new Date(hourStart, minutesStart, secondsStart);
+                if (dateStart < dateEnd || dateStart == dateEnd) {
+                    return true;
+                }
+                return false;
+            }
+
+            $("#Title").on("change", function () {
+                let value = $(this).val()
+                if (value != "") {
+                    $(this).next().text("");
+                }
+                else {
+                    $(this).next().text("Este elemento es requerdo.");
+                }
+            });
+            $("#Description").on("change", function(){
+                let value = $(this).val()
+                if(value!=""){
+                $(this).next().text("");
+                }else{
+                    $(this).next().text("Este elemento es requerdo.");
+                    }
+            });
+            $("#TopicID").on("change", function () {
+                let value = $(this).val()
+                if(value!=""){
+                  $(this).next().text("") ;
+                }else{
+                    $(this).next().text("Este elemento es requerdo.");
+                    }
+            });
+            $("#ProyectTypeID").on("change", function(){
+                let value = $(this).val()
+                if(value!=""){
+                    $(this).next().text("");
+                }else{
+                    $(this).next().text("Este elemento es requerdo.");
+                    }
+            });
+            $("#GenderID").on("change", function(){
+                let value = $(this).val()
+                if (value != "") {
+                    $(this).next().text("")
+                }else{
+                    $(this).next().text("Este elemento es requerdo.");
+
+                    }
+            });
+            //Validations inputs
+
+
+
+
+
+            $("#btnSubmit").on("click",function () {
+                $("#btnSubmit").prop("disabled", true);
+                Swal.showLoading();
+
+                //Validations
+                let resultTitle = ValidInput($('#Title'))
+                let resultDescription = ValidInput($('#Description'))
+                let resultTopicID = ValidInput($('#TopicID'))
+                let resultProyectTypeID = ValidInput($('#ProyectTypeID'))
+                let resultGenderID = ValidInput($('#GenderID'))
+                let resultProyectsCheck = $("#proyects-check").is(":checked");
+                let resultStartDateProyects = true;
+                let resultEndDateProyects = true;
+
+
+
+                if (resultProyectsCheck && $('#PublishYes').is(':checked')) {
+                    resultStartDateProyects = ValidInput_ClassText_Text($('#StartDateProyects'), '.validation-proyects-dates', "Este elemento es requerido.")
+                    resultEndDateProyects = ValidInput_ClassText_Text($('#EndDateProyects'), '.validation-proyects-dates', "Este elemento es requerido.")
+                }else{
+                    $('.validation-proyects-dates').text("")
+                }
+                let resultMainPageCheck = $('#main-page-check').is(":checked");
+                let resultStartDateMainPage = true;
+                let resultEndDateMainPage = true;
+                if (resultMainPageCheck && $('#PublishYes').is(':checked')) {
+                    resultStartDateMainPage = ValidInput_ClassText_Text($('#StartDateMainPage'), '.validation-mainpage-dates', "Este elemento es requerido.")
+                    resultEndDateMainPage = ValidInput_ClassText_Text($('#EndDateMainPage'), '.validation-mainpage-dates', "Este elemento es requerido.")
+                } else {
+                    $('.validation-mainpage-dates').text("")
+                }
+
+                let resultBadget = ValidNumber($("#Budget"));
+
+                setTimeout(function () {
+                    if (resultTitle && resultDescription && resultTopicID && resultProyectTypeID && resultGenderID && resultStartDateProyects && resultEndDateProyects  && resultStartDateMainPage && resultEndDateMainPage && resultBadget) {
+
+                        $("#frm").submit();
+                    }
+                    $("#btnSubmit").prop("disabled", false);
+                    Swal.hideLoading();
+
+
+                },1000)
+            })
+
+
+        });
+        function ValidInput(input) {
+            let value = input.val();
+            if (value == "" || value == undefined || value == NaN || value == null) {
+                input.next().text("Este elemento es requerido");
+                return false;
+            }
+            return true;
+        }
+        function ValidInput_ClassText(input,classValidation) {
+            let value = input.val();
+            if (value == "" || value == undefined || value == NaN || value == null) {
+                $(classValidation).text("Este elemento es requerido");
+                return false;
+            }
+            return true;
+        }
+        function ValidInput_ClassText_Text(input, classValidation,text) {
+            let value = input.val();
+            if (value == "" || value == undefined || value == NaN || value == null) {
+                $(classValidation).text(text);
+                return false;
+            }
+            return true;
+        }
+        function ValidInput_ClassText_show(input, classValidation) {
+            let value = input.val();
+            if (value == "" || value == undefined || value == NaN || value == null) {
+                $(classValidation).show();
+                return false;
+            }
+            return true;
+        }
+
+        $('.OnlyNumbers').on('input', function () {
+            var valor = $(this).val();
+            valor = valor.replace(/[^\d.]/g, '');
+            var partes = valor.split('.');
+            if (partes.length > 2) {
+                valor = partes[0] + '.' + partes.slice(1).join('');
+            }
+            var numeros = partes[0] || '';
+            var decimales = partes[1] || '';
+            if (numeros.length > 6 || decimales.length > 2) {
+                $(this).next().text("El número ingresado excede el límite permitido de 6 números y 2 decimales.");
+            } else {
+                $(this).next().text("");
+                $(this).val(valor);
+            }
+        });
+        function ValidNumber(input) {
+            var valor = input.val();
+            if (validFormatNumber(valor) || valor == undefined || valor == "") {
+                input.next().text("");
+                return true;
+            } else {
+                input.next().text("Ingresa un número con el límite permitido de 6 números y 2 decimales.");
+                return false;
+            }
+        }
+        function validFormatNumber(valor) {
+            var regex = /^\d{1,6}(?:\.\d{1,2})?$/;
+            return regex.test(valor);
+        }
+    </script>
+}
+
+

@@ -1,0 +1,78 @@
+﻿@model tblProyects
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+
+@using (Html.BeginForm("Edit", "Proyects", FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
+
+    <div class="container mt-5 mb-3 pt-5 ">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Edit</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Title, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Description, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                    </div>
+
+                </div>
+
+               
+            </div>
+
+            <div class="card-footer">
+                <div class="row mt-3">
+                    @*<div class="col-2">
+                        <a class="btn btn-secondary" href="@Url.Action("Details","Proyects", new {@id=Model.ProyectID})">Regresar</a>
+                    </div>*@
+                    <div class="col-2">
+                        <a class="btn btn-secondary w-100" href="@Url.Action("Index","Proyects",null)">Regresar</a>
+                    </div>
+                    <div class="offset-8 col-2">
+                        <input class="btn btn-success" type="submit" value="Guardar edición" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    @Html.HiddenFor(model => model.ProyectID);
+    @Html.HiddenFor(model => model.Active);
+    @Html.HiddenFor(model => model.CreatedBy);
+    @Html.HiddenFor(model => model.CreatedDate);
+    @Html.HiddenFor(model => model.UpdatedBy);
+    @Html.HiddenFor(model => model.UpdatedDate);
+    @Html.HiddenFor(model => model.DeletedBy);
+    @Html.HiddenFor(model => model.DeletedDate);
+}
+@using (Html.BeginForm("Delete", "Proyects", FormMethod.Post, new { @id = "frmDelete"}))
+{
+    @Html.Hidden("id", Model.ProyectID);
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $('#btnDelete').click(function () {
+            $('#frmDelete').submit();
+        });
+
+    </script>
+}

@@ -1,0 +1,62 @@
+﻿@model PagedList.StaticPagedList<dtoTopics>
+@{
+    ViewBag.Title = "Tematicas";
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltTopics;
+
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-10">
+                    <h1 class="h3 p-2">@ViewBag.Title </h1>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Create","Topics",null)">Agregar</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @using (Ajax.BeginForm(
+            new AjaxOptions
+            {
+                HttpMethod = "get",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "ModelList",
+            }
+            ))
+            {
+                @*<div class="row ">
+                    <div class="offset-10 col-2 ">
+                        <a id="Clean" class="btn btn-sm btn-primary w-100" href="@Url.Action("Index","Topics",null)">Limpiar</a>
+                    </div>
+                    <div class="offset-10 col-2 mt-2">
+                        <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
+                    </div>
+                </div>
+                <hr />*@
+                <div class="row p-3">
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.TopicID, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.TopicID, new { @class = "form-control", @placeholder = "ID", @Value = filters.TopicID == 0 ? "" : filters.TopicID.ToString() })
+                    </div>
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.Name, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.Name, new { @class = "form-control", @placeholder = "Tematica" })
+                    </div>
+                    <div class="offset-4 col-2 ">
+                        <a id="Clean" class="btn btn-sm btn-primary w-100 mb-1" href="@Url.Action("Index","Topics",null)">Limpiar</a>
+                        <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
+                    </div>
+                </div>
+                @Html.Partial("_index", Model);
+                @Html.HiddenFor(model => filters.TopicID_Sort)
+                @Html.HiddenFor(model => filters.Name_Sort)
+                @Html.HiddenFor(model => filters.Active_Sort)
+                @Html.HiddenFor(model => filters.SortingOrder)
+            }
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,76 @@
+﻿@model PagedList.StaticPagedList<dtoCharacteristics>
+@using PagedList.Mvc;
+@{
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltCharacteristics;
+}
+
+
+
+<div id="ModelList">
+    <div class="table-responsive">
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID", "Index", new { SortingOrder = filters.CharacteristicID_Sort, CharacteristicID = filters.CharacteristicID, Name = filters.Name }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Nombre", "Index", new { SortingOrder = filters.Name_Sort, CharacteristicID = filters.CharacteristicID, Name = filters.Name }, htmlAttributes: new { })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">
+                            Sin registros
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var element in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(elementItem => element.CharacteristicID)</td>
+                            <td>@Html.DisplayFor(elementItem => element.Name)</td>
+                            <td>
+                                <a href="@Url.Action("Details", new {@id=element.CharacteristicID})" class="text-decoration-none">Detalles</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div id="ModelList" class="" data-otf-target="#ModelList">
+                            @{
+                                var vPagedlistRenderOptions = PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                               new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "ModelList",
+                                                   OnBegin = "ShowLoading()",
+                                                   OnComplete = "HideLoading()"
+                                               });
+                                vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
+                                vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
+                            }
+                            @Html.PagedListPager(Model, page => Url.Action("Index",
+                           new
+                           {
+                               PageNumber = page,
+                               CharacteristicID = filters.CharacteristicID,
+                               Title = filters.Name,
+                               SortingOrder = filters.SortingOrder
+                           }), vPagedlistRenderOptions)
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

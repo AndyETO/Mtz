@@ -1,0 +1,55 @@
+﻿@model tblCharacteristics
+@{
+    ViewBag.Title = "Editar caracteristica";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "Characteristics", FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
+    <div class="row">
+        <div class="col-4">
+            @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        </div>
+
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-2">
+            <a class="btn btn-secondary" href="@Url.Action("Details","Characteristics", new {@id=Model.CharacteristicID})">Regresar</a>
+        </div>
+        <div class="col-2 offset-6">
+            <input id="btnDelete" class="btn btn-danger" type="button" value="Eliminar" />
+        </div>
+        <div class="col-2">
+            <input class="btn btn-success" type="submit" value="Guardar edición" />
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.CharacteristicID);
+    @Html.HiddenFor(model => model.Active);
+    @Html.HiddenFor(model => model.CreatedBy);
+    @Html.HiddenFor(model => model.CreatedDate);
+    @Html.HiddenFor(model => model.UpdatedBy);
+    @Html.HiddenFor(model => model.UpdatedDate);
+    @Html.HiddenFor(model => model.DeletedBy);
+    @Html.HiddenFor(model => model.DeletedDate);
+}
+@using (Html.BeginForm("Delete", "Characteristics", FormMethod.Post, new { @id = "frmDelete" }))
+{
+    @Html.Hidden("id", Model.CharacteristicID);
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $('#btnDelete').click(function () {
+            $('#frmDelete').submit();
+        });
+
+    </script>
+}

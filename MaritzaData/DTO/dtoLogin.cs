@@ -19,6 +19,7 @@ namespace MaritzaData.DTO
         [Required(ErrorMessage ="Este campo es requerido.")]
         public string Password { get; set; }
 
+
         [NotMapped]
         public string RecoverPassword { get; set; }
 

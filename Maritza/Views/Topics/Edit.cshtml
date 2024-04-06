@@ -1,0 +1,46 @@
+﻿@model tblTopics
+@{
+    ViewBag.Title = "Editar tematicas";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "Topics", FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary();
+    <div class="row">
+        <div class="col-4">
+            @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-2">
+            <a class="btn btn-secondary" href="@Url.Action("Details","Topics", new {@id=Model.TopicID})">Regresar</a>
+        </div>
+        
+        <div class="offset-8 col-2">
+           
+            <input class="btn btn-success" type="submit" value="Guardar edición" />
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.TopicID);
+    @Html.HiddenFor(model => model.Active);
+    @Html.HiddenFor(model => model.CreatedBy);
+    @Html.HiddenFor(model => model.CreatedDate);
+    @Html.HiddenFor(model => model.UpdatedBy);
+    @Html.HiddenFor(model => model.UpdatedDate);
+    @Html.HiddenFor(model => model.DeletedBy);
+    @Html.HiddenFor(model => model.DeletedDate);
+}
+
+
+@section scripts{
+    <script type="text/javascript">
+
+      
+
+    </script>
+}
