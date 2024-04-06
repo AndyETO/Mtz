@@ -1,6 +1,6 @@
 ﻿@model tblCharacteristics
 @{
-    ViewBag.Title = "Crear caracteristica";
+    ViewBag.Title = "Crear característica";
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
@@ -8,15 +8,17 @@
     @Html.AntiForgeryToken();
     @Html.ValidationSummary();
     <div class="container pt-5 mt-5 mb-5">
+        <div class="card">
 
-        <div class="card mt-5">
-
-            <div class="card-body mt-5 ">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body ">
 
                 <div class="row ">
                     <div class="col-4 p-1">
                         @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Caracteristica" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Característica" })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
 

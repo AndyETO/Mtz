@@ -1,6 +1,6 @@
 ﻿@model tblTopics
 @{
-    ViewBag.Title = "Editar tematicas";
+    ViewBag.Title = "Editar temática";
 }
 
 <h2>Edit</h2>
@@ -9,22 +9,37 @@
 {
     @Html.AntiForgeryToken();
     @Html.ValidationSummary();
-    <div class="row">
-        <div class="col-4">
-            @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+ 
+    <div class="container p-5 mt-5 mb-5">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row mt-3">
+                    <div class="col-2">
+                        <a class="btn btn-secondary w-100" href="@Url.Action("Index","Topics", new {@id=Model.TopicID})">Regresar</a>
+                    </div>
+                    <div class="col-2 offset-6">
+                        <input id="btnDelete" class="btn btn-danger w-100" type="button" value="Eliminar" />
+                    </div>
+                    <div class="col-2">
+                        <input class="btn btn-success w-100" type="submit" value="Guardar edición" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-2">
-            <a class="btn btn-secondary" href="@Url.Action("Details","Topics", new {@id=Model.TopicID})">Regresar</a>
-        </div>
-        
-        <div class="offset-8 col-2">
-           
-            <input class="btn btn-success" type="submit" value="Guardar edición" />
-        </div>
-    </div>
+
 
     @Html.HiddenFor(model => model.TopicID);
     @Html.HiddenFor(model => model.Active);
@@ -40,7 +55,7 @@
 @section scripts{
     <script type="text/javascript">
 
-      
+
 
     </script>
 }

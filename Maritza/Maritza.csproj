@@ -237,21 +237,15 @@
     <Content Include="Views\Shared\Menu\_Menu.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\User\_Index.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\RecoverPassword.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Proyects\Index.cshtml" />
-    <Content Include="Views\Proyects\EditOld.cshtml" />
     <Content Include="Views\Proyects\Details.cshtml" />
     <Content Include="Views\Proyects\_Index.cshtml" />
     <Content Include="Views\Proyects\Create.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\ProyectTypes\Index.cshtml" />
     <Content Include="Views\ProyectTypes\Edit.cshtml" />
@@ -277,6 +271,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="ProyectImages\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

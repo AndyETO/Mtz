@@ -38,6 +38,8 @@
                             <td>@Html.DisplayFor(elementItem => element.Name)</td>
                             <td>
                                 <a href="@Url.Action("Details", new {@id=element.CharacteristicID})" class="text-decoration-none">Detalles</a>
+                                ]
+                                <a href="@Url.Action("Edit", new {@id=element.CharacteristicID})" class="text-decoration-none">Editar</a>
                             </td>
                         </tr>
                     }

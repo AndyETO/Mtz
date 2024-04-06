@@ -17,6 +17,7 @@ namespace MaritzaData
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CharacteristicID { get; set; }
         [Required]
+        [Display(Name = "Característica")]
         public string Name { get; set; }
     }
 }

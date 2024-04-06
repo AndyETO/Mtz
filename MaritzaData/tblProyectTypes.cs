@@ -17,6 +17,7 @@ namespace MaritzaData
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProyectTypeID { get; set; }
         [Required]
+        [Display(Name = "Tipo de proyecto")]
         public string Name { get; set; }
     }
 }

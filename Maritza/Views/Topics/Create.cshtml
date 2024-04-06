@@ -1,6 +1,6 @@
 ﻿@model tblTopics
 @{
-    ViewBag.Title = "Crear tematicas";
+    ViewBag.Title = "Crear temáticas";
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
@@ -10,7 +10,9 @@
     <div class="container pt-5 mt-5 mb-5">
 
         <div class="card mt-5">
-
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
             <div class="card-body mt-5 ">
 
                 <div class="row ">
