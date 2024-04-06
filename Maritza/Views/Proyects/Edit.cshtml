@@ -20,7 +20,7 @@
         IsPublished = true;
     }
 
-
+    int lastIndex = 1;
     #endregion
 }
 
@@ -280,17 +280,17 @@
                             </div>
                             <div class="card-body p-0">
                                 <div class="row m-1 collapse" id="CollapseImage-1" style="">
-                                    <div class="col-12 p-1 ImageBase-1" style="display:none;">
+                                    <div class="col-12 p-1 ImageBase-1">
                                         <!--intputImageBase-->
                                         <span class="field-validation-valid text-danger" data-valmsg-for="ImageBase" data-valmsg-replace="true"></span>
-                                        <input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-1" index="1" name="ImageBase-file-1" style="max-width: inherit" value="@Model.MainImage.base64Image">
-                                        <input type="hidden" id="ImageBase-1" index="1" name="MainImageBase" value="@Model.MainImage.base64Image">
+                                        <input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-1" index="1" name="ImageBase-file-1" style="max-width: inherit; display: none;" value="">
+                                        <input type="hidden" id="ImageBase-1" index="1" name="MainImageBase" value="">
                                     </div>
                                     <div id="ContainerCropper-1" class="col-12" style="display:none;">
                                         <div class="col-12 p-1">
                                             <div id="cropperContainer" class="cropper-container" style="min-height:20vh;max-height:50vh;">
                                                 <!--Layout cropper-->
-                                                <img src="@Model.MainImage.base64Image" class="cropper-image-1" id="croppedImage-1" name="croppedImage">
+                                                <img src="" class="cropper-image-1" id="croppedImage-1" name="croppedImage">
                                             </div>
 
                                         </div>
@@ -309,7 +309,7 @@
                                                     </div>
                                                     <div class="offset-2 col-4 btnEditImage-1">
                                                         <!--btnEdit-->
-                                                        <button type="button" class="btn btn-sm btn-warning w-100 btnImageToEdit" index="1">Editar</button>
+                                                        <button type="button" class="btn btn-sm btn-warning w-100 btnImageToEdit btnImageToEdit-1" index="1" disabled>Editar</button>
                                                     </div>
 
 
@@ -338,18 +338,18 @@
                                         <div class="col-10" role="button" data-bs-toggle="collapse" data-bs-target="#CollapseImage-@index" aria-expanded="false" aria-controls="#CollapseImage-@index">
                                             <label class="form-label fw-bold" style="cursor:pointer;">Imagen @index (Principal)</label>
                                         </div>
-                                        <div class="col-2 btnDeleteImageContent-@index">
+                                        <div class="col-2 btnDeleteImageContent-@index" style="display:none;">
                                             <!--btnDelete-->
-                                            @*<button index="4" type="button" class="btn btn-sm btn-danger w-100">Eliminar</button>*@
+                                            <button index="@index" type="button" class="btn btn-sm btn-danger w-100 btnDeleteImageContent">Eliminar</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="row m-1 collapse" id="CollapseImage-@index" style="">
-                                        <div class="col-12 p-1 ImageBase-@index" style="display:none;">
+                                        <div class="col-12 p-1 ImageBase-@index">
                                             <!--intputImageBase-->
                                             <span class="field-validation-valid text-danger" data-valmsg-for="ImageBase" data-valmsg-replace="true"></span>
-                                            <input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-@index" index="@index" name="ImageBase-file-@index" style="max-width: inherit" value="">
+                                            <input type="File" accept="image/*" class="form-control w-100 input-images" id="ImageBase-file-@index" index="@index" name="ImageBase-file-@index" style="max-width: inherit;display:none;" value="">
                                             <input type="hidden" id="ImageBase-@index" index="@index" name="MainImageBase">
                                         </div>
                                         <div id="ContainerCropper-@index" class="col-12" style="display:none;">
@@ -375,7 +375,7 @@
                                                         </div>
                                                         <div class="offset-2 col-4 btnEditImage-1">
                                                             <!--btnEdit-->
-                                                            <button type="button" class="btn btn-sm btn-warning w-100 btnImageToEdit" index="@index">Editar</button>
+                                                            <button type="button" class="btn btn-sm btn-warning w-100 btnImageToEdit btnImageToEdit-1" index="@index" disabled>Editar</button>
                                                         </div>
 
 
@@ -392,6 +392,10 @@
                             </div>
                         </div>
                         index++;
+                    }
+
+                    @{ 
+                        lastIndex = index;
                     }
 
                     <!--Images-->
@@ -420,45 +424,12 @@
     <script type="text/javascript">
 
 
-        @*function preloadImage(imageUrl) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', imageUrl, true);
-            xhr.responseType = 'blob';
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var blob = xhr.response;
-                    var file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-
-                    var inputField = document.getElementById('imageInput');
-                    var formData = new FormData();
-                    formData.append('file', file);
-
-                    // Set the value of the input file field to the preloaded image
-                    inputField.files = formData;
-                }
-            };
-
-            xhr.send();
-        }
-
-        // Call preloadImage function with the URL of the preloaded image
-        preloadImage('@Model.');*@
-
-
-
-
-
-
-
-
         //var croppedImages = []
         $(".input-images").on("change", function () {
             var Files = Array.from(this.files);
             var id = $(this).attr("index")
             showNextImageInCropper(Files, id);
         });
-
         $('.btnImageToEdit').on("click", function () {
             let btnEditIndex = $(this).attr("index");
             $(`.img-display-content-${btnEditIndex}`).hide();
@@ -476,14 +447,14 @@
             let inputFile = $(`#ImageBase-file-${indexBtn}`);
             inputFile.val("");
             inputFile.show();
+            $(`.btnImageToEdit-${indexBtn}`).prop("disabled",false)
             $(`#ImageBase-${indexImage}`).val("");
             $(`#Img-display-${indexBtn}`).attr("src", "");
             $(`.img-display-content-${indexBtn}`).hide();
             $(`.btnDeleteImageContent-${indexBtn}`).show();
             $(`#ImageBase-${indexBtn}`).val("");
         });
-
-        var indexImage = 2;
+        var indexImage = @lastIndex;
         $("#add-image").on("click", function () {
             let btnDeleteImageContent = $(`<button index='${indexImage}' type="button" class="btn btn-sm btn-danger w-100">Eliminar</button>`);
             btnDeleteImageContent.on("click", function () {
@@ -645,6 +616,12 @@
     <script type="text/javascript">
 
         $(function () {
+
+
+            $(".btnDeleteImageContent").on("click", function () {
+                let index = $(this).attr("index");
+                $(`.display-input-image-${index}`).remove();
+            });
 
             $("#Characteristics").on("keyup",function () {
                 $(".add-content-characteristics").html("");
