@@ -38,9 +38,9 @@ namespace MaritzaData
         [Required(ErrorMessage ="Este elemento es requerido.")]
         public string Password { get; set; }
         
-        
-
         [NotMapped]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password",ErrorMessage ="La contraseña no coincide.")]
         public string ConfirmPassword { get; set; }
         [NotMapped]
         [Display(Name = "Recordar contraseña")]

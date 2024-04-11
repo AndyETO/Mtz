@@ -67,10 +67,12 @@
   <ItemGroup>
     <Compile Include="Base\AuxMethods.cs" />
     <Compile Include="Base\BaseBusnessB.cs" />
+    <Compile Include="Base\Passwords.cs" />
     <Compile Include="GenderB.cs" />
     <Compile Include="ProyectCharacteristicsB.cs" />
     <Compile Include="ProyectImagesB.cs" />
     <Compile Include="PublishesB.cs" />
+    <Compile Include="RolesB.cs" />
     <Compile Include="TopicsB.cs" />
     <Compile Include="CustomRoleProvider.cs" />
     <Compile Include="HomeB.cs" />

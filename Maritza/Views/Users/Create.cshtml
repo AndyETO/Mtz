@@ -1,0 +1,94 @@
+﻿@model tblUsers
+@{
+    ViewBag.Title = "Crear usuario";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @*@Html.ValidationSummary();*@
+    <div class="container pt-5 mt-5 mb-5">
+
+        <div class="card mt-5">
+            <div class="card-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="card-body mt-5 ">
+
+                <div class="row ">
+                    <div class="col-4">
+                        @Html.LabelFor(model => model.Name, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Nombre" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.LastName, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.LastName, new { @class = "form-control", @placeholder = "Apellidos" })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.UserName, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.UserName, new { @class = "form-control", @placeholder = "Nombre de usuario" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.RoleName, new { @class = "fw-bold" }):
+                        @Html.DropDownListFor(modelItem => modelItem.RolID, new SelectList(ViewBag.lstRoles, "RolID", "Name", ""), "Seleccione", new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.RolID, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Email, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.Email, new { @class = "form-control", @placeholder = "example@sample.com" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Phone, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.Phone, new { @class = "form-control", @placeholder = "+5266412341212" })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Password, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.Password, new { @Type="password", @class = "form-control", @placeholder = "Contraseña" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.ConfirmPassword, new { @class = "fw-bold" }):
+                        @Html.TextBoxFor(modelItem => modelItem.ConfirmPassword, new { @Type="password", @class = "form-control", @placeholder = "Confirmar contraseña" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row pt-2">
+                    <div class="col-2">
+                        <a class="btn btn-secondary w-100" href="@Url.Action("Index")">Regresar</a>
+                    </div>
+                    <div class="col-2 offset-8">
+                        <input class="btn btn-success w-100" type="submit" value="Guardar" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts{
+    <link href="@Url.Content("~/Content/cropper.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/Cropper/cropper.js")"></script>
+    <script type="text/javascript">
+       
+    </script>
+
+}
+
+

@@ -33,27 +33,13 @@
                     <li class="nav-item">
                         @Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
-                    @if (!Request.IsAuthenticated)
-                    {
-                    }
-                    else
+                    @if (Request.IsAuthenticated)
                     {
                         if (User.IsInRole(MaritzaData.ConfigClasses.RolesApp.Rol_Administrador))
                         {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Catalogos
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Caracteristicas", "Index", "Characteristics", null, new { @class = "dropdown-item" })</li>
-                                    <li>@Html.ActionLink("Proyectos", "Index", "Proyects", null, new { @class = "dropdown-item" })</li>
-                                    <li>@Html.ActionLink("Tematicas", "Index", "Topics", null, new { @class = "dropdown-item" })</li>
-                                    <li>@Html.ActionLink("Tipos de proyecto", "Index", "ProyectTypes", null, new { @class = "dropdown-item" })</li>
-                                </ul>
-                            </li>
+                           @Html.Partial("~/Views/Shared/Menu/_Administrador.cshtml")
 
                         }
-
                     }
                 </ul>
                 <div class="d-flex align-items-center">

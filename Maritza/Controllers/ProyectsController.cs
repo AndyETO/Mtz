@@ -220,6 +220,7 @@ namespace Maritza.Controllers
 
             var MainImage = ProyectImagesB.GetMainImageByProyectID(model.ProyectID);
             model.MainImage = MainImage;
+
             if (MainImage != null)
             {
                 string path = Server.MapPath(model.MainImage.Url);
@@ -235,11 +236,24 @@ namespace Maritza.Controllers
         {
             if (model == null)
                 return HttpNotFound();
-            //string Route = SaveImage(model.ImageBase);
-            //if (Route.Length > 0 && Route != "")
-            //{
-            //    model.Image = Route;
-            //}
+
+            //For any error
+            ViewBag.lstProyectTypes = ProyectTypesB.GetList();
+            ViewBag.lstTopics = TopicsB.GetList();
+            ViewBag.lstGenders = GenderB.GetList();
+            var MainPagePublish = PublishB.GetMainPageByProyectID(model.ProyectID);
+            var ProyectPublish = PublishB.GetProyectByProyectID(model.ProyectID);
+            model.MainPagePublish = MainPagePublish;
+            model.ProyectPublish = ProyectPublish;
+            var lstModelProyectCharacteristics = ProyectCharacteristicsB.GetListByProyectID(model.ProyectID);
+            model.lstModelProyectCharacteristics = lstModelProyectCharacteristics;
+            var lstModelProyectImages = ProyectImagesB.GetListByProyectID(model.ProyectID);
+            model.lstModelProyectImages = lstModelProyectImages;
+            var MainImage = ProyectImagesB.GetMainImageByProyectID(model.ProyectID);
+            model.MainImage = MainImage;
+            //For any error
+
+
             model.UpdatedDate = DateTime.Now;
             model.UpdatedBy = CurrentUserID;
 
@@ -250,6 +264,14 @@ namespace Maritza.Controllers
                 ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
                 return View(model);
             }
+
+            //check dates
+
+            //check images
+
+            //check characteristics
+
+
             ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
 
             return RedirectToAction("Index");

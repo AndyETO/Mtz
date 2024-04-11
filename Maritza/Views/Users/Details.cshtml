@@ -1,0 +1,110 @@
+﻿@model tblUsers
+@{
+    ViewBag.Title = "Detalles de usuario";
+}
+<div class="container p-5 mt-5 mb-5">
+    <div class="card m-5">
+        <div class="card-header">
+            <h3> @ViewBag.Title</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="row ">
+                <div class="col-4 ">
+                    @Html.LabelFor(modelItem => modelItem.UserID, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.UserID)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Name, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Name)
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.LastName))
+                {
+
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.LastName, new { @class = "fw-bold" }):
+                        @Html.DisplayFor(modelItem => modelItem.LastName)
+                    </div>
+                }
+                else
+                {
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Phone, new { @class = "fw-bold" }):
+                        @Html.Label("Sin apellidos")
+                    </div>
+                }
+
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.UserName, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.UserName)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.RoleName, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.RoleName)
+                </div>
+                <div class="col-4">
+                    @Html.LabelFor(modelItem => modelItem.Email, new { @class = "fw-bold" }):
+                    @Html.DisplayFor(modelItem => modelItem.Email)
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Phone))
+                {
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Phone, new { @class = "fw-bold" }):
+                        @Html.DisplayFor(modelItem => modelItem.Phone)
+                    </div>
+                }
+                else
+                {
+                    <div class="col-4">
+                        @Html.LabelFor(modelItem => modelItem.Phone, new { @class = "fw-bold" }):
+                        @Html.Label("Sin número de teléfono")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row p-2">
+                <div class="col-2">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Index","Users",null)">Regresar</a>
+                </div>
+
+                <div class="col-2  offset-6">
+                    <button id="btnDelete" class="btn btn-danger w-100">Eliminar</button>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary w-100" href="@Url.Action("Edit", "Users", new {@id=Model.UserID})">Editar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function () {
+            $("#btnDelete").click(function () {
+                Swal.fire({
+                    title: "¿Deseas eliminar la tematica?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, eliminar.",
+                    cancelButtonText: "No, mantener."
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Delete", "Users")' + "?id=" + '@Model.UserID';
+                    }
+                });
+            });
+
+
+        });
+
+    </script>
+
+}

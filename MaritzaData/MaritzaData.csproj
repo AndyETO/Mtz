@@ -99,10 +99,12 @@
     <Compile Include="DTO\dtoTopics.cs" />
     <Compile Include="DTO\dtoProyects.cs" />
     <Compile Include="DTO\dtoRegister.cs" />
+    <Compile Include="DTO\dtoUsers.cs" />
     <Compile Include="Filters\fltProyectTypes.cs" />
     <Compile Include="Filters\fltCharacteristics.cs" />
     <Compile Include="Filters\fltTopics.cs" />
     <Compile Include="Filters\fltProyects.cs" />
+    <Compile Include="Filters\fltUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tblCharacteristics.cs" />
     <Compile Include="tblGenders.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="tblProyects.cs" />
     <Compile Include="tblProyectTypes.cs" />
     <Compile Include="tblPublishes.cs" />
+    <Compile Include="tblRoles.cs" />
     <Compile Include="tblTopics.cs" />
     <Compile Include="tblUsers.cs" />
   </ItemGroup>

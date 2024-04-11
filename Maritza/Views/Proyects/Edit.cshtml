@@ -416,6 +416,10 @@
 
     </div>
 
+    @Html.HiddenFor(model=>model.ProyectID)
+    @Html.HiddenFor(model=>model.Active)
+    @Html.HiddenFor(model=>model.CreatedBy)
+    @Html.HiddenFor(model=>model.CreatedDate)
 }
 
 @section scripts{

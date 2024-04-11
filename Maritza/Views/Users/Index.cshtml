@@ -1,0 +1,66 @@
+﻿@model PagedList.StaticPagedList<dtoUsers>
+@{
+    ViewBag.Title = "Usuarios";
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltUsers;
+
+}
+
+<div class="container  mt-5 pt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-10">
+                    <h1 class="h3 p-2">@ViewBag.Title </h1>
+                </div>
+                <div class="col-2 align-self-center">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("Create","Users",null)">Agregar</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @using (Ajax.BeginForm(
+            new AjaxOptions
+            {
+                HttpMethod = "get",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "ModelList",
+            }
+            ))
+            {
+
+                <div class="row p-3">
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.UserID, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.UserID, new { @class = "form-control", @placeholder = "ID", @Value = filters.UserID == 0 ? "" : filters.UserID.ToString() })
+                    </div>
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.Name, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.Name, new { @class = "form-control", @placeholder = "Nombre" })
+                    </div>
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.UserName, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.UserName, new { @class = "form-control", @placeholder = "UserName" })
+                    </div>
+                    <div class="offset-1 col-2 ">
+                        <a id="Clean" class="btn btn-sm btn-primary w-100 mb-1" href="@Url.Action("Index","Users",null)">Limpiar</a>
+                        <input id="btnSearch" class="btn btn-sm btn-success w-100" type="submit" value="Buscar" />
+                    </div>
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.Email, new { @class = "form-label" })
+                        @Html.TextBoxFor(f => filters.Email, new { @class = "form-control", @placeholder = "Correo" })
+                    </div>
+                    <div class="col-3">
+                        @Html.LabelFor(f => filters.RolName, new { @class = "form-label" })
+                        @Html.DropDownListFor(f => filters.RolID, new SelectList(ViewBag.lstRoles, "RolID", "Name", ""), "Seleccione", new { @class = "form-control" })
+                    </div>
+                </div>
+                @Html.Partial("_index", Model);
+                @Html.HiddenFor(model => filters.UserID_Sort)
+                @Html.HiddenFor(model => filters.Name_Sort)
+                @Html.HiddenFor(model => filters.Active_Sort)
+                @Html.HiddenFor(model => filters.SortingOrder)
+            }
+        </div>
+    </div>
+
+</div>
