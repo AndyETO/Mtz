@@ -118,11 +118,11 @@ namespace MaritzaBusness
             }
         }
 
-        public List<tblProyects> getRandomItems()
+        public List<tblProyects> getNRandom(int Quantity)
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
             {
-                string query = @"SELECT TOP 10 * from tblProyects WHERE Active = 1 ORDER BY RAND()";
+                string query = $"SELECT TOP {Quantity} * from tblProyects WHERE Active = 1 ORDER BY NEWID()";
 
                 var model = dbConnection.Query<tblProyects>(query).ToList();
 

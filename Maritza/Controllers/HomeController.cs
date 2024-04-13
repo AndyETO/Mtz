@@ -11,14 +11,36 @@ namespace Maritza.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
+        ProyectImagesB ProyectImagesB = new ProyectImagesB();
         ProyectB ProyectB = new ProyectB();
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var model = ProyectB.getRandomItems();
-            //ViewBag. = true;
-            return View(model);
+            var lstSearchProyects = ProyectB.getNRandom(10);
+            lstSearchProyects.ForEach(m =>
+            {
+                var MainImage = ProyectImagesB.GetMainImageByProyectID(m.ProyectID);
+                m.MainImage = MainImage;
+            });
+            var lstMainProyects = ProyectB.getNRandom(6);
+            lstMainProyects.ForEach(m =>
+            {
+                var MainImage = ProyectImagesB.GetMainImageByProyectID(m.ProyectID);
+                m.MainImage = MainImage;
+            });
+            ViewBag.lstSearchProyects = lstSearchProyects;
+            ViewBag.lstMainProyects = lstMainProyects;
+            return View();
         }
+        [AllowAnonymous]
+        public ActionResult SearchProyect()
+        {
+            
+            return View();
+        }
+
+
+
         [AllowAnonymous]
         public ActionResult About()
         {

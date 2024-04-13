@@ -1,8 +1,27 @@
-﻿@model List<tblProyects>
-@{
+﻿@{
     ViewBag.Title = "Mary-Making";
     string[] colors = { "#E0F19C", "#D5FFF1", "#FFFFB8", "#FEC7F7", "#7F7162" };
     int count = 0;
+    var lstSearchProyects = ViewBag.lstSearchProyects as List<tblProyects>;
+    var lstMainProyects = ViewBag.lstMainProyects as List<tblProyects>;
+
+    if (lstMainProyects != null)
+    {
+        if (lstMainProyects.Count <= 6)
+        {
+            bool changing = true;
+            while (lstMainProyects.Count <= 6)
+            {
+
+                var tempProyect = new tblProyects();
+                var tempImage = new tblProyectImages();
+                tempImage.Url = changing ? "~/Content/Img/Backgrounds/Bakground-green-frogs.png" : "~/Content/Img/Backgrounds/Bakground-pink-frogs.png";
+                tempProyect.MainImage = tempImage;
+                lstMainProyects.Add(tempProyect);
+                changing = !changing;
+            }
+        }
+    }
 }
 
 <style>
@@ -25,20 +44,21 @@
         min-width: 300px;
         height: 90vh;
         grid-template-areas:
-            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
-            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
-            "item-1 item-1 item-1 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
-            "item-2 item-2 item-2 item-6 item-6 item-7 item-7 item-7 item-7 item-10 item-10 item-10"
-            "item-2 item-2 item-2 item-6 item-6 item-8 item-8 item-8 item-9 item-9 item-9 item-11"
-            "item-3 item-4 item-5 item-6 item-6 item-8 item-8 item-8 item-9 item-9 item-9 item-11";
+            "item-1 item-1 item-1 item-3 item-3 item-3 item-6 item-6 item-6 item-9 item-9 item-9"
+            "item-1 item-1 item-1 item-3 item-3 item-3 item-6 item-6 item-6 item-9 item-9 item-9"
+            "item-1 item-1 item-1 item-4 item-4 item-4 item-7 item-7 item-7 item-9 item-9 item-9"
+            "item-2 item-2 item-2 item-4 item-4 item-4 item-7 item-7 item-7 item-10 item-10 item-10"
+            "item-2 item-2 item-2 item-5 item-5 item-5 item-8 item-8 item-8 item-10 item-10 item-10"
+            "item-2 item-2 item-2 item-5 item-5 item-5 item-8 item-8 item-8 item-10 item-10 item-10";
     }
+
 
     @@media(width<500px) {
 
         .bento-container {
             margin: 0;
             padding: 1em 0;
-            background-color:none;
+            background-color: none;
         }
 
         .bento-box {
@@ -81,6 +101,7 @@
         grid-row: 1/4;*/
         grid-area: item-1;
     }
+
 
     .bento-item-2 {
         /* grid-column: 1/4;
@@ -142,38 +163,30 @@
         grid-area: item-11;
     }
 
-    .bento-item-type-1 {
-      
-    }
-    .bento-item-type-2 {
-        
-    }
-    .bento-item-type-3 {
-        
-    }
-    .bento-item-type-4 {
-        
-    }
 
     .bento-item {
         position: relative;
-        overflow: hidden;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
         border: 1px solid black;
         border-radius: 10px;
+        transition: 1s;
     }
 
         .bento-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.09);
+            cursor: pointer;
         }
 
         .bento-item img {
+            object-fit: cover;
+            height: 100%;
             width: 100%;
-            height: auto;
-            display: block;
+            border-radius: 10px;
         }
+
+
 
     .bento-overlay {
         position: absolute;
@@ -181,12 +194,13 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.8);
         opacity: 0;
         transition: opacity 0.3s ease;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
     }
 
     .bento-item:hover .bento-overlay {
@@ -201,21 +215,28 @@
         padding: 10px;
     }
 
-    /**/
+
+
     .main-image {
-        position: relative;
         overflow: hidden;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
-        border: 1px solid black;
-        border-radius: 10px;
-    }
-        .main-image:hover {
-            transform: scale(0.95);
-        }
+        /*
 
-    .Search-overlay {
+        border: 1px solid black;
+        */
+        border-radius: 10px;
+        cursor:pointer;
+    }
+    /*
+        .main-image:hover {
+            transition: transform 0.3s ease;
+            transform: scale(1.05);
+        }
+        */
+
+        .Search-overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -228,109 +249,138 @@
         justify-content: center;
         align-items: center;
     }
+
     .main-image:hover .Search-overlay {
         opacity: 1;
+    }
+    @{
+        string url=string.Empty;
+        url = lstMainProyects.First().MainImage.Url;
+        lstMainProyects.RemoveAt(0);
+}
+    @{
+        string IntialImageUrl = @Url.Content(url);
+    }
+    .slider {
+        height: 70%;
+        width: 70%;
+        animation: animate 10s infinite;
+        background-size: cover;
+        background-image: url( @IntialImageUrl );
+        background-position-x: center;
+    }
+
+    .potition {
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%)
+    }
+    @@keyframes animate{
+
+        20%{
+            @{
+                url = lstMainProyects.First().MainImage.Url;
+                lstMainProyects.RemoveAt(0);
+            }
+
+            background-image:url(@Url.Content(url));
+            background-size:cover;
+                        background-position-x:center;
+
+        }
+        40% {
+             @{
+                 url = lstMainProyects.First().MainImage.Url;
+                 lstMainProyects.RemoveAt(0);
+             }
+            background-image: url(@Url.Content(url));
+            background-size: cover;
+                        background-position-x:center;
+
+        }
+        60% {
+             @{
+                 url = lstMainProyects.First().MainImage.Url;
+                 lstMainProyects.RemoveAt(0);
+             }
+            background-image: url(@Url.Content(url));
+            background-size: cover;
+                        background-position-x:center;
+
+        }
+        80% {
+             @{
+                 url = lstMainProyects.First().MainImage.Url;
+                 lstMainProyects.RemoveAt(0);
+             }
+            background-image: url(@Url.Content(url));
+            background-size: cover;
+                        background-position-x:center;
+
+        }
+        100% {
+             @{
+                 url = lstMainProyects.First().MainImage.Url;
+                 lstMainProyects.RemoveAt(0);
+             }
+            background-image: url(@Url.Content(url));
+            background-size: cover;
+            background-position-x:center;
+        }
     }
 </style>
 
 <div class="p-4">
 
-    <div class="row mt-5" style="background-color: lightblue; margin: 0; padding: 3em 0; min-width:300px; height:90vh">
-        <div class="col-12 p-0">
-            <div class="main-image card bg-dark text-white h-100 p-0">
-                <div class="col-12 d-flex align-items-center justify-content-center h-100 p-0">
-                    <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" class="img-fluid h-100" alt="...">
-                </div>
+    <div class="row mt-5" style=" margin: 0; padding: 3em 0; min-width:300px; height:90vh">
+        <div class="col-12 p-5 slider potition main-image">
+            <div class=" text-white h-100 p-1">
+
                 <div class="Search-overlay">
-                    @*<input type="text" class="form-control bg-transparent text-white"/>
-                    <div class="seatch-button ms-2"><button type="button" class="btn btn-sm btn-success">Buscar</button></div>*@
-                    <div class="seatch-button ms-2"><button type="button" class="btn btn-sm btn-success">Buscar</button></div>
+                    <div class="bento-text">We are</div>
                 </div>
+
             </div>
         </div>
+
     </div>
 
 
-    <div class="bento-container mt-3">
+    <div class="bento-container mt-3 rounded rounded-3">
         <div class="bento-box">
-            <div class="bento-item bento-item-1 ">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 1">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 1</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-2">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 2</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-3">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 3</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-4">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 4</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-5">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 5</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-6">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 6</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-7">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 7</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-8">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 8</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-9">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 9</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-10">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 10</div>
-                </div>
-            </div>
-            <div class="bento-item bento-item-11">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
-                <div class="bento-overlay">
-                    <div class="bento-text">Image 11</div>
-                </div>
-            </div>
 
-            <!--added-->
-            <div class="bento-item">
-                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="Image 2">
+
+            @if (lstSearchProyects != null)
+            {
+                if (lstSearchProyects.Count > 0)
+                {
+                    int index = 1;
+                    foreach (var proyect in lstSearchProyects)
+                    {
+                        if (proyect.MainImage != null)
+                        {
+                            <div class="bento-item bento-item-@index bento-complete">
+                                <img src="@Url.Content(proyect.MainImage.Url)" alt="@proyect.Title">
+                                <div class="bento-overlay">
+                                    <div class="bento-text">@proyect.Title</div>
+                                </div>
+                            </div>
+                            index++;
+                        }
+                    }
+                }
+            }
+            <div class="bento-item " hidden>
+                <img src="@Url.Content("~\\Content\\Img\\Personal\\Klaus-Hargreeves.The-Umbrella-Academy_.jpg")" alt="">
                 <div class="bento-overlay">
-                    <div class="bento-text">Texto :)</div>
+                    <div class="bento-text">Hola</div>
                 </div>
             </div>
 
         </div>
     </div>
-    <div class="row mt-3" style="background-color: lightblue; margin: 0; padding: 3em 4em; height:55vh;">
+    <div class="row mt-3" style=" margin: 0; padding: 3em 4em; height:55vh;">
         <div class="col-sm-12 col-md-5">
             <div class="card h-100 bg-transparent border-0">
                 <div class="card-body d-flex align-items-center">
@@ -340,8 +390,8 @@
                 </div>
             </div>
         </div>
-        
-        <div class="offset-md-2 col-sm-12 col-md-5" >
+
+        <div class="offset-md-2 col-sm-12 col-md-5">
             <div class="card h-100  bg-transparent border-0">
                 <div class="card-body d-flex align-items-center">
                     <div class="ratio ratio-16x9">
@@ -352,11 +402,13 @@
         </div>
     </div>
 
-    <div class="row mt-3" style="background-color: lightblue; margin: 0; padding: 3em 1em 1em 1em; height: 45vh;">
+    <div class="row mt-3" style="margin: 0; padding: 3em 1em 1em 1em; height: 45vh;">
         <div class="col-12">
             <div class="row">
                 <div class="col-md-12 text-center" style="">
-                    Maritza Seams
+                    <h2 class="h2">
+                        Maritza Seams
+                    </h2>
                 </div>
             </div>
             <div class="row">

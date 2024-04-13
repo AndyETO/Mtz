@@ -1,7 +1,64 @@
 ﻿
-@{
-    ViewBag.Title = "Menu";
-}
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
 
-<h2>Menu</h2>
+                <img src="@Url.Content("~/Content/Img/Logo/Logo-lg.png")" alt="Icon-Maritza" width="100" height="50">
+            </a>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Buscar", "SearchProyect", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                @if (Request.IsAuthenticated)
+                {
+                    if (User.IsInRole(MaritzaData.ConfigClasses.RolesApp.Rol_Administrador))
+                    {
+                        @Html.Partial("~/Views/Shared/Menu/_Administrador.cshtml")
+
+                    }
+                }
+            </ul>
+            <div class="d-flex align-items-center">
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="">
+                        @using (Html.BeginForm("Logout", "Account", FormMethod.Get, new { @id = "frmLogOut", @class = "navbar-right" }))
+                        {
+                            <button class="nav-link" type="submit">Cerrar sesión</button>
+                        }
+
+
+
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        @Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" })
+                    </div>
+                    <div class="mx-2"> | </div>
+                    <div>
+                        @Html.ActionLink("register", "Register", "Account", new { area = "" }, new { @class = "link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover" })
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</nav>
 
