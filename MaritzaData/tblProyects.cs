@@ -63,5 +63,6 @@ namespace MaritzaData
         [NotMapped] public List<string> ImageBase { get; set; }
         [NotMapped] public List<tblProyectCharacteristics> lstModelProyectCharacteristics { get; set; }
         [NotMapped] public List<string> lstCharacteristics { get; set; }
+        [NotMapped] public List<string> lstDeletedCharacteristics { get; set; }
     }
 }

@@ -244,6 +244,10 @@
                                 <input name="lstCharacteristics" class="input-characteristic-@Characteristic.CharacteristicID" value="@Characteristic.CharacteristicID" hidden="">
                             }
                         </div>
+                        <div class="row deleted-input-characteristics">
+                            <!--inputs-->
+                            <!--js deleteCharacteristics-->
+                        </div>
                         <div class="row delete-content-characteristics py-1 my-1 ">
                             @foreach (var Characteristic in Model.lstModelProyectCharacteristics)
                             {
@@ -420,6 +424,8 @@
     @Html.HiddenFor(model=>model.Active)
     @Html.HiddenFor(model=>model.CreatedBy)
     @Html.HiddenFor(model=>model.CreatedDate)
+    @Html.HiddenFor(model=>model.UpdatedBy)
+    @Html.HiddenFor(model=>model.UpdatedDate)
 }
 
 @section scripts{
@@ -663,6 +669,9 @@
                                             let index_ = item.CharacteristicID;
                                             $(`.input-characteristic-${index_}`).remove();
                                             $(`.content-characteristic-delete-${index_}`).remove();
+
+
+
                                         });
                                         newContent.append(btnDelete);
                                         $(`.delete-content-characteristics`).append(newContent);
@@ -692,6 +701,8 @@
                 let index_ = $(this).attr("index");
                 $(`.input-characteristic-${index_}`).remove();
                 $(`.content-characteristic-delete-${index_}`).remove();
+                let deletedCharacteristic = $(`<input name="lstDeletedCharacteristics" value="${index_}" hidden>`);
+                $(".deleted-input-characteristics").append(deletedCharacteristic);
             });
 
 

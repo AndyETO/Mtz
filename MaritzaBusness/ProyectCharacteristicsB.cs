@@ -75,5 +75,48 @@ namespace MaritzaBusness
 
         }
 
+        public bool CheckIfExistsCharacteristicByCharacteristicIDAndProyectID(int CharacteristicID, int ProyectID)
+        {
+
+            using (IDbConnection Connection = new SqlConnection(connection))
+            {
+                string Query = @"
+                IF EXISTS(
+                SELECT 
+                      [ProyectID]
+                      ,[CharacteristicID]
+                  FROM [MaritzasSeamsDB].[dbo].[tblProyectCharacteristics]
+                  WHERE Active = 1 AND ProyectID = @ProyectID AND CharacteristicID = @CharacteristicID
+                )
+                    SELECT 'TRUE'
+                  ELSE
+                    SELECT 'FALSE'";
+                var value = Connection.Query<bool>(Query, new { ProyectID, CharacteristicID }).FirstOrDefault();
+                return value;
+            }
+
+        }
+
+        public tblProyectCharacteristics GetByCharacteristicIDAndProyectID(int CharacteristicID, int ProyectID)
+        {
+
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string Query = @"
+                SELECT 
+                    tblProyectCharacteristics.*,
+                    tblCharacteristics.[Name] as CharacteristicName
+                FROM 
+                    tblProyectCharacteristics 
+                    LEFT JOIN tblCharacteristics ON tblCharacteristics.CharacteristicID = tblProyectCharacteristics.CharacteristicID 
+                WHERE tblProyectCharacteristics.Active = 1 AND ProyectID = @ProyectID AND tblProyectCharacteristics.CharacteristicID = @CharacteristicID";
+                var lstModel = dbConnection.Query<tblProyectCharacteristics>(Query, new { ProyectID, CharacteristicID }).FirstOrDefault();
+                return lstModel;
+            }
+
+        }
+
+
+
     }
 }
