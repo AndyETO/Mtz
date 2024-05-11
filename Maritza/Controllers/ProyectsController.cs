@@ -20,6 +20,7 @@ namespace Maritza.Controllers
     {
         ProyectCharacteristicsB ProyectCharacteristicsB = new ProyectCharacteristicsB();
         CharacteristicsB CharacteristicsB = new CharacteristicsB();
+        ProyectDetailsB ProyectDetailsB = new ProyectDetailsB();
         ProyectImagesB ProyectImagesB = new ProyectImagesB();
         ProyectTypesB ProyectTypesB = new ProyectTypesB();
         PublishesB PublishB = new PublishesB();
@@ -87,6 +88,17 @@ namespace Maritza.Controllers
             {
                 ViewBag.ErrorMessage = $"Ocurrio un error al guardar la información";
                 return View(model);
+            }
+
+            tblProyectDetails tblProyectDetails = new tblProyectDetails();
+            tblProyectDetails.ProyectID = model.ProyectID;
+            tblProyectDetails.Active = true;
+            tblProyectDetails.CreatedBy = tblProyectDetails.UpdatedBy = CurrentUserID;
+            tblProyectDetails.CreatedDate = tblProyectDetails.UpdatedDate = DateTime.Now;
+            Response response_ = ProyectDetailsB.Create(tblProyectDetails);
+            if (response_.Result != Result.Ok)
+            {
+                //something wrong 
             }
             if (model.lstCharacteristics != null)
             {
@@ -169,8 +181,8 @@ namespace Maritza.Controllers
                 tblPublish.CreatedBy = tblPublish.UpdatedBy = CurrentUserID;
                 tblPublish.CreatedDate = tblPublish.UpdatedDate = DateTime.Now;
 
-                Response response_ = PublishB.Create(tblPublish);
-                if (response_.Result != Result.Ok)
+                Response response__ = PublishB.Create(tblPublish);
+                if (response__.Result != Result.Ok)
                 {
                     //error log
                 }
@@ -187,8 +199,8 @@ namespace Maritza.Controllers
                 tblPublish.CreatedBy = tblPublish.UpdatedBy = CurrentUserID;
                 tblPublish.CreatedDate = tblPublish.UpdatedDate = DateTime.Now;
 
-                Response response_ = PublishB.Create(tblPublish);
-                if (response_.Result != Result.Ok)
+                Response response___ = PublishB.Create(tblPublish);
+                if (response___.Result != Result.Ok)
                 {
                     //error log
                 }
@@ -236,6 +248,20 @@ namespace Maritza.Controllers
         {
             if (model == null)
                 return HttpNotFound();
+
+            if (!ProyectDetailsB.CheckIfExistsByProyectID(model.ProyectID))
+            {
+                tblProyectDetails tblProyectDetails = new tblProyectDetails();
+                tblProyectDetails.ProyectID = model.ProyectID;
+                tblProyectDetails.Active = true;
+                tblProyectDetails.CreatedBy = tblProyectDetails.UpdatedBy = CurrentUserID;
+                tblProyectDetails.CreatedDate = tblProyectDetails.UpdatedDate = DateTime.Now;
+                Response response_ = ProyectDetailsB.Create(tblProyectDetails);
+                if (response_.Result != Result.Ok)
+                {
+                    //something wrong 
+                }
+            }
 
             #region checking
             if (model.lstDeletedCharacteristics != null)
@@ -350,8 +376,8 @@ namespace Maritza.Controllers
                 tblPublish.CreatedBy = tblPublish.UpdatedBy = CurrentUserID;
                 tblPublish.CreatedDate = tblPublish.UpdatedDate = DateTime.Now;
 
-                Response response_ = PublishB.Create(tblPublish);
-                if (response_.Result != Result.Ok)
+                Response response__ = PublishB.Create(tblPublish);
+                if (response__.Result != Result.Ok)
                 {
                     //error log
                 }
@@ -363,8 +389,8 @@ namespace Maritza.Controllers
                 publishMain.EndDate = DateTime.ParseExact(model.EndDateMainPage, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 publishMain.UpdatedBy = CurrentUserID;
                 publishMain.UpdatedDate = DateTime.Now;
-                Response response_ = PublishB.Create(publishMain);
-                if (response_.Result != Result.Ok)
+                Response response__ = PublishB.Create(publishMain);
+                if (response__.Result != Result.Ok)
                 {
                     //error log
                 }
@@ -381,8 +407,8 @@ namespace Maritza.Controllers
                 tblPublish.Active = true;
                 tblPublish.CreatedBy = tblPublish.UpdatedBy = CurrentUserID;
                 tblPublish.CreatedDate = tblPublish.UpdatedDate = DateTime.Now;
-                Response response_ = PublishB.Create(tblPublish);
-                if (response_.Result != Result.Ok)
+                Response response__ = PublishB.Create(tblPublish);
+                if (response__.Result != Result.Ok)
                 {
                     //error log
                 }
@@ -394,8 +420,8 @@ namespace Maritza.Controllers
                 publishSeach.EndDate = DateTime.ParseExact(model.EndDateProyects, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 publishSeach.UpdatedBy = CurrentUserID;
                 publishSeach.UpdatedDate = DateTime.Now;
-                Response response_ = PublishB.Update(publishSeach);
-                if (response_.Result != Result.Ok)
+                Response response__ = PublishB.Update(publishSeach);
+                if (response__.Result != Result.Ok)
                 {
                     //error log
                 }

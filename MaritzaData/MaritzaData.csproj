@@ -88,34 +88,45 @@
   <ItemGroup>
     <Compile Include="Base\BaseFilters.cs" />
     <Compile Include="Base\dtoBase.cs" />
+    <Compile Include="Base\ExcelErrors.cs" />
     <Compile Include="Base\MaritzaDB.cs" />
     <Compile Include="Base\tblBase.cs" />
     <Compile Include="ConfigClasses\Response.cs" />
     <Compile Include="ConfigClasses\RolesApp.cs" />
     <Compile Include="DTO\dtoLog.cs" />
     <Compile Include="DTO\dtoLogin.cs" />
+    <Compile Include="DTO\dtoProyectComments.cs" />
+    <Compile Include="DTO\dtoProyectsRpts.cs" />
     <Compile Include="DTO\dtoProyectTypes.cs" />
     <Compile Include="DTO\dtoCharacteristics.cs" />
+    <Compile Include="DTO\dtoSearch.cs" />
     <Compile Include="DTO\dtoTopics.cs" />
     <Compile Include="DTO\dtoProyects.cs" />
     <Compile Include="DTO\dtoRegister.cs" />
     <Compile Include="DTO\dtoUsers.cs" />
+    <Compile Include="DTO\dtoUsersRpts.cs" />
     <Compile Include="Filters\fltProyectTypes.cs" />
     <Compile Include="Filters\fltCharacteristics.cs" />
+    <Compile Include="Filters\fltSearch.cs" />
     <Compile Include="Filters\fltTopics.cs" />
     <Compile Include="Filters\fltProyects.cs" />
     <Compile Include="Filters\fltUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tblCharacteristics.cs" />
+    <Compile Include="tblCommentsLikes.cs" />
     <Compile Include="tblGenders.cs" />
     <Compile Include="tblProyectCharacteristics.cs" />
+    <Compile Include="tblProyectComments.cs" />
+    <Compile Include="tblProyectDetails.cs" />
     <Compile Include="tblProyectImages.cs" />
+    <Compile Include="tblProyectLikes.cs" />
     <Compile Include="tblProyects.cs" />
     <Compile Include="tblProyectTypes.cs" />
     <Compile Include="tblPublishes.cs" />
     <Compile Include="tblRoles.cs" />
     <Compile Include="tblTopics.cs" />
     <Compile Include="tblUsers.cs" />
+    <Compile Include="tblWachedProyects.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

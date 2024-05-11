@@ -9,6 +9,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.AdditionalCharacteristics;
+using MaritzaData.Base;
 
 namespace Maritza.Controllers
 {
@@ -22,7 +25,7 @@ namespace Maritza.Controllers
             string Ids = string.Empty;
             addedArray.ForEach(x => Ids += $"{x},");
             if (!string.IsNullOrEmpty(Ids))
-                Ids=Ids.Substring(0, Ids.Length - 1);
+                Ids = Ids.Substring(0, Ids.Length - 1);
             var characteristics = CharacteristicsB.GetTop10ByName(Sample, Ids);
             return Json(characteristics, JsonRequestBehavior.AllowGet);
         }
@@ -32,7 +35,11 @@ namespace Maritza.Controllers
             ViewBag.Filter = filters;
             var lstCharacteristicss = CharacteristicsB.GetAll(filters);
             if (Request.IsAjaxRequest())
-                return PartialView("_Index", lstCharacteristicss);
+            {
+                //return PartialView("_Index", lstCharacteristicss);
+                return PartialView("Empty", lstCharacteristicss);
+
+            }
             return View(lstCharacteristicss);
         }
 
@@ -126,5 +133,131 @@ namespace Maritza.Controllers
             ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
             return RedirectToAction("Index");
         }
+
+
+
+
+        public ActionResult CreateByExcel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateByExcel(HttpPostedFileBase ExcelFile)
+        {
+
+            if (ExcelFile != null && ExcelFile.ContentLength > 0)
+            {
+                if (ExcelFile.FileName.EndsWith(".xlsx") || ExcelFile.FileName.EndsWith(".xls"))
+                {
+                    XLWorkbook Workbook;
+                    try
+                    {
+                        Workbook = new XLWorkbook(ExcelFile.InputStream);
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, "Archivo invalido:" + ex.Message);
+                        return View();
+                    }
+                    IXLWorksheet WorkSheet = null;
+                    try
+                    {
+                        WorkSheet = Workbook.Worksheet("Sheet1");
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError(String.Empty, "Hoja no encontrada (Sheet1)");
+                        return View();
+                    }
+                    var xs = WorkSheet.FirstRow();
+                    if (xs.Cell(1).Value.ToString() != "Characteristic")
+                    {
+                        ModelState.AddModelError(String.Empty, "Favor de introducir el archivo correcto");
+                        return View();
+                    }
+                    try
+                    {
+                        List<tblCharacteristics> lstCreateCharacteristics = new List<tblCharacteristics>();
+                        List<ExcelErrors> lstExcelErrors = new List<ExcelErrors>();
+                        string Characteristic = string.Empty;
+
+
+                        foreach (var row in WorkSheet.RowsUsed())
+                        {
+                            if (row.Cell(1).Value.ToString().Length != 0)
+                            {
+                                if (row.RowNumber() >= 2)
+                                {
+                                    Characteristic = row.Cell(1).Value.ToString();
+                                    bool Exists = CharacteristicsB.CheckIfExistsCharacteristicByTerm(Characteristic);
+                                    if (!Exists)
+                                    {
+                                        tblCharacteristics newCharacteristic = new tblCharacteristics();
+                                        newCharacteristic.Name = Characteristic;
+                                        newCharacteristic.Active = true;
+                                        newCharacteristic.CreatedBy = newCharacteristic.UpdatedBy = CurrentUserID;
+                                        newCharacteristic.CreatedDate = newCharacteristic.UpdatedDate = DateTime.Now;
+                                        lstCreateCharacteristics.Add(newCharacteristic);
+                                    }
+                                    else
+                                    {
+                                        lstExcelErrors.Add(new ExcelErrors() { row = row.RowNumber(), message = "Ya existe en la base de datos." });
+                                    }
+                                    Characteristic = string.Empty;
+                                }
+                            }
+                            else
+                            {
+                                lstExcelErrors.Add(new ExcelErrors() { row = row.RowNumber(), message = "Esta vacía la fila." });
+                            }
+                        }
+                        if (lstCreateCharacteristics != null)
+                        {
+                            if (lstCreateCharacteristics.Count > 0)
+                            {
+                                Response response = CharacteristicsB.CreateList(lstCreateCharacteristics);
+                                if (response.Result != Result.Ok)
+                                {
+                                    //error
+                                }
+                            }
+                        }
+                        if (lstExcelErrors != null)
+                        {
+
+                            if (lstExcelErrors.Count > 0)
+                            {
+                                ViewBag.ExcelErrors = lstExcelErrors;
+                                return View();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(String.Empty, "Ocurrió un error al procesar los datos, verifique que las columnas tengan valores válidos ");
+                        return View();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Solo se permiten archivos .xlsx y .xls.");
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Archivo invalido.");
+                return View();
+            }
+            TempData["Message"] = "Carga exitosa";
+            return RedirectToAction("Index");
+        }
+
+        public FileResult Download()
+        {
+            return File("~/Content/Samples/SampleCharacteristics.xlsx", System.Net.Mime.MediaTypeNames.Application.Octet, "SampleCharacteristics.xlsx");
+        }
+
     }
 }

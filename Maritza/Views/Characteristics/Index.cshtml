@@ -10,8 +10,11 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-10">
+                <div class="col-3">
                     <h1 class="h3 p-2">@ViewBag.Title</h1>
+                </div>
+                <div class="offset-5 col-2  align-self-center">
+                    <a class="btn btn-secondary w-100" href="@Url.Action("CreateByExcel")">Cargar excel</a>
                 </div>
                 <div class="col-2 align-self-center">
                     <a class="btn btn-secondary w-100" href="@Url.Action("Create","Characteristics",null)">Agregar</a>
@@ -20,15 +23,15 @@
         </div>
         <div class="card-body">
             @using (Ajax.BeginForm(
-            new AjaxOptions
+                              new AjaxOptions
+                              {
+                                  HttpMethod = "get",
+                                  InsertionMode = InsertionMode.Replace,
+                                  UpdateTargetId = "IndexList",
+
+                              }))
             {
-                HttpMethod = "get",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "ModelList",
-            }
-            ))
-            {
-           
+
                 <div class="row p-3">
                     <div class="col-3">
                         @Html.LabelFor(f => filters.CharacteristicID, new { @class = "form-label" })
@@ -53,3 +56,8 @@
     </div>
 
 </div>
+@section Scripts {
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+}

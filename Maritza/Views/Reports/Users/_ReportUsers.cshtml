@@ -1,0 +1,107 @@
+﻿@model StaticPagedList<dtoUsersRpts>
+
+@using PagedList.Mvc;
+@{
+    var filters = ViewBag.Filter as MaritzaData.Filters.fltUsers;
+}
+
+
+
+<div id="ModelList">
+    <div class="table-responsive">
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID", "Index", new { SortingOrder = filters.UserID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Nombre", "Index", new { SortingOrder = filters.Name_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("UserName", "Index", new { SortingOrder = filters.UserName_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Correo", "Index", new { SortingOrder = filters.Email_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Rol", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Fecha de ingreso", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Creado por", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Validaciones", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Publicaciones", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Proyectos", "Index", new { SortingOrder = filters.RolID_Sort }, htmlAttributes: new { })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">
+                            Sin registros
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var element in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(elementItem => element.UserID)</td>
+                            <td>@Html.DisplayFor(elementItem => element.Name)</td>
+                            <td>@Html.DisplayFor(elementItem => element.UserName)</td>
+                            <td>@Html.DisplayFor(elementItem => element.Email)</td>
+                            <td>@Html.DisplayFor(elementItem => element.RolName)</td>
+                            <td>@element.CreatedDate.ToString("dd/MM/yyyy")</td>
+                            <td>@Html.DisplayFor(elementItem => element.CreatedName)</td>
+                            <td>@Html.DisplayFor(elementItem => element.ValidatedComments)</td>
+                            <td>@Html.DisplayFor(elementItem => element.PublishedProyects)</td>
+                            <td>@Html.DisplayFor(elementItem => element.CreatedProyects)</td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div id="ModelList" class="" data-otf-target="#ModelList">
+                            @{
+                                var vPagedlistRenderOptions = PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                               new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "ModelList",
+                                                   OnBegin = "ShowLoading()",
+                                                   OnComplete = "HideLoading()"
+                                               });
+                                vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
+                                vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
+                            }
+                            @Html.PagedListPager(Model, page => Url.Action("Index",
+                           new
+                           {
+                               PageNumber = page,
+                               ProyectTypeID = filters.UserID,
+                               Title = filters.Name,
+                               SortingOrder = filters.SortingOrder
+                           }), vPagedlistRenderOptions)
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

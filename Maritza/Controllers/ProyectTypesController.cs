@@ -52,14 +52,6 @@ namespace Maritza.Controllers
             model.Active = true;
             model.UpdatedDate = model.CreatedDate = DateTime.Now;
             model.UpdatedBy = model.CreatedBy = CurrentUserID;
-
-
-
-            //string Route = SaveImage(model.ImageBase);
-            //if (Route.Length > 0 && Route != "")
-            //{
-            //    model.Image = Route;
-            //}
             response = ProyectTypesB.Create(model);
 
             if (response.Result != Result.Ok)
@@ -83,11 +75,7 @@ namespace Maritza.Controllers
         {
             if (model == null)
                 return HttpNotFound();
-            //string Route = SaveImage(model.ImageBase);
-            //if (Route.Length > 0 && Route != "")
-            //{
-            //    model.Image = Route;
-            //}
+      
             model.UpdatedDate = DateTime.Now;
             model.UpdatedBy = CurrentUserID;
 
@@ -124,5 +112,7 @@ namespace Maritza.Controllers
             ViewBag.ErrorMessage = $"Se guardo la información exitosamente";
             return RedirectToAction("Index");
         }
+
+        //UploadExcel method
     }
 }

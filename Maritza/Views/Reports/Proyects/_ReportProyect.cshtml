@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ReportProyect";
+}
+
+<h2>ReportProyect</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm" }))
+{
+    @Html.Hidden("id",23)
+    <div class="card-footer">
+        <div class="row pt-2">
+            <div class="col-2 offset-8">
+                <input class="btn btn-success w-100" type="submit" value="Exportar" />
+            </div>
+        </div>
+
+    </div>
+}

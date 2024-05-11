@@ -20,10 +20,10 @@ namespace Maritza.Controllers
         {
             ViewBag.Filter = filters;
             ViewBag.lstRoles = RolesB.GetList();
-            var lstTopicss = UsersB.GetAll(filters);
+            var lstUsers = UsersB.GetAll(filters);
             if (Request.IsAjaxRequest())
-                return PartialView("_Index", lstTopicss);
-            return View(lstTopicss);
+                return PartialView("_Index", lstUsers);
+            return View(lstUsers);
         }
 
         // GET: tblUser/Details/5

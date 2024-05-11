@@ -1,6 +1,12 @@
 ﻿
 
-
+:root {
+    --color-blue-custom: #D5FFF1;
+    --color-pink-strengh-custom: #BE95B9;
+    --color-pink-soft-custom: #FEC7F7;
+    --color-green-strengh-custom: #81A969;
+    --color-green-soft-custom: #E0F19C;
+}
 
 .container-scrolling {
     margin: 0;
@@ -37,25 +43,33 @@
 */
 .bg-blue-custom {
     --bs-bg-opacity: 1;
-    background-color: #D5FFF1 !important;
+    background-color: var(--color-blue-custom) !important;
 }
 
 .bg-pink-strengh-custom {
     --bs-bg-opacity: 1;
-    background-color: #BE95B9 !important;
+    background-color: var(--color-pink-strengh-custom) !important;
 }
 .bg-pink-soft-custom {
     --bs-bg-opacity: 1;
-    background-color:  #FEC7F7 !important;
+    background-color: var(--color-pink-soft-custom) !important;
 }
 .bg-green-strengh-custom {
     --bs-bg-opacity: 1;
-    background-color: #81A969 !important;
+    background-color: var(--color-green-strengh-custom) !important;
 }
 
 .bg-green-soft-custom {
     --bs-bg-opacity: 1;
-    background-color: #E0F19C !important;
+    background-color: var(--color-green-soft-custom) !important;
 }
 
 /* End backgrounds*/
+
+/* Borders*/
+/*.border-green-soft-custom {
+    --bs-border-opacity: 1;
+    border-color: rgba(var(--color-pink-strengh-custom), var(--bs-border-opacity)) !important;
+}
+*/
+/*End Borders*/

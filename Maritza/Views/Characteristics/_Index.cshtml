@@ -6,7 +6,7 @@
 
 
 
-<div id="ModelList">
+<div id="IndexList">
     <div class="table-responsive">
         <table class="table table-striped ">
             <thead>
@@ -48,19 +48,18 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
-                        <div id="ModelList" class="" data-otf-target="#ModelList">
-                            @{
-                                var vPagedlistRenderOptions = PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
-                                               new AjaxOptions()
-                                               {
-                                                   HttpMethod = "GET",
-                                                   UpdateTargetId = "ModelList",
-                                                   OnBegin = "ShowLoading()",
-                                                   OnComplete = "HideLoading()"
-                                               });
-                                vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
-                                vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
-                            }
+                        @{
+                            var vPagedlistRenderOptions = PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.ClassicPlusFirstAndLast,
+                                           new AjaxOptions()
+                                           {
+                                               HttpMethod = "GET",
+                                               UpdateTargetId = "",
+                                           });
+                            vPagedlistRenderOptions.LiElementClasses = new[] { "page-item" };
+                            vPagedlistRenderOptions.UlElementClasses = new[] { "pagination" };
+                        }
+                        <div id="pagedList" class="" data-otf-target="#IndexList">
+
                             @Html.PagedListPager(Model, page => Url.Action("Index",
                            new
                            {

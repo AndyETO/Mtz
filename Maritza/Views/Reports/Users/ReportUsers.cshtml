@@ -1,0 +1,37 @@
+﻿@model StaticPagedList<dtoUsersRpts> 
+@{
+    ViewBag.Title = "Reporte de usuarios";
+}
+
+<h2>ReportUsers</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm" }))
+{
+    <div class="container  mt-5 pt-5">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-10">
+                        <h1 class="h3 p-2">@ViewBag.Title </h1>
+                    </div>
+                    <div class="col-2 align-self-center">
+                        <input class="btn btn-success w-100" type="submit" value="Exportar" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("Users/_ReportUsers",Model)
+            </div>
+            <div class="card-footer">
+                <div class="row pt-2">
+                    <div class="col-2 offset-8">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+}

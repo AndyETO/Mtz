@@ -32,13 +32,7 @@ namespace Maritza.Controllers
             ViewBag.lstMainProyects = lstMainProyects;
             return View();
         }
-        [AllowAnonymous]
-        public ActionResult SearchProyect()
-        {
-            
-            return View();
-        }
-
+       
 
 
         [AllowAnonymous]

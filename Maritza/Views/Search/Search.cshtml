@@ -1,0 +1,149 @@
+﻿@model StaticPagedList<dtoSearch>
+@{
+    ViewBag.Title = "SearchProyect";
+    var filters = ViewBag.filters as fltSearch;
+    var lstCharacteristics = ViewBag.lstCharacteristics as List<tblCharacteristics>;
+
+    var lstProyectTypes = ViewBag.lstProyectTypes as List<tblProyectTypes>;
+    var lstTopics = ViewBag.lstTopics as List<tblTopics>;
+    var lstGenders = ViewBag.lstGenders as List<tblGenders>;
+       
+}
+
+
+@using (Ajax.BeginForm(
+new AjaxOptions
+{
+    HttpMethod = "get",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "ModelList",
+}
+))
+{
+    <div class="container container-md container-sm container-xl mt-5 pt-5 vw-100">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row g-1">
+                    <div class="col-12 d-flex">
+                        @Html.TextBoxFor(f => filters.SearchTerm, new { @class = "form-control w-100 me-2", @style = "max-width: inherit;", @placeholder = "Buscar por título o descripción" })
+                        <button class="btn btn-outline-success me-2" type="submit">Search</button>
+                        <a href="@Url.Action("Search")" class="btn btn-outline-secondary">Limpiar</a>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="row g-1">
+                            <div class="col-12">
+                                <a class="btn btn-outline-dark w-100" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Caracteristicas
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <div class="collapse" id="collapseExample">
+
+                                    <div class="card card-body">
+                                        @*<div class="row">
+                                                <div class="col-12 d-flex">
+                                                    @Html.TextBoxFor(f => filters.SearchTerm, new { @class = "form-control w-100", @style = "max-width: inherit;", @placeholder = "Buscar caracteristica" })
+                                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                                </div>
+                                            </div>*@
+                                        <div class="row g-1 p-1">
+                                            @{int index = 1;
+                                                string hidden = string.Empty;
+                                            }
+                                            @foreach (var item in lstCharacteristics)
+                                            {
+                                                hidden = index > 3 ? "hidden" : "";
+                                                <div class="col-12 checkbox-@index" @hidden>
+                                                    <input type="checkbox" class="btn-check" value="@item.CharacteristicID" name="lstCharacteristicsIDs" id="option_@index" autocomplete="off">
+                                                    <label class="btn w-100" for="option_@index">@item.Name</label>
+                                                </div>
+                                                index++;
+                                            }
+
+                                            <div class="col-12">
+                                                <label class="btn w-100" for="">...</label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row g-1">
+
+                            <div class="col-12">
+                                <a class="btn btn-outline-dark w-100" data-bs-toggle="collapse" href="#collapseRangeBadget" role="button" aria-expanded="false" aria-controls="collapseRangeBadget">
+                                    Presupuesto
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <div class="collapse" id="collapseRangeBadget">
+                                    <div class="card card-body">
+                                        <label class="form-label">Minimo</label>
+                                        @Html.TextBoxFor(f => filters.MinBudget, new { @class = "form-control", @style = "max-width: inherit;" })
+                                        @*<input type="number" class="form-control" style="max-width: inherit;" />*@
+                                        <label class="form-label">Maximo</label>
+                                        @*<input type="number" class="form-control" style="max-width: inherit;" />*@
+                                        @Html.TextBoxFor(f => filters.MaxBudget, new { @class = "form-control", @style = "max-width: inherit;" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row g-1">
+
+                            <div class="col-12">
+                                <a class="btn btn-outline-dark w-100" data-bs-toggle="collapse" href="#collapseClassifications" role="button" aria-expanded="false" aria-controls="collapseClassifications">
+                                    Clasificaciones
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <div class="collapse" id="collapseClassifications">
+                                    <div class="card card-body">
+
+
+                                        <label class="form-label">
+                                            Tematica
+                                        </label>
+                                        @Html.DropDownListFor(f => filters.TopicID, new SelectList(lstTopics, "TopicID", "Name", "Tematica"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                                        @*<select class="form-control" style="max-width: inherit;">
+                                            <option value="">Seleccione tematica</option>
+                                        </select>*@
+                                        <label class="form-label">
+                                            Tipo
+                                        </label>
+                                        @Html.DropDownListFor(f => filters.ProyectTypeID, new SelectList(lstProyectTypes, "ProyectTypeID", "Name", "Tipo de proyecto"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                                        @*<select class="form-control" style="max-width: inherit;">
+                                            <option value="">Seleccione tipo</option>
+                                        </select>*@
+                                        <label class="form-label">
+                                            Genero
+                                        </label>
+                                        @Html.DropDownListFor(f => filters.GenderID, new SelectList(lstGenders, "GenderID", "Name", "Genero"), "Seleccione", new { @class = "form-control w-100", @style = "max-width: inherit" })
+                                        @*<select class="form-control" style="max-width: inherit;">
+                                            <option value="">Seleccione genero</option>
+                                        </select>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("_Search", Model)
+
+
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+}

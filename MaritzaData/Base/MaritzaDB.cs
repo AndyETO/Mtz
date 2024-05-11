@@ -29,6 +29,10 @@ namespace MaritzaData.Base
         public DbSet<tblProyectImages> tblProyectImages { get; set; }
         public DbSet<tblProyectCharacteristics> tblProyectCharacteristics { get; set; }
         public DbSet<tblPublishes> tblPublishes { get; set; }
+        public DbSet<tblProyectComments> tblProyectComments { get; set; }
+        public DbSet<tblProyectDetails> tblProyectDetails { get; set; }
+        public DbSet<tblProyectLikes> tblProyectLikes { get; set; }
+        public DbSet<tblCommentsLikes> tblCommentsLikes { get; set; }
 
 
         //metodos para obtener tabla 

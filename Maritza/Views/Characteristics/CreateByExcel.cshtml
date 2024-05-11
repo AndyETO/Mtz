@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "CreateByExcel";
+    var lstExcelErrors = ViewBag.ExcelErrors as List<MaritzaData.Base.ExcelErrors>;
+}
+
+<h2>CreateByExcel</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frm", enctype = "multipart/form-data" }))
+{
+    @*<div class="card-footer">
+            <div class="row pt-2">
+                <div class="col-2 offset-8">
+                    <input class="btn btn-success w-100" type="submit" value="Exportar" />
+                </div>
+            </div>
+
+        </div>*@
+    <div class="container mt-5 pt-3">
+        <div class="card">
+            @Html.ValidationSummary()
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-10">
+                        <h2 class="h2">
+                            Cargar caracteristicas
+                        </h2>
+                    </div>
+                    <div class="col-2 align-self-center">
+                        <a href="@Url.Action("Download")" class="btn btn-sm btn-primary w-100">Plantilla</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-10">
+                        <input type="file" name="ExcelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form-control w-100" style="max-width:inherit;" />
+                    </div>
+                    <div class="col-2">
+                        <input class="btn btn-success w-100" type="submit" value="Guardar" />
+                    </div>
+                </div>
+            </div>
+            @if (lstExcelErrors != null)
+            {
+                if (lstExcelErrors.Count > 0)
+                {
+                    <div class="card-footer">
+
+
+                        <div class="table-responsive">
+                            <table class="table table-striped ">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Fila
+                                        </th>
+                                        <th>
+                                            Mensaje
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var errors in lstExcelErrors)
+                                    {
+                                        <tr>
+                                            <td>@errors.row</td>
+                                            <td>@errors.message</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

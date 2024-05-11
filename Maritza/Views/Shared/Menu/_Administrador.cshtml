@@ -10,3 +10,12 @@
         <li>@Html.ActionLink("Usuarios", "Index", "Users", null, new { @class = "dropdown-item" })</li>
     </ul>
 </li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Reportes
+    </a>
+    <ul class="dropdown-menu">
+        <li>@Html.ActionLink("Proyectos", "ReportProyect", "Reports", null, new { @class = "dropdown-item" })</li>
+        <li>@Html.ActionLink("Usuarios", "ReportUsers", "Reports", null, new { @class = "dropdown-item" })</li>
+    </ul>
+</li>

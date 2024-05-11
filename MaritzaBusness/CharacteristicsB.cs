@@ -97,6 +97,15 @@ namespace MaritzaBusness
                 return model;
             }
         }
+        public List<tblCharacteristics> getList()
+        {
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string query = "SELECT * FROM tblCharacteristics WHERE Active = 1";
+                var model = dbConnection.Query<tblCharacteristics>(query).ToList();
+                return model;
+            }
+        }
         public tblCharacteristics GetByName(string Name)
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
@@ -127,7 +136,7 @@ namespace MaritzaBusness
             using (IDbConnection Connection = new SqlConnection(connection))
             {
                 string Query = @"
-                IF EXISTS(SELECT CharacteristicID FROM tblCharacteristics WHERE CharacteristicID = @ID)
+                IF EXISTS(SELECT CharacteristicID FROM tblCharacteristics WHERE Active = 1 AND CharacteristicID = @ID)
                     SELECT 'TRUE'
                   ELSE
                     SELECT 'FALSE'";
@@ -136,7 +145,51 @@ namespace MaritzaBusness
             }
 
         }
+        public bool CheckIfExistsCharacteristicByTerm(string Term)
+        {
 
-       
+            using (IDbConnection Connection = new SqlConnection(connection))
+            {
+                string Query = @"
+                IF EXISTS(SELECT CharacteristicID FROM tblCharacteristics WHERE Active = 1 AND [name] = @Term)
+                    SELECT 'TRUE'
+                  ELSE
+                    SELECT 'FALSE'";
+                var value = Connection.Query<bool>(Query, new { Term }).FirstOrDefault();
+                return value;
+            }
+
+        }
+        public Response CreateList(List<tblCharacteristics> lstCharacteristics)
+        {
+            Response response = new Response();
+            SqlConnection sqlConn = new SqlConnection(connection);
+            string processQuery = @" INSERT INTO 
+                                 tblCharacteristics
+                                VALUES (
+                                 @Name,
+                                 @Active,
+                                 @CreatedBy,
+                                 @CreatedDate,
+                                 @UpdatedBy,
+                                 @UpdatedDate,
+                                 @DeletedBy,
+                                 @DeletedDate)";
+
+            try
+            {
+                sqlConn.Execute(processQuery, lstCharacteristics);
+                sqlConn.Close();
+
+                response.Result = Result.Ok;
+            }
+            catch (Exception ex)
+            {
+                response.data = ex.Message;
+                response.Result = Result.Exception;
+            }
+            return response;
+
+        }
     }
 }

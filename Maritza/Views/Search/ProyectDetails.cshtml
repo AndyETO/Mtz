@@ -1,0 +1,578 @@
+﻿@model dtoSearch
+@{
+    ViewBag.Title = "ProyectDetails";
+}
+
+<h2>ProyectDetails</h2>
+
+
+
+
+
+@{
+    ViewBag.Title = "SearchProyect";
+}
+
+
+
+<div class="container container-md container-sm container-xl mt-5 pt-3 vw-100">
+
+    <div class="card">
+        <div class="card-header">
+            <h1 class="h1">
+                @Model.Title
+            </h1>
+        </div>
+        <div class="card-body">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <a href="#">
+                                                <img src="@Url.Content(Model.UrlImage)" alt="@Model.Title" class="img-fluid rounded-3" />
+                                            </a>
+                                        </div>
+                                        <div class="col-4 h-100" style="max-height:100px;min-height:100px;">
+                                            <img src="@Url.Content(Model.UrlImage)" alt="@Model.Title" class="img-fluid rounded-3" />
+                                        </div>
+                                        <div class="col-4" style="max-height:100px;min-height:100px;">
+                                            <img src="@Url.Content(Model.UrlImage)" alt="@Model.Title" class="img-fluid rounded-3" />
+                                        </div>
+                                        <div class="col-4" style="max-height:100px;min-height:100px;">
+                                            <img src="@Url.Content(Model.UrlImage)" alt="@Model.Title" class="img-fluid rounded-3" />
+                                        </div>
+
+                                        <div class="col-12">
+                                            <p class="text-primary fw-bold">
+                                                @Model.ProyectTypeName
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    @{
+                                        string valueLike = null;
+                                        string valueDislike = null;
+                                    }
+                                    @if (Model.tblProyectLikes != null)
+                                    {
+                                        if (Model.tblProyectLikes.IsLiked != null)
+                                        {
+                                            valueLike = Model.tblProyectLikes.IsLiked.Value ? "true" : null;
+                                            valueDislike = !Model.tblProyectLikes.IsLiked.Value ? "true" : null;
+                                        }
+                                    }
+
+                                    <button type="button" id="btn-like-proyect" class="btn btn-sm btn-success" value="@valueLike">Like</button>
+                                    <button type="button" id="btn-dislike-proyect" class="btn btn-sm btn-danger" value="@valueDislike">Dislike</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row h-100">
+                                <div class="col-12">
+                                    <p>
+                                        @Model.Description
+                                    </p>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            @Model.TopicName
+                                        </div>
+                                        <div class="col-4">
+                                            @Model.GenderName
+                                        </div>
+                                        <div class="col-4">
+                                            Budget
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                @if (Model.lstCharacteristicsModel != null)
+                                {
+                                    if (Model.lstCharacteristicsModel.Count > 0)
+                                    {
+                                        foreach (var Characteristic in Model.lstCharacteristicsModel)
+                                        {
+                                            <div class="col-4">
+                                                @Characteristic.Name
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-12">
+                            <!--do a comment-->
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="row g-2">
+                                        <div class="col-1 text-center">
+                                            <img height="50" width="50" />
+                                        </div>
+                                        <div class="col-11">
+                                            <textarea id="Comment" rows="1" cols="1" class="form-control w-100" style="max-width: inherit; resize: none "></textarea>
+                                        </div>
+                                        <div class="offset-1 col-1">
+                                            <button id="btn-comment" class="btn btn-sm btn-primary w-100 " style="display:none;">Answer</button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button id="btn-cancel-comment" class="btn btn-sm btn-secondary w-100" style="display:none;">Cancel</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <!--Comment by user -->
+                            <ul class="list-group lstComments">
+
+
+                                @if (Model != null)
+                                {
+                                    if (Model.lstComments != null)
+                                    {
+                                        if (Model.lstComments.Count > 0)
+                                        {
+                                            int index_answer = 0;
+                                            foreach (var comment in Model.lstComments)
+                                            {
+
+                                                <li class="list-group-item">
+                                                    <div class="row g-2 align-items-center">
+                                                        <div class="col-1 text-center">
+                                                            <img height="50" width="50" />
+                                                        </div>
+                                                        <div class="col-11">
+                                                            <label class="ProyectComment-inf-@index_answer" proyectcommentid="@comment.ProyectCommentID">@comment.Comment</label>
+                                                        </div>
+
+                                                        <div class="col-1">
+                                                            <button class="btn btn-sm btn-success btn-like-comment">Like</button>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <button class="btn btn-sm btn-danger btn-dislike-comment">Dislike</button>
+                                                        </div>
+
+                                                        <div class="col-1">
+                                                            <a class="show add-comment add-comment-answer-@index_answer" index="@index_answer" style="cursor:pointer;">Answer</a>
+                                                        </div>
+                                                        <!--do an answer-->
+                                                        <div class="col-12 add-comment-@index_answer" style="display:none;">
+                                                            <div class="row g-2">
+                                                                <div class="col-1 text-center">
+                                                                    <img height="35" width="35" />
+                                                                </div>
+                                                                <div class="col-11">
+                                                                    <textarea id="" rows="1" cols="1" class="answer-comment-@index_answer form-control w-100" style="max-width: inherit; resize: none "></textarea>
+                                                                </div>
+                                                                <div class="offset-1 col-1">
+                                                                    <button id="" class="btn btn-sm btn-primary w-100 btn-comment-answer" index="@index_answer">Answer</button>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <button id="" class="btn btn-sm btn-secondary w-100 btn-cancel-comment-answer" index="@index_answer">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--If it has more commennts-->
+                                                        @{
+                                                            string displayQuantityAnswers = comment.NoAnswers == 0 ? "display:none;" : "";
+                                                        }
+                                                        <div class="col-12">
+                                                            <a class="answers-comment-subAnswer answers-comment-subAnswer-@index_answer" index="@index_answer" style="cursor: pointer; @displayQuantityAnswers">Answers (@comment.NoAnswers)</a>
+                                                        </div>
+                                                        <!--Answers of comment-->
+                                                        <div class="col-12 answers-comment-subAnswer-@index_answer-level-1" style="display:none;">
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">
+                                                                    <div class="row g-2 align-items-center">
+                                                                        <div class="col-1 text-center">
+                                                                            <img height="35" width="35" />
+                                                                        </div>
+                                                                        <div class="col-11">
+                                                                            <label>His/Her comment about the proyect</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div class="row g-2 align-items-center">
+                                                                        <div class="col-1 text-center">
+                                                                            <img height="35" width="35" />
+                                                                        </div>
+                                                                        <div class="col-11">
+                                                                            <label>His/Her comment about the proyect</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div class="row g-2 align-items-center">
+                                                                        <div class="col-1 text-center">
+                                                                            <img height="35" width="35" />
+                                                                        </div>
+                                                                        <div class="col-11">
+                                                                            <label>His/Her comment about the proyect</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                index_answer++;
+                                            }
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        //Comment proyect
+
+        $("#Comment").on("keyup", function () {
+            let input = $(this);
+            if (input.length > 0) {
+                $("#btn-comment").show();
+                $("#btn-cancel-comment").show();
+            } else {
+                $("#btn-comment").hide();
+                $("#btn-cancel-comment").hide();
+            }
+        });
+        $("#btn-comment").on("click", function () {
+
+            let textarea = $("#Comment");
+            $(textarea).attr("disabled",true);
+
+            let sProyectID = @Model.ProyectID;
+            let sComment = textarea.val();
+            $.ajax({
+                type:"GET",
+                url: "@Url.Action("CommentProyect", "Search")",
+                dataType: "json",
+                data: { Comment:sComment,ProyectID:sProyectID,IsAnswer:false,sProyectCommentID:0 },
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if (data.status === "success") {
+
+                        //btn answer
+                        //like dislike
+
+                        let newComment = $(`<li class="list-group-item" >
+                                         <div class="row g-2 align-items-center">
+                                             <div class="col-1 text-center">
+                                                 <img height="50" width="50" />
+                                             </div>
+                                             <div class="col-11">
+                                                 <label>${data.comment}</label>
+                                             </div>
+                                             <div class="col-1">
+                                                 <a href="#" class="btn btn-sm btn-success">Like</a>
+                                             </div>
+                                             <div class="col-1">
+                                                 <a href="#" class="btn btn-sm btn-danger">Dislike</a>
+                                             </div>
+                                             <div class="col-1">
+                                                 <a class="show add-comment add-comment-answer-index_answer" index="index_answer" style="cursor:pointer;">Answer</a>
+                                             </div>
+                                             <div class="col-12 add-comment-index_answer" style="display:none;">
+                                                 <div class="row g-2">
+                                                     <div class="col-1 text-center">
+                                                         <img height="35" width="35" />
+                                                     </div>
+                                                      </div>
+                                                     <div class="offset-1 col-1">
+                                                         <button id="btn-comment-answer" class="btn btn-sm btn-primary w-100">Answer</button>
+                                                     </div>
+                                                     <div class="col-1">
+                                                     <div class="col-11">
+                                                         <textarea id="answer-comment-index_answer" rows="1" cols="1" class="form-control w-100" style="max-width: inherit; resize: none "></textarea>
+                                                        <button id="btn-cancel-comment-answer" class="btn btn-sm btn-secondary w-100 cancel-answer-comment" index="index_answer">Cancel</button>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                        </div>
+                                     </li>`)
+
+                        $(".lstComments").prepend(newComment);
+                    }
+                    else {
+                        //display error
+                    }
+                },
+                error: function () {
+                    //sweet alet
+                }
+            });
+            $(textarea).attr("disabled", false);
+            textarea.val("");
+            $("#btn-comment").hide();
+            $("#btn-cancel-comment").hide();
+        });
+        $("#btn-cancel-comment").on("click", function () {
+            let textarea = $("#Comment");
+            textarea.val("");
+        });
+        //END Comment proyect
+
+        //Likes region
+        $("#btn-like-proyect").on("click", function () {
+            let like = $(this).attr("value");
+            let ProyectDetailID = @Model.ProyectDetailID;
+            like = like == "" ? true : null;
+            $.ajax({
+                type:"GET",
+                url: "@Url.Action("LikeProyect", "Search")",
+                dataType: "json",
+                data: { like: like, ProyectDetailID: ProyectDetailID },
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if (data.status === "success") {
+                        //sum +1
+                        if (data.IsLiked === true) {
+                            $("#btn-like-proyect").attr("value", data.IsLiked);
+                            $("#btn-dislike-proyect").attr("value", "");
+                        } else {
+                            $("#btn-like-proyect").attr("value", "");
+                            $("#btn-dislike-proyect").attr("value", "");
+                        }
+                    }
+                    else {
+                        //display error
+                    }
+                },
+                error: function () {
+                    //sweet alet
+                }
+            });
+        });
+        $("#btn-dislike-proyect").on("click", function () {
+            let dislike = $(this).attr("value");
+            let ProyectDetailID = @Model.ProyectDetailID;
+            dislike = dislike == "" ? true : null;
+             $.ajax({
+                 type:"GET",
+                 url: "@Url.Action("DislikeProyect", "Search")",
+                 dataType: "json",
+                 data: { dislike: dislike, ProyectDetailID: ProyectDetailID },
+                 contentType: "application/json;charset=utf-8",
+                 success: function (data) {
+                     if (data.status === "success") {
+                         //sum +1
+                         if (data.IsLiked === true) {
+                             $("#btn-like-proyect").attr("value", "");
+                             $("#btn-dislike-proyect").attr("value", data.IsLiked);
+                         } else {
+                             $("#btn-like-proyect").attr("value", "");
+                             $("#btn-dislike-proyect").attr("value", "");
+                         }
+                     }
+                     else {
+                         //display error
+                     }
+                 },
+                 error: function () {
+                     //sweet alet
+                 }
+             });
+        });
+
+        $(".btn-like-comment").on("click", function () {
+
+           let like = $(this).attr("value");
+           let ProyectDetailID = @Model.ProyectDetailID;
+           like = like == "" ? true : null;
+
+            $.ajax({
+                type:"GET",
+                url: "@Url.Action("LikeComment", "Search")",
+                dataType: "json",
+                data: { Comment:sComment,ProyectID:sProyectID },
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if (data.status === "success") {
+                        //sum +1
+                    }
+                    else {
+                        //display error
+                    }
+                },
+                error: function () {
+                    //sweet alet
+                }
+            });
+        });
+        $(".btn-dislike-comment").on("click", function () {
+            $.ajax({
+                type:"GET",
+                url: "@Url.Action("DislikeComment", "Search")",
+                dataType: "json",
+                data: { Comment:sComment,ProyectID:sProyectID },
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if (data.status === "success") {
+                      //sum +1
+
+
+                        //$(textarea).val("");
+                    }
+                    else {
+                        //display error
+                    }
+                },
+                error: function () {
+                    //sweet alet
+                }
+            });
+        });
+        //END Likes region
+
+        //Add an answere
+        $(".add-comment").on("click", function () {
+            $(this).hide()
+            let index = $(this).attr("index");
+            $(`.add-comment-${index}`).show();
+            $(`.answer-comment-${index}`).focus();
+        });
+
+        $(".cancel-answer-comment").on("click", function () {
+            let index = $(this).attr("index");
+            $(`.add-comment-answer-${index}`).show();
+            $(`.add-comment-${index}`).hide();
+            $(`.answer-comment-${index}`).val("");
+        });
+
+        //current working
+        $(".btn-comment-answer").on("click", function () {
+            let index = $(this).attr("index")
+            let textarea = $(`.answer-comment-${index}`);
+            $(textarea).attr("disabled",true);
+            let sProyectID = @Model.ProyectID;
+            let sComment = $(textarea).val();
+            let sProyectCommentID = $(`.ProyectComment-inf-${index}`).attr("proyectcommentid");
+             $.ajax({
+                 type:"GET",
+                 url: "@Url.Action("CommentProyect", "Search")",
+                 dataType: "json",
+                 data: { Comment: sComment, ProyectID: sProyectID, IsAnswer: true, sProyectCommentID: sProyectCommentID },
+                 contentType: "application/json;charset=utf-8",
+                 success: function (data) {
+                     if (data.status === "success") {
+
+                         //btn answer
+                         //like dislike
+
+                         ////let newCommentAnswer = $(`<li class="list-group-item" >
+                         ////                 <div class="row g-2 align-items-center">
+                         ////                     <div class="col-1 text-center">
+                         ////                         <img height="50" width="50" />
+                         ////                     </div>
+                         ////                     <div class="col-11">
+                         ////                         <label>${data.comment}</label>
+                         ////                     </div>
+                         ////                     <div class="col-1">
+                         ////                         <a href="#" class="btn btn-sm btn-success">Like</a>
+                         ////                     </div>
+                         ////                     <div class="col-1">
+                         ////                         <a href="#" class="btn btn-sm btn-danger">Dislike</a>
+                         ////                     </div>
+                         ////                     <div class="col-1">
+                         ////                         <a class="show add-comment add-comment-answer-index_answer" index="index_answer" style="cursor:pointer;">Answer</a>
+                         ////                     </div>
+                         ////                     <div class="col-12 add-comment-index_answer" style="display:none;">
+                         ////                         <div class="row g-2">
+                         ////                             <div class="col-1 text-center">
+                         ////                                 <img height="35" width="35" />
+                         ////                             </div>
+                         ////                              </div>
+                         ////                             <div class="offset-1 col-1">
+                         ////                                 <button id="btn-comment-answer" class="btn btn-sm btn-primary w-100">Answer</button>
+                         ////                             </div>
+                         ////                             <div class="col-1">
+                         ////                             <div class="col-11">
+                         ////                                 <textarea id="answer-comment-index_answer" rows="1" cols="1" class="form-control w-100" style="max-width: inherit; resize: none "></textarea>
+                         ////                                <button id="btn-cancel-comment-answer" class="btn btn-sm btn-secondary w-100 cancel-answer-comment" index="index_answer">Cancel</button>
+                         ////                             </div>
+                         ////                         </div>
+                         ////                     </div>
+                         ////                </div>
+                         ////             </li>`)
+
+                         ////$(".lstComments").prepend(newComment);
+                     }
+                     else {
+                         //display error
+                     }
+                 },
+                 error: function () {
+                     //sweet alet
+                 }
+             });
+             textarea.attr("disabled", false);
+            textarea.val("");
+            $(`.add-comment-${index}`).hide();
+            $(`.add-comment-answer-${index}`).show();
+         });
+
+        $(".btn-cancel-comment-answer").on("click", function () {
+            let index = $(this).attr("index");
+            $(`.add-comment-answer-${index}`).show();
+            $(`.add-comment-${index}`).hide();
+            $(`.answer-comment-${index}`).val("");
+        });
+
+        $(".answers-comment-subAnswer").on("click", function () {
+            let index = $(this).attr("index");
+            if (!$(this).hasClass("showSubAnswers")) {
+                $(`.answers-comment-subAnswer-${index}-level-1`).show();
+                $(this).addClass("showSubAnswers");
+
+                //ajax load answers
+                 
+
+            } else {
+                $(`.answers-comment-subAnswer-${index}-level-1`).hide();
+                $(this).removeClass("showSubAnswers");
+
+                //hide answers
+
+            }
+        });
+
+        //END add an answer
+
+        //Like Answers
+
+        //End Like Answers
+    </script>
+
+}

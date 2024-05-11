@@ -54,6 +54,23 @@ namespace MaritzaBusness
                 return model;
             }
         }
+        public List<dtoUsers> getList()
+        {
+            using (IDbConnection dbConnection = new SqlConnection(connection))
+            {
+                string query = @"
+                        SELECT 
+                            tblUsers.*, 
+                            tblRoles.Name AS RoleName 
+                        FROM 
+                        tblUsers 
+                            LEFT JOIN tblRoles ON tblRoles.RolID = tblUsers.RolID
+                        WHERE 
+                            tblUsers.Active = 1";
+                var model = dbConnection.Query<dtoUsers>(query).ToList();
+                return model;
+            }
+        }
         public string getPasswordById(int id)
         {
             using (IDbConnection dbConnection = new SqlConnection(connection))
